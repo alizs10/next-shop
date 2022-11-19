@@ -40,7 +40,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                 </ModalBody>
                 <ModalFooter>
                     <Button onClick={onClose}>Close</Button>
-                    <Button onClick={onClose} colorScheme="green" className="ml-2">BUY NOW!</Button>
+                    <Button onClick={onClose} colorScheme="teal" className="ml-2">BUY NOW!</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
