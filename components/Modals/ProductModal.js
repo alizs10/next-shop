@@ -14,7 +14,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                 <ModalBody>
                     <div className="flex flex-col gap-y-2">
                         <img className="mx-auto w-3/4 xl:w-full rounded-md" src={product.img} />
-                        <span className="text-sm">Choose color:</span>
+                        <span className="text-sm">Color:</span>
                         <div className="flex gap-2">
                             <img className="rounded-md w-12 cursor-pointer" src={product.img} />
                             <div className="rounded-md overflow-hidden border-2 border-green-200 ">
@@ -24,7 +24,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                             <img className="rounded-md w-12 cursor-pointer" src={product.img} />
                         </div>
 
-                        <span className="text-sm">Select Size:</span>
+                        <span className="text-sm">Size:</span>
                         <Select placeholder='Select option'>
                             <option value='option1'>3.5</option>
                             <option value='option2'>4</option>

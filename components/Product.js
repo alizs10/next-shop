@@ -51,12 +51,14 @@ function Product({ colStart, discount }) {
                             {product.name}
                         </span>
                     </div>
-                    <button className='absolute text-center p-2 text-xs bottom-0 left-0 right-0 bg-green-200 z-20'>
+                    <button onClick={e => {
+                        e.stopPropagation()
+                    }} className='absolute text-center p-2 text-xs bottom-0 left-0 right-0 bg-green-200 z-20'>
                         BUY NOW!
                     </button>
                 </>
             )}
-            {isOpen && (<ProductModal isOpen={isOpen} onClose={onClose} product={product}/>)}
+            {isOpen && (<ProductModal isOpen={isOpen} onClose={onClose} product={product} />)}
         </div>
     )
 }
