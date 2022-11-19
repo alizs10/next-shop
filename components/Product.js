@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import { useDisclosure } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import ProductModal from './Modals/ProductModal'
 
 function Product({ colStart, discount }) {
 
+    const { onOpen, isOpen, onClose } = useDisclosure()
+
     const [showDetails, setShowDetails] = useState(false)
     let product = {
-        name: "Nike Air Force 1 '07"
+        name: "Nike Air Force 1 '07",
+        img: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/4f37fca8-6bce-43e7-ad07-f57ae3c13142/air-force-1-07-mens-shoes-5QFp5Z.png"
     }
 
+    useEffect(() => {
+        console.log(isOpen);
+    }, [isOpen])
     return (
         <div
+            onClick={() => {
+                onOpen()
+            }}
             onMouseOver={() => setShowDetails(true)}
             onMouseLeave={() => setShowDetails(false)}
             className={`${colStart ? `col-start-${colStart}` : ''} col-span-1 rounded-full overflow-hidden
@@ -45,7 +56,7 @@ function Product({ colStart, discount }) {
                     </button>
                 </>
             )}
-
+            {isOpen && (<ProductModal isOpen={isOpen} onClose={onClose} product={product}/>)}
         </div>
     )
 }
