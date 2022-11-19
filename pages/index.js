@@ -1,16 +1,14 @@
-import Head from "../components/Head"
+
 import Products from "../components/Products"
 import Pagination from "../components/Pagination"
-import Footer from "../components/Footer"
+import Master from "../components/Layouts/Master"
 
 const HomePage = () => {
   return (
-    <div className="h-screen bg-white">
-      <Head/>
+    <Master>
       <Products/>
       <Pagination/>
-      <Footer/>
-    </div>
+    </Master>
   )
 }
 

@@ -1,4 +1,5 @@
 import { Badge } from '@chakra-ui/react'
+import Link from 'next/link'
 import React from 'react'
 
 function Head() {
@@ -9,8 +10,16 @@ function Head() {
         <span className='ml-5'>Nike's Shoes</span>
       </div>
       <ul className='col-span-7 flex justify-center items-center gap-8 text-base'>
-        <li className='underline underline-offset-4 cursor-pointer'>Home</li>
-        <li className='underline underline-offset-4 cursor-pointer'>About</li>
+        <li className='underline underline-offset-4 cursor-pointer'>
+          <Link href="/">
+            Home
+          </Link>
+        </li>
+        <li className='underline underline-offset-4 cursor-pointer'>
+          <Link href="/about">
+            About
+          </Link>
+        </li>
         <li className='underline underline-offset-4 cursor-pointer'>Contact</li>
       </ul>
       <div className='col-span-2 flex justify-center gap-2 items-center'>
