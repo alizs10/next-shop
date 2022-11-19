@@ -17,7 +17,9 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                         <span className="text-sm">Choose color:</span>
                         <div className="flex gap-2">
                             <img className="rounded-md w-12 cursor-pointer" src={product.img} />
-                            <img className="rounded-md w-12 cursor-pointer" src={product.img} />
+                            <div className="rounded-md overflow-hidden border-2 border-green-200 ">
+                                <img className="w-12 cursor-pointer" src={product.img} />
+                            </div>
                             <img className="rounded-md w-12 cursor-pointer" src={product.img} />
                             <img className="rounded-md w-12 cursor-pointer" src={product.img} />
                         </div>
