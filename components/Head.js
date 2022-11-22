@@ -76,7 +76,9 @@ function Head() {
             </PopoverContent>
           </Popover>
           <span>|</span>
-          <button className='text-lg font-light'>Login</button>
+          <Link href="/auth/login">
+            <span className='text-lg font-light'>Login</span>
+          </Link>
         </div>
       </div>
       <div className='absolute top-24 left-0 right-0 h-20 bg-orange-200'>
