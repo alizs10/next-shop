@@ -6,8 +6,10 @@ import Master from "../components/Layouts/Master"
 const HomePage = () => {
   return (
     <Master>
-      <Products/>
-      <Pagination/>
+      <div className="pt-24 px-20">
+        Home Page
+
+      </div>
     </Master>
   )
 }

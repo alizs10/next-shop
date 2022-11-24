@@ -1,6 +1,14 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useDisclosure } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const ProductModal = ({ isOpen, onClose, product }) => {
+
+    const router = useRouter()
+
+    const NavigateToProductPageHandler = () => {
+        router.push(`/products/${product.name}`)
+    }
+
 
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -39,7 +47,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={onClose}>Close</Button>
+                    <Button onClick={NavigateToProductPageHandler}>More Details</Button>
                     <Button onClick={onClose} colorScheme="teal" className="ml-2">BUY NOW!</Button>
                 </ModalFooter>
             </ModalContent>
