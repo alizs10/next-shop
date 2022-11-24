@@ -1,15 +1,10 @@
-
-import Products from "../components/Products"
-import Pagination from "../components/Pagination"
 import Master from "../components/Layouts/Master"
+import Landing from "../components/Landing"
 
 const HomePage = () => {
   return (
     <Master>
-      <div className="pt-24 px-20">
-        Home Page
-
-      </div>
+      <Landing/>
     </Master>
   )
 }
