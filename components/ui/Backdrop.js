@@ -2,7 +2,7 @@ import React from 'react'
 
 import { motion } from 'framer-motion';
 
-function Backdrop({ handleClick, toggler }) {
+function Backdrop({ handleClick, toggler, blur }) {
     return toggler ? (
 
         <motion.div
@@ -12,7 +12,7 @@ function Backdrop({ handleClick, toggler }) {
             onClick={(e) => {
                 e.stopPropagation();
                 handleClick()
-            }} className="fixed z-50 top-0 right-0 bottom-0 left-0">
+            }} className={`fixed z-50 top-0 right-0 bottom-0 left-0 ${blur && "bg-black/40"}`}>
         </motion.div>
 
 
