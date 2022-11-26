@@ -6,6 +6,10 @@ function Pagination() {
         <section className='px-20 mt-14 w-full flex justify-end items-center'>
 
             <div className='p-3 flex gap-2 items-center'>
+                <span className='flex items-center text-xs relative px-2'>
+                    <span className='text-md'>113 products</span>
+                    <div className='w-[5px] h-[5px] bg-gray-600 ml-2 rounded-full'></div>
+                </span>
                 {/* <button className='text-xs'>
                     Prev
                 </button> */}
