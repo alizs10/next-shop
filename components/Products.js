@@ -1,9 +1,18 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import Filter from './Filter'
 import Product from './Product'
 import Search from './Search'
 
 function Products() {
+
+  const router = useRouter()
+  const onSearch = (searchedValue) => {
+    if(!searchedValue) return
+    let url = `/search/${searchedValue}`
+    router.push(url)
+  }
+
   return (
     <div className='relative w-full px-44 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
 
@@ -23,7 +32,7 @@ function Products() {
         <Product />
         <Product />
       </div>
-      <Search />
+      <Search onSearch={onSearch}/>
       <Filter />
     </div>
   )

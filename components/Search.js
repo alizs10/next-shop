@@ -13,10 +13,9 @@ function Search({ onSearch }) {
         e.stopPropagation()
         e.preventDefault()
 
-
         let searchedValue = searchInputRef.current.value;
-        console.log(searchedValue);
-        // onSearch()
+        closeSearchSlider()
+        onSearch(searchedValue)
     }
 
     const closeSearchSlider = () => {
