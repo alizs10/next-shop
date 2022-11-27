@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ColorFilter from './Filters/ColorFilter'
 import PriceRange from './Filters/PriceRange'
 import SizeFilter from './Filters/SizeFilter'
@@ -22,6 +22,40 @@ function Filter() {
         setPriceRangeValue(value)
     }
 
+    // size filter
+    const [sizes, setSizes] = useState([
+        { id: "s1", size: "4", isChecked: false },
+        { id: "s2", size: "5", isChecked: false },
+        { id: "s3", size: "6", isChecked: false },
+    ])
+
+    const updateSizes = (e, sizeId) => {
+        let sizesInstance = [...sizes]
+        let updatableSizeIndex = sizesInstance.findIndex(size => size.id == sizeId)
+        let updatableSize = sizesInstance[updatableSizeIndex]
+        updatableSize.isChecked = e.target.checked;
+        setSizes([...sizesInstance])
+    }
+
+    // color filter
+    const [colors, setColors] = useState([
+        { id: "c1", name: "red", isChecked: false },
+        { id: "c2", name: "white", isChecked: false },
+        { id: "c3", name: "blue", isChecked: false },
+    ])
+
+    const updateColors = (e, colorId) => {
+        let colorsInstance = [...colors]
+        let updatableColorIndex = colorsInstance.findIndex(color => color.id == colorId)
+        let updatableColor = colorsInstance[updatableColorIndex]
+        updatableColor.isChecked = e.target.checked;
+        setColors([...colorsInstance])
+    }
+
+
+    useEffect(() => {
+        console.log(colors);
+    }, [colors])
     return (
         <>
             <div
@@ -39,8 +73,8 @@ function Filter() {
                 {isOpen && (
                     <div className='flex flex-col gap-2'>
                         <PriceRange defaultValue={priceRangeValue} handleChange={handlePriceRangeChange} />
-                        <SizeFilter />
-                        <ColorFilter />
+                        <SizeFilter sizes={sizes} onChange={updateSizes} />
+                        <ColorFilter colors={colors} onChange={updateColors}/>
                         <Button marginTop='8' colorScheme='orange'>Filter</Button>
                     </div>
                 )}
