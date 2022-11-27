@@ -9,13 +9,17 @@ import FilterIcon from './ui/icons/FilterIcon'
 function Filter() {
 
     const [isOpen, setIsOpen] = useState(false)
-
     const openFilterPopover = () => {
         setIsOpen(true)
     }
-
     const closeFilterPopover = () => {
         setIsOpen(false)
+    }
+
+    // price range
+    const [priceRangeValue, setPriceRangeValue] = useState([120, 240])
+    const handlePriceRangeChange = value => {
+        setPriceRangeValue(value)
     }
 
     return (
@@ -34,7 +38,7 @@ function Filter() {
                 </span>
                 {isOpen && (
                     <div className='flex flex-col gap-2'>
-                        <PriceRange />
+                        <PriceRange defaultValue={priceRangeValue} handleChange={handlePriceRangeChange} />
                         <SizeFilter />
                         <ColorFilter />
                         <Button marginTop='8' colorScheme='orange'>Filter</Button>

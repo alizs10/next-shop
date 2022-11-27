@@ -1,11 +1,11 @@
-import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
 import React from 'react'
+import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
 
-function PriceRange() {
+function PriceRange({ handleChange, defaultValue }) {
     return (
         <div className='flex flex-col gap-y-2'>
             <label className='text-md'>Price Range:</label>
-            <RangeSlider colorScheme='orange' aria-label={['min', 'max']} defaultValue={[10, 30]}>
+            <RangeSlider onChange={handleChange} colorScheme='orange' defaultValue={defaultValue} min={0} max={1000} step={30}>
                 <RangeSliderTrack>
                     <RangeSliderFilledTrack />
                 </RangeSliderTrack>
