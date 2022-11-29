@@ -53,9 +53,6 @@ function Filter() {
     }
 
 
-    useEffect(() => {
-        console.log(colors);
-    }, [colors])
     return (
         <>
             <div
