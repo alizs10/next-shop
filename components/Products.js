@@ -4,11 +4,11 @@ import Filter from './Filter'
 import Product from './Product'
 import Search from './Search'
 
-function Products() {
+function Products(props) {
 
   const router = useRouter()
   const onSearch = (searchedValue) => {
-    if(!searchedValue) return
+    if (!searchedValue) return
     let url = `/search/${searchedValue}`
     router.push(url)
   }
@@ -16,6 +16,14 @@ function Products() {
   return (
     <div className='relative w-full px-44 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
 
+      <div className='gap-8 grid grid-cols-5'>
+
+        {props.items.map(product => (
+          <Product product={product}/>
+        ))}
+
+      </div>
+      {/* 
       <div className='gap-8 grid grid-cols-5'>
         <Product />
         <Product />
@@ -31,8 +39,8 @@ function Products() {
         <Product discount={15} />
         <Product />
         <Product />
-      </div>
-      <Search onSearch={onSearch}/>
+      </div> */}
+      <Search onSearch={onSearch} />
       <Filter />
     </div>
   )

@@ -1,20 +1,17 @@
 import { useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import ProductModal from './Modals/ProductModal'
+import Products from './Products'
 
-function Product({ colStart, discount }) {
+function Product({ colStart, discount, product }) {
 
     const { onOpen, isOpen, onClose } = useDisclosure()
-
     const [showDetails, setShowDetails] = useState(false)
-    let product = {
-        name: "Nike Air Force 1 '07",
-        img: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/4f37fca8-6bce-43e7-ad07-f57ae3c13142/air-force-1-07-mens-shoes-5QFp5Z.png"
-    }
 
-    useEffect(() => {
-        console.log(isOpen);
-    }, [isOpen])
+    let colors = []
+    for (const key in product.colors) {
+        colors.push({ id: key, ...product.colors[key] })
+    }
     return (
         <div
             onClick={() => {
@@ -26,22 +23,23 @@ function Product({ colStart, discount }) {
          bg-white cursor-pointer hover:scale-125 transition-all duration-300 shadow-md relative
          hover:z-20
          `}>
-            <img className='rounded-full' src='https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/4f37fca8-6bce-43e7-ad07-f57ae3c13142/air-force-1-07-mens-shoes-5QFp5Z.png' />
+            <img className='rounded-full' src={product.image} />
 
 
             <div className='absolute top-1 left-1/2 flex gap-1'>
-                <span className='w-2 h-2 bg-blue-400 rounded-full'></span>
-                <span className='w-2 h-2 mt-[2px] bg-green-500 rounded-full'></span>
-                <span className='w-2 h-2 mt-[7px] bg-red-500 rounded-full'></span>
+                {colors.map(color => (
+                    <span style={{ backgroundColor: color.color_code }} className="shadow-md w-2 h-2 rounded-full"></span>
+                ))}
+
             </div>
 
-            {discount && (
+            {product.discount_percentage > 0 && (
                 <div className='absolute top-[5%] pt-5 -left-[20%] w-[75%] z-30 text-center py-1 -rotate-45
-                bg-red-300 text-gray-800 text-xs font-bold'>{discount} %</div>
+                bg-red-300 text-gray-800 text-xs font-bold'>{product.discount_percentage} %</div>
             )}
 
             <div className='absolute w-full bottom-0 z-10 text-center py-1
-            bg-gray-200 text-gray-800 text-sm'>115 $</div>
+            bg-gray-200 text-gray-800 text-sm'>{product.price} $</div>
 
             {showDetails && (
                 <>
