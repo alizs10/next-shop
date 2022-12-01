@@ -1,7 +1,6 @@
 import React from 'react'
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
-import Pagination from '../../components/Pagination'
 import ConnectionError from '../../components/ui/ConnectionError'
 
 function ProductsPage(props) {
@@ -14,7 +13,6 @@ function ProductsPage(props) {
       ) : (
         <>
           <Products items={props.products} />
-          <Pagination />
         </>
       )}
     </Master>
