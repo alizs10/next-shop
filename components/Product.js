@@ -45,7 +45,7 @@ function Product({ colStart, discount, product }) {
                 <>
                     <div className='absolute top-0 left-0 w-full h-full rounded-full bg-white/40 flex justify-center items-center'>
 
-                        <span className='p-2 text-[13px]'>
+                        <span className='text-center p-2 text-[13px]'>
                             {product.name}
                         </span>
                     </div>

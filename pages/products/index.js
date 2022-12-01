@@ -2,6 +2,7 @@ import React from 'react'
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
 import ConnectionError from '../../components/ui/ConnectionError'
+import { getAllProducts } from '../../herlpers/requests'
 
 function ProductsPage(props) {
 
@@ -21,15 +22,8 @@ function ProductsPage(props) {
 
 export async function getStaticProps() {
 
-  console.log("sending req");
   try {
-    let response = await fetch('https://nike-shop-ac988-default-rtdb.firebaseio.com/products.json')
-    let data = await response.json()
-    let allProducts = []
-
-    for (const key in data) {
-      allProducts.push({ id: key, ...data[key] })
-    }
+    let allProducts = await getAllProducts()
 
     return {
       props: {

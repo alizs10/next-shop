@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Filter from './Filter'
-import { paginateProducts, sliceProducts } from './herlpers/products-helper'
+import { paginateProducts, sliceProducts } from '../herlpers/products-helper'
 import Product from './Product'
 import Search from './Search'
 import Pagination from './Pagination/Pagination'
@@ -45,9 +45,13 @@ function Products(props) {
         </div>
 
         <Search onSearch={onSearch} />
-        <Filter />
+        {props.items.length > 0 && (
+          <Filter />
+        )}
       </div>
-      <Pagination allProducts={allProducts} pages={pages} currentPage={pageNum} setPageNum={setPageNum} />
+      {pages > 1 && (
+        <Pagination allProducts={allProducts} pages={pages} currentPage={pageNum} setPageNum={setPageNum} />
+      )}
     </>
   )
 }

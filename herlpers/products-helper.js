@@ -17,6 +17,14 @@ export const paginateProducts = (products, pageNumber, count) => {
 export const sliceProducts = (products, breakIndex) => {
     let productsArr1 = products.slice(0, breakIndex)
     let productsArr2 = products.slice(breakIndex, products.length)
- 
+
     return [productsArr1, productsArr2]
+}
+
+export const searchThroughProducts = (searchedValue, products) => {
+
+    let productsIns = [...products]
+    let filterdProducts = productsIns.filter(product => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
+
+    return filterdProducts
 }
