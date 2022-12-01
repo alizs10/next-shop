@@ -1,3 +1,4 @@
+import { Link } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import Page from './Page'
 
@@ -25,16 +26,20 @@ function Pagination(props) {
                     <div className='w-[5px] h-[5px] bg-gray-600 ml-2 rounded-full'></div>
                 </span>
                 {props.currentPage > 1 && (
-                    <button className='text-xs'>
+                    <button
+                        onClick={() => props.setPageNum(props.currentPage - 1)}
+                        className='text-xs'>
                         Prev
                     </button>
                 )}
 
-                {pagesArr.map(pageNum => <Page pageNum={pageNum} isActive={props.currentPage == pageNum ? true : false} />)}
+                {pagesArr.map(pageNum => <Page key={pageNum} setPageNum={props.setPageNum} pageNum={pageNum} isActive={props.currentPage == pageNum ? true : false} />)}
 
 
                 {props.currentPage < props.pages && (
-                    <button className='text-xs'>
+                    <button
+                        onClick={() => props.setPageNum(props.currentPage + 1)}
+                        className='text-xs'>
                         Next
                     </button>
                 )}

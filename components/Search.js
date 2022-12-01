@@ -27,7 +27,6 @@ function Search({ onSearch }) {
     }
 
     useEffect(() => {
-        console.log(isOpen);
         if (isOpen && searchInputRef.current) {
             searchInputRef.current.focus()
         }

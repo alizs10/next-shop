@@ -21,6 +21,7 @@ function ProductsPage(props) {
 
 export async function getStaticProps() {
 
+  console.log("sending req");
   try {
     let response = await fetch('https://nike-shop-ac988-default-rtdb.firebaseio.com/products.json')
     let data = await response.json()

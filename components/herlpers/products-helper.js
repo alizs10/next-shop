@@ -17,6 +17,6 @@ export const paginateProducts = (products, pageNumber, count) => {
 export const sliceProducts = (products, breakIndex) => {
     let productsArr1 = products.slice(0, breakIndex)
     let productsArr2 = products.slice(breakIndex, products.length)
-    console.log([productsArr1, productsArr2]);
+ 
     return [productsArr1, productsArr2]
 }
