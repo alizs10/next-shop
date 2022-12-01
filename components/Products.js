@@ -5,6 +5,7 @@ import { paginateProducts, sliceProducts } from '../herlpers/products-helper'
 import Product from './Product'
 import Search from './Search'
 import Pagination from './Pagination/Pagination'
+import MessageAlert from '../components/ui/MessageAlert'
 
 function Products(props) {
 
@@ -29,21 +30,26 @@ function Products(props) {
     <>
       <div className='relative w-full px-44 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
 
-        <div className='gap-8 grid grid-cols-5'>
+        {props.items.length > 0 ? (
+          <>
+            <div className='gap-8 grid grid-cols-5'>
 
-          {slicedProducts[0].map(product => (
-            <Product key={product.id} product={product} />
-          ))}
+              {slicedProducts[0].map(product => (
+                <Product key={product.id} product={product} />
+              ))}
 
-        </div>
-        <div className='gap-8 grid grid-cols-6'>
+            </div>
+            <div className='gap-8 grid grid-cols-6'>
 
-          {slicedProducts[1].map(product => (
-            <Product key={product.id} product={product} />
-          ))}
+              {slicedProducts[1].map(product => (
+                <Product key={product.id} product={product} />
+              ))}
 
-        </div>
-
+            </div>
+          </>
+        ) : (
+          <MessageAlert title="No Results" body="could'nt find any products" />
+        )}
         <Search onSearch={onSearch} />
         {props.items.length > 0 && (
           <Filter />

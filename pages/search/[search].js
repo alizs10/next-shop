@@ -1,5 +1,4 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
@@ -10,7 +9,7 @@ function SearchPage(props) {
 
   return (
     <Master>
-      <Products items={props.products}/>
+        <Products items={props.products}/>
     </Master>
     
   )

@@ -12,9 +12,7 @@ function ProductsPage(props) {
       {props.hasError ? (
         <ConnectionError />
       ) : (
-        <>
           <Products items={props.products} />
-        </>
       )}
     </Master>
   )
