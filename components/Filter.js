@@ -1,7 +1,7 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { getAllSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
+import { getAllColors, getAllSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
 import ColorFilter from './Filters/ColorFilter'
 import PriceRange from './Filters/PriceRange'
 import SizeFilter from './Filters/SizeFilter'
@@ -38,11 +38,7 @@ function Filter({ products }) {
     }
 
     // color filter
-    const [colors, setColors] = useState([
-        { id: "c1", name: "red", isChecked: false },
-        { id: "c2", name: "white", isChecked: false },
-        { id: "c3", name: "blue", isChecked: false },
-    ])
+    const [colors, setColors] = useState([])
 
     const updateColors = (e, colorId) => {
         let colorsInstance = [...colors]
@@ -58,6 +54,7 @@ function Filter({ products }) {
 
         setPriceRangeValue([0, getPriceLimit(products) / 2])
         setSizes(getAllSizes(products))
+        setColors(getAllColors(products))
 
     }, [])
 

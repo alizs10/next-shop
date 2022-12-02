@@ -19,3 +19,18 @@ export const getAllSizes = products => {
 
     return sizes;
 }
+
+export const getAllColors = products => {
+    let colors = []
+
+    products.map((product) => {
+        for (const key in product.colors) {
+            if (colors.findIndex(checkingColor => checkingColor.color_code === product.colors[key].color_code) < 0)
+            {
+                colors.push({ ...product.colors[key], isChecked: false })
+            }
+        }
+    })
+
+    return colors;
+}
