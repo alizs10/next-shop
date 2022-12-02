@@ -10,7 +10,7 @@ function ColorFilter({colors, onChange}) {
                 {colors.map((color,index) => (
                     <Checkbox
                     key={index}
-                    onChange={e => onChange(e, color.id)}
+                    onChange={e => onChange(e, color.color_code)}
                     size='lg' colorScheme='orange'>
                         <div style={{backgroundColor: color.color_code}} className='shadow-md w-4 h-4 rounded-full'></div>
                     </Checkbox>

@@ -1,7 +1,7 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { getAllColors, getAllSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
+import { getAllColors, getAllSizes, getCheckedColors, getCheckedSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
 import ColorFilter from './Filters/ColorFilter'
 import PriceRange from './Filters/PriceRange'
 import SizeFilter from './Filters/SizeFilter'
@@ -29,9 +29,9 @@ function Filter({ products }) {
     // size filter
     const [sizes, setSizes] = useState([])
 
-    const updateSizes = (e, sizeId) => {
+    const updateSizes = (e, sizeValue) => {
         let sizesInstance = [...sizes]
-        let updatableSizeIndex = sizesInstance.findIndex(size => size.id == sizeId)
+        let updatableSizeIndex = sizesInstance.findIndex(size => size.size == sizeValue)
         let updatableSize = sizesInstance[updatableSizeIndex]
         updatableSize.isChecked = e.target.checked;
         setSizes([...sizesInstance])
@@ -40,12 +40,13 @@ function Filter({ products }) {
     // color filter
     const [colors, setColors] = useState([])
 
-    const updateColors = (e, colorId) => {
+    const updateColors = (e, colorCode) => {
         let colorsInstance = [...colors]
-        let updatableColorIndex = colorsInstance.findIndex(color => color.id == colorId)
+        let updatableColorIndex = colorsInstance.findIndex(color => color.color_code == colorCode)
         let updatableColor = colorsInstance[updatableColorIndex]
         updatableColor.isChecked = e.target.checked;
-        setColors([...colorsInstance])
+        setColors(colorsInstance)
+        
     }
 
 
@@ -57,6 +58,62 @@ function Filter({ products }) {
         setColors(getAllColors(products))
 
     }, [])
+
+    const handleFilter = () => {
+        let checkedSizes = getCheckedSizes(sizes)
+        let checkedColors = getCheckedColors(colors)
+
+        let filteredProducts = products.filter(product => {
+            // filter price
+            console.log(product.price > priceRangeValue[0]);
+            if (product.price < priceRangeValue[0] || product.price > priceRangeValue[1]) {
+                return false
+            }
+            // filter size
+            if(checkedSizes.length > 0)
+            {
+                let productSizes = []
+                for (const key in product.sizes) {
+                    productSizes.push(product.sizes[key].size)
+                }
+
+                let isExists = false;
+                productSizes.every(productSize => {
+                    if(checkedSizes.includes(productSize))
+                    {
+                        isExists = true
+                    }
+                    return isExists;
+                })
+                
+                if(!isExists) return false;
+            }
+            // filter color
+            if(checkedColors.length > 0)
+            {
+                let productColors = []
+                for (const key in product.colors) {
+                    productColors.push(product.colors[key].color_code)
+                }
+
+                let isExists = false;
+                productColors.every(productColor => {
+                    console.log(checkedColors,productColor);
+                    if(checkedColors.includes(productColor))
+                    {
+                        isExists = true
+                    }
+                    return isExists;
+                })
+                
+                if(!isExists) return false;
+            }
+
+            return true;
+        })
+
+        console.log(filteredProducts);
+    }
 
     return (
         <>
@@ -87,7 +144,9 @@ function Filter({ products }) {
                         <PriceRange defaultValue={priceRangeValue} priceLimit={getPriceLimit(products)} handleChange={handlePriceRangeChange} />
                         <SizeFilter sizes={sizes} onChange={updateSizes} />
                         <ColorFilter colors={colors} onChange={updateColors} />
-                        <Button marginTop='8' colorScheme='orange'>Filter</Button>
+                        <Button
+                            onClick={handleFilter}
+                            marginTop='8' colorScheme='orange'>Filter</Button>
                     </div>
                 )}
             </div>

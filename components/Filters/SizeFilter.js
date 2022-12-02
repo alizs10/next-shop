@@ -7,10 +7,10 @@ function SizeFilter({sizes, onChange}) {
         <div className='flex flex-col gap-y-2'>
             <label className='text-md'>Select Sizes:</label>
             <div className='flex flex-wrap gap-x-4 gap-y-2'>
-                {sizes.map(size => (
+                {sizes.map((size,index) => (
                     <Checkbox
-                    onChange={e => onChange(e, size.id)}
-                    key={size.id} size='lg' colorScheme='orange'>
+                    onChange={e => onChange(e, size.size)}
+                    key={index} size='lg' colorScheme='orange'>
                         {size.size}
                     </Checkbox>
                 ))}
