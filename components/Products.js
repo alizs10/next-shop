@@ -52,7 +52,7 @@ function Products(props) {
         )}
         <Search onSearch={onSearch} />
         {props.items.length > 0 && (
-          <Filter />
+          <Filter products={props.items}/>
         )}
       </div>
       {pages > 1 && (

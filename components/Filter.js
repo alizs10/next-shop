@@ -1,13 +1,14 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
 import ColorFilter from './Filters/ColorFilter'
 import PriceRange from './Filters/PriceRange'
 import SizeFilter from './Filters/SizeFilter'
 import Backdrop from './ui/Backdrop'
 import FilterIcon from './ui/icons/FilterIcon'
 
-function Filter() {
+function Filter({products}) {
 
     const [isOpen, setIsOpen] = useState(false)
     const openFilterPopover = () => {
@@ -19,7 +20,8 @@ function Filter() {
     }
 
     // price range
-    const [priceRangeValue, setPriceRangeValue] = useState([120, 240])
+    const [priceRangeValue, setPriceRangeValue] = useState([0,getPriceLimit(products)/2])
+    
     const handlePriceRangeChange = value => {
         setPriceRangeValue(value)
     }
@@ -81,7 +83,7 @@ function Filter() {
                 </span>
                 {isOpen && (
                     <div className='flex flex-col gap-2'>
-                        <PriceRange defaultValue={priceRangeValue} handleChange={handlePriceRangeChange} />
+                        <PriceRange defaultValue={priceRangeValue} priceLimit={getPriceLimit(products)} handleChange={handlePriceRangeChange} />
                         <SizeFilter sizes={sizes} onChange={updateSizes} />
                         <ColorFilter colors={colors} onChange={updateColors} />
                         <Button marginTop='8' colorScheme='orange'>Filter</Button>
