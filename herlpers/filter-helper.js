@@ -4,3 +4,18 @@ export const getPriceLimit = products => {
     let sortedProductsByPrice = products.sort((a, b) => a.price - b.price)
     return sortedProductsByPrice[sortedProductsByPrice.length - 1].price
 }
+
+export const getAllSizes = products => {
+    let sizes = [];
+
+    products.map((product) => {
+        for (const key in product.sizes) {
+            if (sizes.findIndex(checkingSize => checkingSize.size === product.sizes[key].size) < 0)
+            {
+                sizes.push({ ...product.sizes[key], isChecked: false })
+            }
+        }
+    })
+
+    return sizes;
+}

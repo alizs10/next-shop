@@ -1,18 +1,18 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
+import { getAllSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
 import ColorFilter from './Filters/ColorFilter'
 import PriceRange from './Filters/PriceRange'
 import SizeFilter from './Filters/SizeFilter'
 import Backdrop from './ui/Backdrop'
 import FilterIcon from './ui/icons/FilterIcon'
 
-function Filter({products}) {
+function Filter({ products }) {
 
     const [isOpen, setIsOpen] = useState(false)
     const openFilterPopover = () => {
-        if(isOpen) return
+        if (isOpen) return
         setIsOpen(true)
     }
     const closeFilterPopover = () => {
@@ -20,18 +20,14 @@ function Filter({products}) {
     }
 
     // price range
-    const [priceRangeValue, setPriceRangeValue] = useState([0,getPriceLimit(products)/2])
-    
+    const [priceRangeValue, setPriceRangeValue] = useState([0, 0])
+
     const handlePriceRangeChange = value => {
         setPriceRangeValue(value)
     }
 
     // size filter
-    const [sizes, setSizes] = useState([
-        { id: "s1", size: "4", isChecked: false },
-        { id: "s2", size: "5", isChecked: false },
-        { id: "s3", size: "6", isChecked: false },
-    ])
+    const [sizes, setSizes] = useState([])
 
     const updateSizes = (e, sizeId) => {
         let sizesInstance = [...sizes]
@@ -56,6 +52,14 @@ function Filter({products}) {
         setColors([...colorsInstance])
     }
 
+
+    useEffect(() => {
+        if (products.length == 0) return
+
+        setPriceRangeValue([0, getPriceLimit(products) / 2])
+        setSizes(getAllSizes(products))
+
+    }, [])
 
     return (
         <>
