@@ -1,63 +1,28 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { getAllColors, getAllSizes, getCheckedColors, getCheckedSizes, getPriceLimit, getPriceRanges } from '../herlpers/filter-helper'
-import ColorFilter from './Filters/ColorFilter'
-import PriceRange from './Filters/PriceRange'
-import SizeFilter from './Filters/SizeFilter'
+import React, { useContext, useEffect } from 'react'
+import FilterContext from '../context/FilterContext'
+import { getAllColors, getAllSizes, getCheckedColors, getCheckedSizes, getPriceLimit } from '../herlpers/filter-helper'
+import ColorFilter from './Filter/ColorFilter'
+import PriceRange from './Filter/PriceRange'
+import SizeFilter from './Filter/SizeFilter'
 import Backdrop from './ui/Backdrop'
 import FilterIcon from './ui/icons/FilterIcon'
 
 function Filter({ products, setItems }) {
 
-    const [isOpen, setIsOpen] = useState(false)
-    const openFilterPopover = () => {
-        if (isOpen) return
-        setIsOpen(true)
-    }
-    const closeFilterPopover = () => {
-        setIsOpen(false)
-    }
-
-    // price range
-    const [priceRangeValue, setPriceRangeValue] = useState([0, 0])
-
-    const handlePriceRangeChange = value => {
-        setPriceRangeValue(value)
-    }
-
-    // size filter
-    const [sizes, setSizes] = useState([])
-
-    const updateSizes = (e, sizeValue) => {
-        let sizesInstance = [...sizes]
-        let updatableSizeIndex = sizesInstance.findIndex(size => size.size == sizeValue)
-        let updatableSize = sizesInstance[updatableSizeIndex]
-        updatableSize.isChecked = e.target.checked;
-        setSizes([...sizesInstance])
-    }
-
-    // color filter
-    const [colors, setColors] = useState([])
-
-    const updateColors = (e, colorCode) => {
-        let colorsInstance = [...colors]
-        let updatableColorIndex = colorsInstance.findIndex(color => color.color_code == colorCode)
-        let updatableColor = colorsInstance[updatableColorIndex]
-        updatableColor.isChecked = e.target.checked;
-        setColors(colorsInstance)
-        
-    }
-
+    const { setIsFilterActive, priceRangeValue, setPriceRangeValue, sizes, setSizes, colors, setColors, isOpen, setIsOpen, openFilterPopover, closeFilterPopover } = useContext(FilterContext)
 
     useEffect(() => {
         if (products.length == 0) return
+
 
         setPriceRangeValue([0, getPriceLimit(products) / 2])
         setSizes(getAllSizes(products))
         setColors(getAllColors(products))
 
     }, [])
+
 
     const handleFilter = () => {
         let checkedSizes = getCheckedSizes(sizes)
@@ -70,8 +35,7 @@ function Filter({ products, setItems }) {
             }
 
             // filter size
-            if(checkedSizes.length > 0)
-            {
+            if (checkedSizes.length > 0) {
                 let productSizes = []
                 for (const key in product.sizes) {
                     productSizes.push(product.sizes[key].size)
@@ -79,18 +43,16 @@ function Filter({ products, setItems }) {
 
                 let isExists = false;
                 productSizes.every(productSize => {
-                    if(checkedSizes.includes(productSize))
-                    {
+                    if (checkedSizes.includes(productSize)) {
                         isExists = true
                     }
                     return !isExists;
                 })
-                
-                if(!isExists) return false;
+
+                if (!isExists) return false;
             }
             // filter color
-            if(checkedColors.length > 0)
-            {
+            if (checkedColors.length > 0) {
                 let productColors = []
                 for (const key in product.colors) {
                     productColors.push(product.colors[key].color_code)
@@ -98,15 +60,14 @@ function Filter({ products, setItems }) {
 
                 let isExists = false;
                 productColors.every(productColor => {
-                    console.log(checkedColors,productColor);
-                    if(checkedColors.includes(productColor))
-                    {
+                    console.log(checkedColors, productColor);
+                    if (checkedColors.includes(productColor)) {
                         isExists = true
                     }
                     return !isExists;
                 })
-                
-                if(!isExists) return false;
+
+                if (!isExists) return false;
             }
 
             return true;
@@ -114,6 +75,7 @@ function Filter({ products, setItems }) {
 
         setItems(filteredProducts)
         setIsOpen(false)
+        setIsFilterActive(true)
     }
 
     return (
@@ -142,9 +104,9 @@ function Filter({ products, setItems }) {
                 </span>
                 {isOpen && (
                     <div className='flex flex-col gap-2'>
-                        <PriceRange defaultValue={priceRangeValue} priceLimit={getPriceLimit(products)} handleChange={handlePriceRangeChange} />
-                        <SizeFilter sizes={sizes} onChange={updateSizes} />
-                        <ColorFilter colors={colors} onChange={updateColors} />
+                        <PriceRange priceLimit={getPriceLimit(products)} />
+                        <SizeFilter />
+                        <ColorFilter />
                         <Button
                             onClick={handleFilter}
                             marginTop='8' colorScheme='orange'>Filter</Button>

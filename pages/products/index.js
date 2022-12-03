@@ -1,6 +1,7 @@
 import React from 'react'
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
+import FilterProvider from '../../components/Providers/FilterProvider'
 import ConnectionError from '../../components/ui/ConnectionError'
 import { getAllProducts } from '../../herlpers/requests'
 
@@ -10,7 +11,9 @@ function ProductsPage(props) {
       {props.hasError ? (
         <ConnectionError />
       ) : (
-        <Products items={props.products} />
+        <FilterProvider>
+          <Products items={props.products} />
+        </FilterProvider>
       )}
     </Master>
   )

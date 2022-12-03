@@ -1,16 +1,18 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Filter from './Filter'
 import { paginateProducts, sliceProducts } from '../herlpers/products-helper'
 import Product from './Product'
 import Search from './Search'
 import Pagination from './Pagination/Pagination'
 import MessageAlert from '../components/ui/MessageAlert'
+import ActiveFilters from './Filter/ActiveFilters'
+import FilterContext from '../context/FilterContext'
 
 function Products(props) {
 
   const router = useRouter()
-
+  const { isFilterActive, setIsFilterActive } = useContext(FilterContext)
   const [onScreenItems, setOnScreenItems] = useState([[], []])
   const [pages, setPages] = useState(0)
   const [allProducts, setAllProducts] = useState(0)
@@ -34,7 +36,7 @@ function Products(props) {
     setPages(pages)
     setAllProducts(allProducts)
   }
-  
+
   const onSearch = (searchedValue) => {
     if (!searchedValue) return
     let url = `/search/${searchedValue}`
@@ -44,7 +46,9 @@ function Products(props) {
   return (
     <>
       <div className='relative w-full px-44 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
-
+        {isFilterActive && (
+          <ActiveFilters />
+        )}
         {props.items.length > 0 ? (
           <>
             <div className='gap-8 grid grid-cols-5'>
