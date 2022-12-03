@@ -2,7 +2,6 @@ import { Checkbox } from '@chakra-ui/react'
 import React from 'react'
 
 function ColorFilter({colors, onChange}) {
-    
     return (
         <div className='flex flex-col gap-y-2'>
             <label className='text-md'>Select Colors:</label>
@@ -11,6 +10,7 @@ function ColorFilter({colors, onChange}) {
                     <Checkbox
                     key={index}
                     onChange={e => onChange(e, color.color_code)}
+                    isChecked={color.isChecked}
                     size='lg' colorScheme='orange'>
                         <div style={{backgroundColor: color.color_code}} className='shadow-md w-4 h-4 rounded-full'></div>
                     </Checkbox>

@@ -10,9 +10,16 @@ import MessageAlert from '../components/ui/MessageAlert'
 function Products(props) {
 
   const router = useRouter()
+
+  const [onScreenItems, setOnScreenItems] = useState([[], []])
+  const [pages, setPages] = useState(0)
+  const [allProducts, setAllProducts] = useState(0)
+
+  useEffect(() => {
+    setItems(props.items)
+  }, [])
+
   const [pageNum, setPageNum] = useState(1)
-  const { paginatedProducts, pages, allProducts } = paginateProducts(props.items, pageNum, 11)
-  const slicedProducts = sliceProducts(paginatedProducts, 5)
 
   useEffect(() => {
     if (router.query.page && !isNaN(router.query.page) && parseInt(router.query.page) <= pages) {
@@ -20,6 +27,14 @@ function Products(props) {
     }
   }, [router.query.page])
 
+  const setItems = items => {
+    const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 11)
+    const slicedProducts = sliceProducts(paginatedProducts, 5)
+    setOnScreenItems(slicedProducts)
+    setPages(pages)
+    setAllProducts(allProducts)
+  }
+  
   const onSearch = (searchedValue) => {
     if (!searchedValue) return
     let url = `/search/${searchedValue}`
@@ -34,14 +49,14 @@ function Products(props) {
           <>
             <div className='gap-8 grid grid-cols-5'>
 
-              {slicedProducts[0].map(product => (
+              {onScreenItems[0].map(product => (
                 <Product key={product.id} product={product} />
               ))}
 
             </div>
             <div className='gap-8 grid grid-cols-6'>
 
-              {slicedProducts[1].map(product => (
+              {onScreenItems[1].map(product => (
                 <Product key={product.id} product={product} />
               ))}
 
@@ -52,7 +67,7 @@ function Products(props) {
         )}
         <Search onSearch={onSearch} />
         {props.items.length > 0 && (
-          <Filter products={props.items}/>
+          <Filter products={props.items} setItems={setItems} />
         )}
       </div>
       {pages > 1 && (

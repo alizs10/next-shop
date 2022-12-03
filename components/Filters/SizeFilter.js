@@ -10,6 +10,7 @@ function SizeFilter({sizes, onChange}) {
                 {sizes.map((size,index) => (
                     <Checkbox
                     onChange={e => onChange(e, size.size)}
+                    isChecked={size.isChecked}
                     key={index} size='lg' colorScheme='orange'>
                         {size.size}
                     </Checkbox>

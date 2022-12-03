@@ -8,7 +8,7 @@ import SizeFilter from './Filters/SizeFilter'
 import Backdrop from './ui/Backdrop'
 import FilterIcon from './ui/icons/FilterIcon'
 
-function Filter({ products }) {
+function Filter({ products, setItems }) {
 
     const [isOpen, setIsOpen] = useState(false)
     const openFilterPopover = () => {
@@ -65,10 +65,10 @@ function Filter({ products }) {
 
         let filteredProducts = products.filter(product => {
             // filter price
-            console.log(product.price > priceRangeValue[0]);
             if (product.price < priceRangeValue[0] || product.price > priceRangeValue[1]) {
                 return false
             }
+
             // filter size
             if(checkedSizes.length > 0)
             {
@@ -83,7 +83,7 @@ function Filter({ products }) {
                     {
                         isExists = true
                     }
-                    return isExists;
+                    return !isExists;
                 })
                 
                 if(!isExists) return false;
@@ -103,7 +103,7 @@ function Filter({ products }) {
                     {
                         isExists = true
                     }
-                    return isExists;
+                    return !isExists;
                 })
                 
                 if(!isExists) return false;
@@ -112,7 +112,8 @@ function Filter({ products }) {
             return true;
         })
 
-        console.log(filteredProducts);
+        setItems(filteredProducts)
+        setIsOpen(false)
     }
 
     return (

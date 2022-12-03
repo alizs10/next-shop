@@ -5,14 +5,12 @@ import ConnectionError from '../../components/ui/ConnectionError'
 import { getAllProducts } from '../../herlpers/requests'
 
 function ProductsPage(props) {
-
-
   return (
     <Master>
       {props.hasError ? (
         <ConnectionError />
       ) : (
-          <Products items={props.products} />
+        <Products items={props.products} />
       )}
     </Master>
   )
@@ -30,9 +28,6 @@ export async function getStaticProps() {
       revalidate: 60
     }
   } catch (error) {
-
-    console.log("error");
-
     return {
       props: {
         products: [],
@@ -44,4 +39,4 @@ export async function getStaticProps() {
 }
 
 
-export default ProductsPage
+export default ProductsPage;
