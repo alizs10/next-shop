@@ -4,11 +4,12 @@ import Page from './Page'
 
 function Pagination() {
 
-    const { pages, allProducts, currentPage, setPageNum } = useContext(ProductsContext)
+    const { pages, allProducts, pageNum: currentPage, setPageNum } = useContext(ProductsContext)
     const [pagesArr, setPagesArr] = useState([])
 
-
+    console.log(pages);
     useEffect(() => {
+        
         if (pages) {
             let pagesArray = []
             let i = 1;
@@ -18,7 +19,7 @@ function Pagination() {
             }
             setPagesArr(pagesArray)
         }
-    }, [])
+    }, [pages])
 
     if (!pages) return
 

@@ -7,7 +7,7 @@ function ProductsProvider(props) {
 
     const [isFilterActive, setIsFilterActive] = useState(false)
     const [onScreenItems, setOnScreenItems] = useState([[], []])
-    const [pages, setPages] = useState(0)
+    const [pages, setPages] = useState(1)
     const [allProducts, setAllProducts] = useState(0)
     const [pageNum, setPageNum] = useState(1)
 
@@ -16,6 +16,10 @@ function ProductsProvider(props) {
     useEffect(() => {
         setItems(props.items)
     }, [])
+
+    useEffect(() => {
+        setItems(props.items)
+    }, [pageNum])
 
     useEffect(() => {
         if (router.query.page && !isNaN(router.query.page) && parseInt(router.query.page) <= pages) {
@@ -38,6 +42,7 @@ function ProductsProvider(props) {
             onScreenItems, setOnScreenItems,
             allProducts, setAllProducts,
             pages, setPages,
+            pageNum, setPageNum,
             setItems
         }}>
             {props.children}
