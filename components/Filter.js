@@ -11,12 +11,11 @@ import FilterIcon from './ui/icons/FilterIcon'
 
 function Filter({ products, setItems }) {
 
-    const { setIsFilterActive, priceRangeValue, setPriceRangeValue, sizes, setSizes, colors, setColors, isOpen, setIsOpen, openFilterPopover, closeFilterPopover } = useContext(FilterContext)
+    const { setPriceRangeValue, setSizes, setColors, isOpen, openFilterPopover, closeFilterPopover, handleFilter } = useContext(FilterContext)
 
     useEffect(() => {
         if (products.length == 0) return
-
-
+        
         setPriceRangeValue([0, getPriceLimit(products) / 2])
         setSizes(getAllSizes(products))
         setColors(getAllColors(products))
@@ -24,59 +23,6 @@ function Filter({ products, setItems }) {
     }, [])
 
 
-    const handleFilter = () => {
-        let checkedSizes = getCheckedSizes(sizes)
-        let checkedColors = getCheckedColors(colors)
-
-        let filteredProducts = products.filter(product => {
-            // filter price
-            if (product.price < priceRangeValue[0] || product.price > priceRangeValue[1]) {
-                return false
-            }
-
-            // filter size
-            if (checkedSizes.length > 0) {
-                let productSizes = []
-                for (const key in product.sizes) {
-                    productSizes.push(product.sizes[key].size)
-                }
-
-                let isExists = false;
-                productSizes.every(productSize => {
-                    if (checkedSizes.includes(productSize)) {
-                        isExists = true
-                    }
-                    return !isExists;
-                })
-
-                if (!isExists) return false;
-            }
-            // filter color
-            if (checkedColors.length > 0) {
-                let productColors = []
-                for (const key in product.colors) {
-                    productColors.push(product.colors[key].color_code)
-                }
-
-                let isExists = false;
-                productColors.every(productColor => {
-                    console.log(checkedColors, productColor);
-                    if (checkedColors.includes(productColor)) {
-                        isExists = true
-                    }
-                    return !isExists;
-                })
-
-                if (!isExists) return false;
-            }
-
-            return true;
-        })
-
-        setItems(filteredProducts)
-        setIsOpen(false)
-        setIsFilterActive(true)
-    }
 
     return (
         <>

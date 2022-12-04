@@ -38,7 +38,6 @@ export const getAllColors = products => {
 export const getCheckedColors = colors => {
     let checkedColors = [];
     colors.map(color => {
-        console.log("color", color);
         if(color.isChecked)
         {
             checkedColors.push(color.color_code)
