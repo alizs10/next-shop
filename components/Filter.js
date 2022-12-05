@@ -1,6 +1,6 @@
 import { CloseIcon } from '@chakra-ui/icons'
-import { Button } from '@chakra-ui/react'
-import React, { useContext, useEffect } from 'react'
+import { Accordion, Button } from '@chakra-ui/react'
+import React, { useContext, useEffect, useState } from 'react'
 import FilterContext from '../context/FilterContext'
 import { getAllColors, getAllSizes, getCheckedColors, getCheckedSizes, getPriceLimit } from '../herlpers/filter-helper'
 import ColorFilter from './Filter/ColorFilter'
@@ -9,19 +9,32 @@ import SizeFilter from './Filter/SizeFilter'
 import Backdrop from './ui/Backdrop'
 import FilterIcon from './ui/icons/FilterIcon'
 
-function Filter({ products, setItems }) {
+import { motion } from 'framer-motion'
 
-    const { setPriceRangeValue, setSizes, setColors, isOpen, openFilterPopover, closeFilterPopover, handleFilter } = useContext(FilterContext)
+function Filter({ products }) {
+
+    const { filters, setPriceRangeValue, setSizes, setColors, isOpen, openFilterPopover, closeFilterPopover, handleFilter } = useContext(FilterContext)
 
     useEffect(() => {
         if (products.length == 0) return
-        
+
         setPriceRangeValue([0, getPriceLimit(products) / 2])
         setSizes(getAllSizes(products))
         setColors(getAllColors(products))
 
+
     }, [])
 
+    let indexes = []
+    if (filters.priceRange) {
+        indexes.push(0)
+    }
+    if (filters.sizes) {
+        indexes.push(1)
+    }
+    if (filters.colors) {
+        indexes.push(2)
+    }
 
 
     return (
@@ -49,13 +62,21 @@ function Filter({ products, setItems }) {
                     )}
                 </span>
                 {isOpen && (
-                    <div className='flex flex-col gap-2'>
-                        <PriceRange priceLimit={getPriceLimit(products)} />
-                        <SizeFilter />
-                        <ColorFilter />
+                    <div className='flex flex-col gap-y-4'>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: .4 }}
+                        >
+                            <Accordion defaultIndex={indexes} allowMultiple>
+                                <PriceRange priceLimit={getPriceLimit(products)} />
+                                <SizeFilter />
+                                <ColorFilter />
+                            </Accordion>
+                        </motion.div>
                         <Button
                             onClick={() => handleFilter()}
-                            marginTop='8' colorScheme='orange'>Filter</Button>
+                            colorScheme='orange'>Filter</Button>
                     </div>
                 )}
             </div>

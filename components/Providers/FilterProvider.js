@@ -7,6 +7,12 @@ function FilterProvider(props) {
 
     const { setItems } = useContext(ProductsContext)
     const { setIsFilterActive } = useContext(ProductsContext)
+    const [filters, setFilters] = useState({
+        priceRange: null,
+        colors: null,
+        sizes: null
+    })
+
     const [isOpen, setIsOpen] = useState(false)
     const openFilterPopover = () => {
         if (isOpen) return
@@ -17,7 +23,7 @@ function FilterProvider(props) {
     }
 
     // price range
-    const [priceRangeFilter, setPriceRangeFilter] = useState(false)
+    const [isPriceRangeFilterActive, setIsPriceRangeFilterActive] = useState(false)
     const [priceRangeValue, setPriceRangeValue] = useState([0, 0])
 
     const handlePriceRangeChange = value => {
@@ -27,10 +33,11 @@ function FilterProvider(props) {
     const resetPriceRange = () => {
 
         handleFilter(false)
-        setPriceRangeFilter(false)
+        
     }
 
     // size filter
+    const [isSizeFilterActive, setIsSizeFilterActive] = useState(false)
     const [sizes, setSizes] = useState([])
 
     const updateSizes = (e, sizeValue) => {
@@ -50,6 +57,7 @@ function FilterProvider(props) {
     }
 
     // color filter
+    const [isColorFilterActive, setIsColorFilterActive] = useState(false)
     const [colors, setColors] = useState([])
 
     const updateColors = (e, colorCode) => {
@@ -70,22 +78,22 @@ function FilterProvider(props) {
     }
 
 
-    const handleFilter = (priceRangeCheck = true) => {
+    const handleFilter = () => {
         let checkedSizes = getCheckedSizes(sizes)
         let checkedColors = getCheckedColors(colors)
-        
+
         let filteredProducts = props.items.filter(product => {
-            
+
             // filter price
-            if (priceRangeCheck && (product.price < priceRangeValue[0] || product.price > priceRangeValue[1])) {
-                console.log("price filter");
+            if (isPriceRangeFilterActive && (product.price < priceRangeValue[0] || product.price > priceRangeValue[1])) {
+
                 return false
             }
 
             // filter size
-            if (checkedSizes.length > 0) {
-                console.log("size filter");
-                
+            if (isSizeFilterActive && checkedSizes.length > 0) {
+
+
                 let productSizes = []
                 for (const key in product.sizes) {
                     productSizes.push(product.sizes[key].size)
@@ -102,9 +110,9 @@ function FilterProvider(props) {
                 if (!isExists) return false;
             }
             // filter color
-            if (checkedColors.length > 0) {
-                console.log("color filter");
-                
+            if (isColorFilterActive && checkedColors.length > 0) {
+
+
                 let productColors = []
                 for (const key in product.colors) {
                     productColors.push(product.colors[key].color_code)
@@ -122,14 +130,28 @@ function FilterProvider(props) {
                 if (!isExists) return false;
             }
 
-            console.log("true");
             return true;
         })
 
-        console.log(filteredProducts);
+        let filterValues = {};
+        filterValues.priceRange = priceRangeValue;
+        if(checkedSizes.length > 0)
+        {
+            filterValues.sizes = checkedSizes;
+        } else {
+            filterValues.sizes = null
+        }
+
+        if(checkedColors.length > 0)
+        {
+            filterValues.colors = checkedColors;
+        } else {
+            filterValues.colors = null
+        }
+
+        setFilters(filterValues)
         setItems(filteredProducts)
         setIsOpen(false)
-        setPriceRangeFilter(true)
         setIsFilterActive(true)
     }
 
@@ -139,17 +161,20 @@ function FilterProvider(props) {
             isOpen, setIsOpen,
             openFilterPopover,
             closeFilterPopover,
-            priceRangeFilter, setPriceRangeFilter,
+            isPriceRangeFilterActive, setIsPriceRangeFilterActive,
             priceRangeValue, setPriceRangeValue,
             handlePriceRangeChange,
+            isSizeFilterActive, setIsSizeFilterActive,
             sizes, setSizes,
             updateSizes,
+            isColorFilterActive, setIsColorFilterActive,
             colors, setColors,
             updateColors,
             uncheckAllColors,
             uncheckAllSizes,
             handleFilter,
-            resetPriceRange
+            resetPriceRange,
+            filters
         }}>
             {props.children}
         </FilterContext.Provider>

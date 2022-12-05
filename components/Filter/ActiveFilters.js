@@ -10,14 +10,13 @@ import ProductsContext from '../../context/ProductsContext'
 
 function ActiveFilters() {
 
-    const { sizes, colors, priceRangeValue, uncheckAllSizes, uncheckAllColors, priceRangeFilter, resetPriceRange } = useContext(FilterContext)
+    const { sizes, colors, priceRangeValue, uncheckAllSizes, uncheckAllColors, filters, resetPriceRange, isPriceRangeFilterActive } = useContext(FilterContext)
     const { isFilterActive } = useContext(ProductsContext)
 
     let checkedSizes = getCheckedSizes(sizes)
     let checkedColors = getCheckedColors(colors)
 
-
-    if (!isFilterActive || (!priceRangeFilter && checkedColors.length == 0 && checkedSizes.length == 0)) return
+    if (!isFilterActive || (!isPriceRangeFilterActive && checkedColors.length == 0 && checkedSizes.length == 0)) return
 
     return (
         <AnimatePresence>
@@ -32,17 +31,17 @@ function ActiveFilters() {
                     </span>
                     <span>Active Filters:</span>
                 </span>
-                {priceRangeFilter && (
+                {filters.priceRange && (
                     <span className='flex gap-x-2'>
                         <button
                             onClick={resetPriceRange}
                             className='flex justify-center items-center w-5 h-5 rounded-full bg-red-400 hover:bg-red-500 transition-all duration-300'>
                             <CloseIcon fontSize='xx-small' color='white' />
                         </button>
-                        <span>Price Range: (${priceRangeValue[0]} - ${priceRangeValue[1]})</span>
+                        <span>Price Range: (${filters.priceRange[0]} - ${filters.priceRange[1]})</span>
                     </span>
                 )}
-                {checkedColors.length > 0 && (
+                {filters.colors && (
 
                     <span className='flex gap-x-2 items-center'>
                         <button
@@ -52,11 +51,11 @@ function ActiveFilters() {
                         </button>
                         <span>Colors:</span>
                         <span className='flex gap-x-1'>
-                            {checkedColors.map(color => <Color color={{ color_code: color }} />)}
+                            {filters.colors.map(color => <Color color={{ color_code: color }} />)}
                         </span>
                     </span>
                 )}
-                {checkedSizes.length > 0 && (
+                {filters.sizes && (
 
                     <span className='flex gap-x-2'>
                         <button
@@ -66,7 +65,7 @@ function ActiveFilters() {
                         </button>
                         <span>Sizes:</span>
                         <span className='flex gap-x-1'>
-                            {checkedSizes.map(size => <span>{size}</span>)}
+                            {filters.sizes.map(size => <span>{size}</span>)}
                         </span>
                     </span>
                 )}
