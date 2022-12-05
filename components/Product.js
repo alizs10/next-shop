@@ -20,6 +20,7 @@ function Product({ colStart, product }) {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
+                transition={{ bounce: 0 }}
                 onClick={() => {
                     onOpen()
                 }}

@@ -54,7 +54,7 @@ function Filter({ products, setItems }) {
                         <SizeFilter />
                         <ColorFilter />
                         <Button
-                            onClick={handleFilter}
+                            onClick={() => handleFilter()}
                             marginTop='8' colorScheme='orange'>Filter</Button>
                     </div>
                 )}

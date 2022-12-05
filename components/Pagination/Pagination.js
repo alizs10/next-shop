@@ -7,7 +7,6 @@ function Pagination() {
     const { pages, allProducts, pageNum: currentPage, setPageNum } = useContext(ProductsContext)
     const [pagesArr, setPagesArr] = useState([])
 
-    console.log(pages);
     useEffect(() => {
         
         if (pages) {

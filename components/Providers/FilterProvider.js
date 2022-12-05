@@ -25,8 +25,8 @@ function FilterProvider(props) {
     }
 
     const resetPriceRange = () => {
-        
-        handleFilter()
+
+        handleFilter(false)
         setPriceRangeFilter(false)
     }
 
@@ -70,19 +70,22 @@ function FilterProvider(props) {
     }
 
 
-    const handleFilter = () => {
+    const handleFilter = (priceRangeCheck = true) => {
         let checkedSizes = getCheckedSizes(sizes)
         let checkedColors = getCheckedColors(colors)
-
+        
         let filteredProducts = props.items.filter(product => {
-
+            
             // filter price
-            if (product.price < priceRangeValue[0] || product.price > priceRangeValue[1]) {
+            if (priceRangeCheck && (product.price < priceRangeValue[0] || product.price > priceRangeValue[1])) {
+                console.log("price filter");
                 return false
             }
 
             // filter size
             if (checkedSizes.length > 0) {
+                console.log("size filter");
+                
                 let productSizes = []
                 for (const key in product.sizes) {
                     productSizes.push(product.sizes[key].size)
@@ -100,6 +103,8 @@ function FilterProvider(props) {
             }
             // filter color
             if (checkedColors.length > 0) {
+                console.log("color filter");
+                
                 let productColors = []
                 for (const key in product.colors) {
                     productColors.push(product.colors[key].color_code)
@@ -117,9 +122,11 @@ function FilterProvider(props) {
                 if (!isExists) return false;
             }
 
+            console.log("true");
             return true;
         })
 
+        console.log(filteredProducts);
         setItems(filteredProducts)
         setIsOpen(false)
         setPriceRangeFilter(true)
