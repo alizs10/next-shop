@@ -22,6 +22,7 @@ function FilterProvider(props) {
     }
 
     // price range
+    const [priceRangeEffect, setPriceRangeEffect] = useState(false)
     const [priceRangeValue, setPriceRangeValue] = useState([0, 0])
 
     const handlePriceRangeChange = value => {
@@ -77,7 +78,12 @@ function FilterProvider(props) {
             let checkedColors = getCheckedColors(colors)
 
             filtersSchema = {}
-            filtersSchema.priceRange = priceRangeValue;
+            if(priceRangeEffect)
+            {
+                filtersSchema.priceRange = priceRangeValue;
+            } else {
+                filtersSchema.priceRange = null;
+            }
             if (checkedSizes.length > 0) {
                 filtersSchema.sizes = checkedSizes;
             } else {
@@ -125,6 +131,7 @@ function FilterProvider(props) {
             isOpen, setIsOpen,
             openFilterPopover,
             closeFilterPopover,
+            priceRangeEffect, setPriceRangeEffect,
             priceRangeValue, setPriceRangeValue,
             handlePriceRangeChange,
             sizes, setSizes,

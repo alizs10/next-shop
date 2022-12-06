@@ -1,10 +1,18 @@
 import { AccordionButton, AccordionIcon, AccordionPanel, Box, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import FilterContext from '../../context/FilterContext'
 
 function PriceRangeItem({ isExpanded, priceLimit }) {
 
-    const { handlePriceRangeChange, priceRangeValue } = useContext(FilterContext)
+    const { handlePriceRangeChange, priceRangeValue,priceRangeEffect, setPriceRangeEffect } = useContext(FilterContext)
+
+    useEffect(() => {
+        if(isExpanded !== undefined)
+        {
+            console.log(isExpanded);
+            setPriceRangeEffect(isExpanded)
+        }
+    }, [isExpanded])
 
     return (
         <>
