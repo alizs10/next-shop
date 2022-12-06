@@ -5,18 +5,12 @@ import FilterIcon from '../ui/icons/FilterIcon'
 import Color from './Color'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { getCheckedColors, getCheckedSizes } from '../../herlpers/filter-helper'
-import ProductsContext from '../../context/ProductsContext'
 
 function ActiveFilters() {
 
-    const { sizes, colors, priceRangeValue, uncheckAllSizes, uncheckAllColors, filters, resetPriceRange, isPriceRangeFilterActive } = useContext(FilterContext)
-    const { isFilterActive } = useContext(ProductsContext)
+    const { filters, handleRemoveFilter } = useContext(FilterContext)
 
-    let checkedSizes = getCheckedSizes(sizes)
-    let checkedColors = getCheckedColors(colors)
-
-    if (!isFilterActive || (!isPriceRangeFilterActive && checkedColors.length == 0 && checkedSizes.length == 0)) return
+    if (!filters.priceRange && !filters.sizes && !filters.colors) return
 
     return (
         <AnimatePresence>
@@ -34,7 +28,7 @@ function ActiveFilters() {
                 {filters.priceRange && (
                     <span className='flex gap-x-2'>
                         <button
-                            onClick={resetPriceRange}
+                            onClick={() => handleRemoveFilter("priceRange")}
                             className='flex justify-center items-center w-5 h-5 rounded-full bg-red-400 hover:bg-red-500 transition-all duration-300'>
                             <CloseIcon fontSize='xx-small' color='white' />
                         </button>
@@ -45,7 +39,7 @@ function ActiveFilters() {
 
                     <span className='flex gap-x-2 items-center'>
                         <button
-                            onClick={uncheckAllColors}
+                            onClick={() => handleRemoveFilter("colors")}
                             className='flex justify-center items-center w-5 h-5 rounded-full bg-red-400 hover:bg-red-500 transition-all duration-300'>
                             <CloseIcon fontSize='xx-small' color='white' />
                         </button>
@@ -59,7 +53,7 @@ function ActiveFilters() {
 
                     <span className='flex gap-x-2'>
                         <button
-                            onClick={uncheckAllSizes}
+                            onClick={() => handleRemoveFilter("sizes")}
                             className='flex justify-center items-center w-5 h-5 rounded-full bg-red-400 hover:bg-red-500 transition-all duration-300'>
                             <CloseIcon fontSize='xx-small' color='white' />
                         </button>

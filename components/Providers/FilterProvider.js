@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react'
 import FilterContext from '../../context/FilterContext'
 import ProductsContext from '../../context/ProductsContext'
-import { getCheckedColors, getCheckedSizes } from '../../herlpers/filter-helper'
+import { filterProducts, getCheckedColors, getCheckedSizes } from '../../herlpers/filter-helper'
 
 function FilterProvider(props) {
 
     const { setItems } = useContext(ProductsContext)
-    const { setIsFilterActive } = useContext(ProductsContext)
     const [filters, setFilters] = useState({
         priceRange: null,
         colors: null,
@@ -23,21 +22,14 @@ function FilterProvider(props) {
     }
 
     // price range
-    const [isPriceRangeFilterActive, setIsPriceRangeFilterActive] = useState(false)
     const [priceRangeValue, setPriceRangeValue] = useState([0, 0])
 
     const handlePriceRangeChange = value => {
         setPriceRangeValue(value)
     }
 
-    const resetPriceRange = () => {
-
-        handleFilter(false)
-        
-    }
-
     // size filter
-    const [isSizeFilterActive, setIsSizeFilterActive] = useState(false)
+
     const [sizes, setSizes] = useState([])
 
     const updateSizes = (e, sizeValue) => {
@@ -57,7 +49,7 @@ function FilterProvider(props) {
     }
 
     // color filter
-    const [isColorFilterActive, setIsColorFilterActive] = useState(false)
+
     const [colors, setColors] = useState([])
 
     const updateColors = (e, colorCode) => {
@@ -78,102 +70,71 @@ function FilterProvider(props) {
     }
 
 
-    const handleFilter = () => {
-        let checkedSizes = getCheckedSizes(sizes)
-        let checkedColors = getCheckedColors(colors)
+    const handleFilter = (filtersSchema = null) => {
 
-        let filteredProducts = props.items.filter(product => {
+        if (filtersSchema === null) {
+            let checkedSizes = getCheckedSizes(sizes)
+            let checkedColors = getCheckedColors(colors)
 
-            // filter price
-            if (isPriceRangeFilterActive && (product.price < priceRangeValue[0] || product.price > priceRangeValue[1])) {
-
-                return false
+            filtersSchema = {}
+            filtersSchema.priceRange = priceRangeValue;
+            if (checkedSizes.length > 0) {
+                filtersSchema.sizes = checkedSizes;
+            } else {
+                filtersSchema.sizes = null
             }
 
-            // filter size
-            if (isSizeFilterActive && checkedSizes.length > 0) {
-
-
-                let productSizes = []
-                for (const key in product.sizes) {
-                    productSizes.push(product.sizes[key].size)
-                }
-
-                let isExists = false;
-                productSizes.every(productSize => {
-                    if (checkedSizes.includes(productSize)) {
-                        isExists = true
-                    }
-                    return !isExists;
-                })
-
-                if (!isExists) return false;
-            }
-            // filter color
-            if (isColorFilterActive && checkedColors.length > 0) {
-
-
-                let productColors = []
-                for (const key in product.colors) {
-                    productColors.push(product.colors[key].color_code)
-                }
-
-                let isExists = false;
-                productColors.every(productColor => {
-                    console.log(checkedColors, productColor);
-                    if (checkedColors.includes(productColor)) {
-                        isExists = true
-                    }
-                    return !isExists;
-                })
-
-                if (!isExists) return false;
+            if (checkedColors.length > 0) {
+                filtersSchema.colors = checkedColors;
+            } else {
+                filtersSchema.colors = null
             }
 
-            return true;
-        })
-
-        let filterValues = {};
-        filterValues.priceRange = priceRangeValue;
-        if(checkedSizes.length > 0)
-        {
-            filterValues.sizes = checkedSizes;
-        } else {
-            filterValues.sizes = null
         }
 
-        if(checkedColors.length > 0)
-        {
-            filterValues.colors = checkedColors;
-        } else {
-            filterValues.colors = null
-        }
+        let filteredProducts = filterProducts(props.items, filtersSchema)
 
-        setFilters(filterValues)
+        setFilters(filtersSchema)
         setItems(filteredProducts)
         setIsOpen(false)
-        setIsFilterActive(true)
     }
 
+    const handleRemoveFilter = (filterKey) => {
+
+        let filtersSchema = { ...filters }
+
+        switch (filterKey) {
+            case "priceRange":
+                filtersSchema.priceRange = null;
+                break;
+            case "sizes":
+                filtersSchema.sizes = null;
+                break;
+            case "colors":
+                filtersSchema.colors = null;
+                break;
+        }
+
+        console.log(filtersSchema);
+        handleFilter(filtersSchema)
+
+    }
 
     return (
         <FilterContext.Provider value={{
             isOpen, setIsOpen,
             openFilterPopover,
             closeFilterPopover,
-            isPriceRangeFilterActive, setIsPriceRangeFilterActive,
             priceRangeValue, setPriceRangeValue,
             handlePriceRangeChange,
-            isSizeFilterActive, setIsSizeFilterActive,
             sizes, setSizes,
             updateSizes,
-            isColorFilterActive, setIsColorFilterActive,
             colors, setColors,
             updateColors,
             uncheckAllColors,
             uncheckAllSizes,
             handleFilter,
-            resetPriceRange,
+            handleRemoveFilter,
             filters
         }}>
             {props.children}

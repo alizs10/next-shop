@@ -1,15 +1,10 @@
-import { AccordionButton, AccordionIcon, AccordionPanel, Box, Checkbox, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
-import React, { useContext, useEffect } from 'react'
+import { AccordionButton, AccordionIcon, AccordionPanel, Box, Checkbox } from '@chakra-ui/react'
+import React, { useContext } from 'react'
 import FilterContext from '../../context/FilterContext'
 
-function SizeFilterItem({ isExpanded }) {
+function SizeFilterItem() {
 
-    const { sizes, updateSizes, isSizeFilterActive, setIsSizeFilterActive } = useContext(FilterContext)
-
-    useEffect(() => {
-        if (isExpanded === isSizeFilterActive) return
-        setIsSizeFilterActive(isExpanded)
-    }, [isExpanded])
+    const { sizes, updateSizes } = useContext(FilterContext)
 
     return (
         <>

@@ -58,3 +58,56 @@ export const getCheckedSizes = sizes => {
 
     return checkedSizes;
 }
+
+export const filterProducts = (products, filters) => {
+
+    console.log(filters);
+    let filteredProducts = products.filter(product => {
+        
+        // filter price
+        if (filters.priceRange && (product.price < filters.priceRange[0] || product.price > filters.priceRange[1])) {
+            return false
+        }
+
+        // filter size
+        if (filters.sizes && filters.sizes.length > 0) {
+            let productSizes = []
+            for (const key in product.sizes) {
+                productSizes.push(product.sizes[key].size)
+            }
+
+            let isExists = false;
+            productSizes.every(productSize => {
+                if (filters.sizes.includes(productSize)) {
+                    isExists = true
+                }
+                return !isExists;
+            })
+
+            if (!isExists) return false;
+        }
+        // filter color
+        if (filters.colors && filters.colors.length > 0) {
+           
+            let productColors = []
+            for (const key in product.colors) {
+                productColors.push(product.colors[key].color_code)
+            }
+
+            let isExists = false;
+            productColors.every(productColor => {
+                
+                if (filters.colors.includes(productColor)) {
+                    isExists = true
+                }
+                return !isExists;
+            })
+
+            if (!isExists) return false;
+        }
+
+        return true;
+    })
+
+    return filteredProducts;
+}

@@ -1,16 +1,11 @@
-import { AccordionButton, AccordionIcon, AccordionPanel, Box, Checkbox, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
-import React, { useContext, useEffect } from 'react'
+import { AccordionButton, AccordionIcon, AccordionPanel, Box, Checkbox } from '@chakra-ui/react'
+import React, { useContext } from 'react'
 import FilterContext from '../../context/FilterContext'
 import Color from './Color'
 
-function ColorFilterItem({ isExpanded }) {
+function ColorFilterItem() {
 
-    const { colors, updateColors, isColorFilterActive, setIsColorFilterActive } = useContext(FilterContext)
-
-    useEffect(() => {
-        if (isExpanded === isColorFilterActive) return
-        setIsColorFilterActive(isExpanded)
-    }, [isExpanded])
+    const { colors, updateColors } = useContext(FilterContext)
 
     return (
         <>
