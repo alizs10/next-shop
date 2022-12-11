@@ -1,5 +1,6 @@
 import { DeleteIcon } from '@chakra-ui/icons'
 import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react'
+import Head from 'next/head'
 import React from 'react'
 import Master from '../components/Layouts/Master'
 
@@ -21,6 +22,13 @@ function CartPage() {
 
     return (
         <Master>
+
+            <Head>
+                <title>
+                    Cart | Nike's Shoes Shop
+                </title>
+                <meta name="description" content="cart page - nike's shoes shop" />
+            </Head>
             <div className='relative w-full px-20 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
 
                 <section className='w-full grid grid-cols-5'>
@@ -113,7 +121,7 @@ function CartPage() {
                             <span>345 $</span>
                         </span>
 
-                        <Button className='w-full mt-2'  fontSize={20} colorScheme='teal' variant='solid'>
+                        <Button className='w-full mt-2' fontSize={20} colorScheme='teal' variant='solid'>
                             Checkout
                         </Button>
                     </div>

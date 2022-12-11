@@ -25,11 +25,16 @@ function Head() {
                         </Link>
                     </li>
                     <li className='underline underline-offset-4 cursor-pointer'>
+                        <Link href="/products">
+                            Products
+                        </Link>
+                    </li>
+                    <li className='underline underline-offset-4 cursor-pointer'>Contact</li>
+                    <li className='underline underline-offset-4 cursor-pointer'>
                         <Link href="/about">
                             About
                         </Link>
                     </li>
-                    <li className='underline underline-offset-4 cursor-pointer'>Contact</li>
                 </ul>
                 <div className='col-span-2 z-50 flex justify-center gap-2 items-center'>
                     <Popover>

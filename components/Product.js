@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import ProductModal from './Modals/ProductModal'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 
 function Product({ colStart, product }) {
 
@@ -30,8 +31,10 @@ function Product({ colStart, product }) {
             bg-white cursor-pointer hover:scale-125 transition-all duration-300 shadow-md relative
             hover:z-20
             `}>
-                <img className='rounded-full' src={product.image} />
 
+                <div className='rounded-full'>
+                    <Image src={product.image} width={400} height={400} />
+                </div>
 
                 <div className='absolute top-1 left-1/2 flex gap-1'>
                     {colors.map((color, index) => (

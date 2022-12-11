@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,7 +9,9 @@ function Landing() {
                 <div className='y-animated-radio w-full aspect-square bg-orange-200 rounded-full'>
                 </div>
                 <div className='x-animated-radio absolute bg-white rounded-full top-8 -left-8 w-full aspect-square flex justify-center items-center'>
-                    <img src='/assets/landing-img.png' className='w-full rotate-[15deg] hover:scale-110 hover:rotate-[-15deg] transition-all duration-300' />
+                    <div className='w-full rotate-[15deg] hover:scale-110 hover:rotate-[-15deg] transition-all duration-300'>
+                        <Image src='/assets/landing-img.png' width={600} height={600} />
+                    </div>
                 </div>
             </div>
 

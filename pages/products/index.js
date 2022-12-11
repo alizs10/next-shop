@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import React from 'react'
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
@@ -9,6 +10,12 @@ import { getAllProducts } from '../../herlpers/requests'
 function ProductsPage(props) {
   return (
     <Master>
+      <Head>
+        <title>
+          Nike's Shoes Shop - Products
+        </title>
+        <meta name="description" content="Nike's Shoes Shop - All Products" />
+      </Head>
       {props.hasError ? (
         <ConnectionError />
       ) : (

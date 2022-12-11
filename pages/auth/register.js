@@ -1,5 +1,6 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Stack } from '@chakra-ui/react'
+import Head from 'next/head'
 import React, { useState } from 'react'
 import AuthLayout from '../../components/Layouts/AuthLayout'
 
@@ -11,7 +12,13 @@ function RegisterPage() {
 
   return (
     <AuthLayout>
-        <div className='w-full px-20 pt-24 self-center'>
+      <Head>
+        <title>
+          Register | Nike's Shoes Shop
+        </title>
+        <meta name="description" content="Register page - Nike's Shoes Shop" />
+      </Head>
+      <div className='w-full px-20 pt-24 self-center'>
         <form className='w-full md:w-1/3 md:mx-auto flex justify-center flex-col gap-y-2'>
           <span className='text-3xl mb-4'>Register</span>
 
