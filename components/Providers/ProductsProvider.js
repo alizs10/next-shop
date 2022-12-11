@@ -28,8 +28,9 @@ function ProductsProvider(props) {
     }, [router.query.page])
 
     const setItems = items => {
-        const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 11)
-        const slicedProducts = sliceProducts(paginatedProducts, 5)
+        const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 9)
+        const slicedProducts = sliceProducts(paginatedProducts, 4)
+        console.log(pages);
         setOnScreenItems(slicedProducts)
         setPages(pages)
         setAllProducts(allProducts)

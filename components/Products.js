@@ -27,14 +27,14 @@ function Products(props) {
 
         {onScreenItems[0].length > 0 ? (
           <>
-            <div className='gap-8 grid grid-cols-5'>
+            <div className='gap-8 grid grid-cols-4'>
 
               {onScreenItems[0].map(product => (
                 <Product key={product.id} product={product} />
               ))}
 
             </div>
-            <div className='gap-8 grid grid-cols-6'>
+            <div className='gap-8 grid grid-cols-5'>
 
               {onScreenItems[1].map(product => (
                 <Product key={product.id} product={product} />
