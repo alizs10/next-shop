@@ -1,7 +1,7 @@
 {
     "products": [
         {
-            "id": "p1",
+            "id": "1",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -33,7 +33,7 @@
             "sold_number": 0
         },
         {
-            "id": "p2",
+            "id": "2",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -65,7 +65,7 @@
             "sold_number": 0
         },
         {
-            "id": "p3",
+            "id": "3",
             "colors": {
                 "c1": {
                     "color_code": "#50a9ce",
@@ -97,7 +97,7 @@
             "sold_number": 0
         },
         {
-            "id": "p4",
+            "id": "4",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -134,7 +134,7 @@
             "sold_number": 0
         },
         {
-            "id": "p5",
+            "id": "5",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -157,7 +157,7 @@
             "image": "/products/p-5.webp",
             "marketable_number": 35,
             "name": "Nike React Infinity Run Flyknit 3",
-            "price": 140,
+            "price": 144,
             "sizes": {
                 "s1": {
                     "price_increase": 0,
@@ -171,7 +171,7 @@
             "sold_number": 0
         },
         {
-            "id": "p6",
+            "id": "6",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -208,7 +208,7 @@
             "sold_number": 0
         },
         {
-            "id": "p7",
+            "id": "7",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -245,7 +245,7 @@
             "sold_number": 0
         },
         {
-            "id": "p8",
+            "id": "8",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -282,7 +282,7 @@
             "sold_number": 0
         },
         {
-            "id": "p9",
+            "id": "9",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -319,7 +319,7 @@
             "sold_number": 0
         },
         {
-            "id": "p10",
+            "id": "10",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -356,7 +356,7 @@
             "sold_number": 0
         },
         {
-            "id": "p11",
+            "id": "11",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -393,7 +393,7 @@
             "sold_number": 0
         },
         {
-            "id": "p12",
+            "id": "12",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -430,7 +430,7 @@
             "sold_number": 0
         },
         {
-            "id": "p13",
+            "id": "13",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -467,7 +467,7 @@
             "sold_number": 0
         },
         {
-            "id": "p14",
+            "id": "14",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -504,7 +504,7 @@
             "sold_number": 0
         },
         {
-            "id": "p15",
+            "id": "15",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -541,7 +541,7 @@
             "sold_number": 0
         },
         {
-            "id": "p16",
+            "id": "16",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -578,7 +578,7 @@
             "sold_number": 0
         },
         {
-            "id": "p17",
+            "id": "17",
             "colors": {
                 "c1": {
                     "color_code": "#fff",
@@ -615,7 +615,7 @@
             "sold_number": 0
         },
         {
-            "id": "p18",
+            "id": "18",
             "colors": {
                 "c1": {
                     "color_code": "#fff",

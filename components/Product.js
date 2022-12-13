@@ -33,7 +33,7 @@ function Product({ colStart, product }) {
             `}>
 
                 <div className='rounded-full'>
-                    <Image src={product.image} width={400} height={400} />
+                    <Image src={product.image} alt={product.name} priority={true} width={400} height={400} />
                 </div>
 
                 <div className='absolute top-1 left-1/2 flex gap-1'>

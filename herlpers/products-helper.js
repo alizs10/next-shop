@@ -1,8 +1,9 @@
 export const paginateProducts = (products, pageNumber, count) => {
     let productsIns = [...products]
+    let sortedProducts = productsIns.sort((a,b) => a.id - b.id)
     let startIndex = (pageNumber - 1) * count;
     let endIndex = startIndex + count;
-    let paginatedProducts = productsIns.slice(startIndex, endIndex)
+    let paginatedProducts = sortedProducts.slice(startIndex, endIndex)
 
     let allProducts = products.length;
     let pages = Math.floor(allProducts / count);

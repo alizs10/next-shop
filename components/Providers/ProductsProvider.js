@@ -31,7 +31,7 @@ function ProductsProvider(props) {
     const setItems = items => {
         const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 9)
         const slicedProducts = sliceProducts(paginatedProducts, 4)
-        console.log(pages);
+        
         setOnScreenItems(slicedProducts)
         setPages(pages)
         setAllProducts(allProducts)

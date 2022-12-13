@@ -5,7 +5,6 @@ import Products from '../../components/Products'
 import FilterProvider from '../../components/Providers/FilterProvider'
 import ProductsProvider from '../../components/Providers/ProductsProvider'
 import ConnectionError from '../../components/ui/ConnectionError'
-import { getAllProducts } from '../../herlpers/requests'
 import { getProductsData } from '../api/products'
 
 function ProductsPage(props) {

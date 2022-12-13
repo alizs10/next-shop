@@ -21,6 +21,8 @@ function Products(props) {
 
   if(loading) return
 
+  console.log(props.onScreenItems);
+
   return (
     <>
       <div className='relative w-full px-44 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>

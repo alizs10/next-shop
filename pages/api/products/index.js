@@ -5,7 +5,8 @@ export function getProductsData() {
     let databaseFilePath = path.join(process.cwd(), 'database', 'data.json')
     let dataFile = fs.readFileSync(databaseFilePath)
     let data = JSON.parse(dataFile)
-    return data.products
+    let sortedData = data.products.sort((a,b) => a.id - b.id)
+    return sortedData
 }
 
 
