@@ -6,6 +6,7 @@ import { paginateProducts, sliceProducts } from '../../herlpers/products-helper'
 function ProductsProvider(props) {
 
     const [isFilterActive, setIsFilterActive] = useState(false)
+    const [loading, setIsLoading] = useState(true)
     const [onScreenItems, setOnScreenItems] = useState([[], []])
     const [pages, setPages] = useState(1)
     const [allProducts, setAllProducts] = useState(0)
@@ -34,6 +35,7 @@ function ProductsProvider(props) {
         setOnScreenItems(slicedProducts)
         setPages(pages)
         setAllProducts(allProducts)
+        setIsLoading(false)
     }
 
 
@@ -44,7 +46,8 @@ function ProductsProvider(props) {
             allProducts, setAllProducts,
             pages, setPages,
             pageNum, setPageNum,
-            setItems
+            setItems,
+            loading
         }}>
             {props.children}
         </ProductsContext.Provider>

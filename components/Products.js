@@ -11,13 +11,15 @@ import ProductsContext from '../context/ProductsContext'
 function Products(props) {
 
   const router = useRouter()
-  const { onScreenItems } = useContext(ProductsContext)
+  const { onScreenItems, loading } = useContext(ProductsContext)
 
   const onSearch = (searchedValue) => {
     if (!searchedValue) return
     let url = `/search/${searchedValue}`
     router.push(url)
   }
+
+  if(loading) return
 
   return (
     <>
