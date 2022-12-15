@@ -5,6 +5,16 @@ function CreateProduct() {
 
     const [showCreateProduct, setShowCreateProduct] = useState(false)
 
+    //form values
+    const nameRef = useRef()
+    const priceRef = useRef()
+    const discountPercentageRef = useRef()
+    const marketableNumberRef = useRef()
+    const soldNumberRef = useRef()
+    const frozenNumberRef = useRef()
+    const imageSrcRef = useRef()
+
+
     const [sizes, setSizes] = useState([])
 
     const manSizeRef = useRef()
@@ -20,7 +30,7 @@ function CreateProduct() {
 
 
         size.size = `M ${manSizeRef.current.value} / W ${womanSizeRef.current.value}`
-
+        size.id = new Date().toISOString()
         setSizes(prevState => [...prevState, size])
 
         manSizeRef.current.value = ""
@@ -43,14 +53,42 @@ function CreateProduct() {
 
         color.code = "#" + colorCodeRef.current.value
         color.name = colorNameRef.current.value
+        color.id = new Date().toISOString()
+
         setColors(prevState => [...prevState, color])
 
         colorCodeRef.current.value = ""
         colorNameRef.current.value = ""
     }
 
+    const handleDeleteColor = colorId => {
+        let filteredColors = colors.filter(color => color.id !== colorId)
+        setColors(filteredColors)
+    }
+
+    const handleDeleteSize = sizeId => {
+        let filteredSizes = sizes.filter(size => size.id !== sizeId)
+        setSizes(filteredSizes)
+    }
+
     const toggleShowCreateProduct = () => {
         setShowCreateProduct(prevState => !prevState)
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        let inputData = {};
+        inputData.name = nameRef.current.value
+        inputData.price = priceRef.current.value
+        inputData.image = imageSrcRef.current.value
+        inputData.marketableNumber = marketableNumberRef.current.value
+        inputData.soldNumber = soldNumberRef.current.value
+        inputData.frozenNumber = frozenNumberRef.current.value
+        inputData.sizes = sizes
+        inputData.colors = colors
+
+        console.log(inputData);
     }
     return (
         <section className='flex flex-col justify-center gap-y-4'>
@@ -65,45 +103,45 @@ function CreateProduct() {
                 <div className='mx-auto rounded-md p-3 bg-orange-200 shadow-3xl w-3/4 lg:w-2/3'>
                     <span className='font-bold text-lg'>Create New Product</span>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-2'>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Name:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={nameRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Price:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={priceRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Image Src:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={imageSrcRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Discount Percentage:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={discountPercentageRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <span className='mt-4 col-span-1 md:col-span-2'>Store</span>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Marketable Number:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={marketableNumberRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Sold Number:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={soldNumberRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Frozen Number:</label>
-                                <Input focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                                <Input ref={frozenNumberRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-1 md:col-span-2 flex flex-col gap-y-2'>
                                 <label>Sizes:</label>
 
                                 <div className='flex gap-2 flex-wrap'>
-                                    {sizes.map((size, index) => (
+                                    {sizes.map(size => (
 
                                         <Tag
-                                            key={index}
+                                            key={size.id}
                                             borderRadius='full'
                                             variant='solid'
                                             colorScheme='green'
@@ -113,7 +151,7 @@ function CreateProduct() {
                                             boxShadow='lg'
                                         >
                                             <TagLabel>{size.size}</TagLabel>
-                                            <TagCloseButton />
+                                            <TagCloseButton onClick={() => handleDeleteSize(size.id)} />
                                         </Tag>
                                     ))}
                                 </div>
@@ -141,9 +179,9 @@ function CreateProduct() {
                             <div className='mt-4 col-span-1 md:col-span-2 flex flex-col gap-y-2'>
                                 <label>Colors:</label>
                                 <div className='flex gap-2 flex-wrap'>
-                                    {colors.map((color, index) => (
+                                    {colors.map(color => (
                                         <Tag
-                                            key={index}
+                                            key={color.id}
                                             borderRadius='full'
                                             variant='solid'
                                             colorScheme='green'
@@ -156,7 +194,7 @@ function CreateProduct() {
                                                 style={{ backgroundColor: color.code }}
                                                 className="w-4 h-4 rounded-full mr-2"></div>
                                             <TagLabel>{color.name}</TagLabel>
-                                            <TagCloseButton />
+                                            <TagCloseButton onClick={() => handleDeleteColor(color.id)}/>
                                         </Tag>
                                     ))}
                                 </div>
