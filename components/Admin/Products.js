@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 function Products() {
 
     const [showProducts, setShowProducts] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState([])
 
     const toggleShowProudcts = () => {
@@ -13,17 +13,18 @@ function Products() {
 
 
     useEffect(() => {
-
-        fetchProducts()
-
-        setLoading(false)
-
-    }, [])
+        if(showProducts && products.length == 0)
+        {
+            fetchProducts()
+        }
+    }, [showProducts])
 
     const fetchProducts = async () => {
+        setLoading(true)
         let res = await fetch('/api/products')
         let data = await res.json()
         setProducts(data.products)
+        setLoading(false)
     }
 
     return (
@@ -41,7 +42,7 @@ function Products() {
                     <span className='font-bold text-lg'>Products</span>
 
                     {loading && (
-                        <span className='text-gray-200'>loading...</span>
+                        <p className='text-sm text-gray-200'>loading...</p>
                     )}
 
                     {products.length > 0 && (
