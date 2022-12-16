@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react'
 function CreateProduct() {
 
     const [showCreateProduct, setShowCreateProduct] = useState(false)
+    const [isFormDisable, setIsFormDisable] = useState(false)
 
     //form values
     const nameRef = useRef()
@@ -43,13 +44,13 @@ function CreateProduct() {
     const colorNameRef = useRef()
 
     const handleAddColor = () => {
-        
+
         let color = {};
-       
+
         if (colorCodeRef.current.value === "" ||
-        colorCodeRef.current.value.trim() === "" ||
-        colorNameRef.current.value === "" ||
-        colorNameRef.current.value.trim() === "") return
+            colorCodeRef.current.value.trim() === "" ||
+            colorNameRef.current.value === "" ||
+            colorNameRef.current.value.trim() === "") return
 
         color.code = "#" + colorCodeRef.current.value
         color.name = colorNameRef.current.value
@@ -75,20 +76,52 @@ function CreateProduct() {
         setShowCreateProduct(prevState => !prevState)
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
+        if (isFormDisable) return
 
         let inputData = {};
         inputData.name = nameRef.current.value
         inputData.price = priceRef.current.value
         inputData.image = imageSrcRef.current.value
+        inputData.discountPercentage = discountPercentageRef.current.value
         inputData.marketableNumber = marketableNumberRef.current.value
         inputData.soldNumber = soldNumberRef.current.value
         inputData.frozenNumber = frozenNumberRef.current.value
         inputData.sizes = sizes
         inputData.colors = colors
 
-        console.log(inputData);
+        try {
+            setIsFormDisable(true)
+            let res = await fetch('/api/products', {
+                method: "POST",
+                body: JSON.stringify(inputData),
+                headers: {
+                    ContentType: "application/json"
+                },
+            })
+
+            let data = await res.json()
+            clearFrom()
+        } catch (error) {
+
+            console.log(error);
+        }
+
+
+        setIsFormDisable(false)
+    }
+
+    const clearFrom = () => {
+        setSizes([])
+        setColors([])
+        nameRef.current.value = ""
+        priceRef.current.value = ""
+        imageSrcRef.current.value = ""
+        discountPercentageRef.current.value = ""
+        marketableNumberRef.current.value = ""
+        soldNumberRef.current.value = ""
+        frozenNumberRef.current.value = ""
     }
     return (
         <section className='flex flex-col justify-center gap-y-4'>
@@ -194,7 +227,7 @@ function CreateProduct() {
                                                 style={{ backgroundColor: color.code }}
                                                 className="w-4 h-4 rounded-full mr-2"></div>
                                             <TagLabel>{color.name}</TagLabel>
-                                            <TagCloseButton onClick={() => handleDeleteColor(color.id)}/>
+                                            <TagCloseButton onClick={() => handleDeleteColor(color.id)} />
                                         </Tag>
                                     ))}
                                 </div>
@@ -225,6 +258,7 @@ function CreateProduct() {
                             type='submit'
                             marginTop='15px'
                             width='full'
+                            disabled={isFormDisable}
                             colorScheme='orange' variant='solid'>
                             Create
                         </Button>
