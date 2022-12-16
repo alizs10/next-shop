@@ -1,3 +1,4 @@
+import { RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 
@@ -13,8 +14,7 @@ function Products() {
 
 
     useEffect(() => {
-        if(showProducts && products.length == 0)
-        {
+        if (showProducts && products.length == 0) {
             fetchProducts()
         }
     }, [showProducts])
@@ -38,14 +38,28 @@ function Products() {
             </Button>
 
             {showProducts && (
-                <div className='flex flex-col gap-y-2 py-3 text-white'>
-                    <span className='font-bold text-lg'>Products</span>
+                <div className='flex flex-col gap-y-2 py-3 text-gray-800'>
+                    <div className='flex justify-between items-end'>
+                        <span className='font-bold text-lg text-white'>Products</span>
+                        <Button size="sm"
+                        onClick={fetchProducts}
+                        >
+                            <span className='flex gap-x-2 font-bold text-sm'>
+                                <span>
+                                    <RepeatIcon />
+                                </span>
+                                <span>
+                                    refetch
+                                </span>
+                            </span>
+                        </Button>
+                    </div>
 
                     {loading && (
-                        <p className='text-sm text-gray-200'>loading...</p>
+                        <SpinnerIcon textColor="white" />
                     )}
 
-                    {products.length > 0 && (
+                    {!loading && products.length > 0 && (
                         <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                             {products.map(product => (
                                 <Card key={product._id} maxW='sm' bgColor="whiteAlpha.800">
@@ -57,7 +71,7 @@ function Products() {
                                         />
                                         <Stack mt='6' spacing='3'>
                                             <Heading size='md'>{product.name}</Heading>
-                                            
+
                                             <Text color='gray.700' fontSize='2xl'>
                                                 ${product.price}
                                             </Text>
