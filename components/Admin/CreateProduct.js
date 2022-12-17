@@ -1,5 +1,6 @@
 import { Button, HStack, Input, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
+import { toast } from 'react-toastify'
 
 function CreateProduct() {
 
@@ -91,8 +92,11 @@ function CreateProduct() {
         inputData.sizes = sizes
         inputData.colors = colors
 
+
         try {
             setIsFormDisable(true)
+            const toastLoadingId = toast.loading("creating product ...")
+
             let res = await fetch('/api/products', {
                 method: "POST",
                 body: JSON.stringify(inputData),
@@ -101,16 +105,41 @@ function CreateProduct() {
                 },
             })
 
-            let data = await res.json()
-            clearFrom()
+            if (res.status === 422) {
+                let data = await res.json()
+                toast.update(toastLoadingId, {
+                    render: data.message, type: "warning", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+            }
+
+            if (res.status === 201) {
+
+                let data = await res.json()
+                clearFrom()
+                toast.update(toastLoadingId, {
+                    render: "product created successfully", type: "success", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+            }
+
         } catch (error) {
 
+            toast.update(toastLoadingId, {
+                render: "error while creating new product", type: "error", isLoading: false, autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+            })
             console.log(error);
         }
 
 
         setIsFormDisable(false)
+
     }
+
 
     const clearFrom = () => {
         setSizes([])

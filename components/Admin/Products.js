@@ -1,6 +1,7 @@
 import { RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
 import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 function Products() {
 
@@ -21,7 +22,25 @@ function Products() {
 
     const fetchProducts = async () => {
         setLoading(true)
+        const toastLoadingId = toast.loading("fetching products ...")
+
         let res = await fetch('/api/products')
+
+
+        if (res.status === 200) {
+            toast.update(toastLoadingId, {
+                render: "porudcts loaded successfully", type: "success", isLoading: false, autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+            })
+        } else {
+            toast.update(toastLoadingId, {
+                render: "error while loading data", type: "error", isLoading: false, autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+            })
+        }
+
         let data = await res.json()
         setProducts(data.products)
         setLoading(false)
@@ -42,7 +61,7 @@ function Products() {
                     <div className='flex justify-between items-end'>
                         <span className='font-bold text-lg text-white'>Products</span>
                         <Button size="sm"
-                        onClick={fetchProducts}
+                            onClick={fetchProducts}
                         >
                             <span className='flex gap-x-2 font-bold text-sm'>
                                 <span>
@@ -60,7 +79,7 @@ function Products() {
                     )}
 
                     {!loading && products.length > 0 && (
-                        <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                        <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2'>
                             {products.map(product => (
                                 <Card key={product._id} maxW='sm' bgColor="whiteAlpha.800">
                                     <CardBody>
