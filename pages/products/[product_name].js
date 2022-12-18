@@ -104,7 +104,7 @@ function ProductPage(props) {
                     <div className='flex w-full justify-between gap-y-2 text-md'>
                         <span>Price:</span>
                         <div className='flex flex-col'>
-                            <span className="text-base line-through">{props.product.price} $</span>
+                            <span className="text-base self-end line-through">{props.product.price} $</span>
                             <span className="text-4xl">{finalPrice} $</span>
                         </div>
                     </div>
