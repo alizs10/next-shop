@@ -1,12 +1,35 @@
 import { CheckIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Master from '../../components/Layouts/Master'
 import BagIcon from '../../components/ui/icons/BagIcon'
 import HeartIcon from '../../components/ui/icons/HeartIcon'
+import { calculateFinalPrice } from '../../herlpers/product-helper'
 import { connectDatabase, findDocument } from '../../util/database-util'
 
 function ProductPage(props) {
+
+    const [selectedColor, setSelectedColor] = useState(0)
+    const [selectedSize, setSelectedSize] = useState(0)
+    const [finalPrice, setFinalPrice] = useState(calculateFinalPrice(props.product, 0, 0))
+
+    useEffect(() => {
+        handleUpdatePrice()
+    }, [selectedColor, selectedSize])
+
+    const handleUpdatePrice = () => {
+        let calculatedFinalPrice = calculateFinalPrice(props.product, selectedColor, selectedSize)
+        setFinalPrice(calculatedFinalPrice)
+    }
+
+    const handleSelectColor = (index) => {
+        setSelectedColor(index)
+    }
+
+    const handleSelectSize = (index) => {
+        setSelectedSize(index)
+    }
+
 
     return (
         <Master>
@@ -45,11 +68,13 @@ function ProductPage(props) {
                             <span className="text-sm">Color:</span>
                             <div className="flex flex-wrap gap-2">
                                 {props.product.colors.map((color, index) => (
-                                    <span key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
+                                    <span
+                                    onClick={handleSelectColor.bind(null, index)}
+                                    key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                         <div
                                             style={{ backgroundColor: color.code }}
                                             className='flex justify-center items-center rounded-full w-full h-full'>
-                                            {index == 0 && (
+                                            {index == selectedColor && (
                                                 <CheckIcon color="gray.200" />
                                             )}
                                         </div>
@@ -66,7 +91,9 @@ function ProductPage(props) {
                             <span className="text-sm">Size:</span>
                             <div className='flex flex-wrap gap-2'>
                                 {props.product.sizes.map((size, index) => (
-                                    <span key={index} className={`rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == 0 ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
+                                    <span 
+                                    onClick={handleSelectSize.bind(null, index)}
+                                    key={index} className={`rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
                                         {size.size}
                                     </span>
                                 ))}
@@ -77,8 +104,8 @@ function ProductPage(props) {
                     <div className='flex w-full justify-between gap-y-2 text-md'>
                         <span>Price:</span>
                         <div className='flex flex-col'>
-                            <span className="text-base line-through"> 80 $</span>
-                            <span className="text-4xl"> 65 $</span>
+                            <span className="text-base line-through">{props.product.price} $</span>
+                            <span className="text-4xl">{finalPrice} $</span>
                         </div>
                     </div>
 
