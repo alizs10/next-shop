@@ -1,4 +1,4 @@
-import { connectDatabase, getDocuments, insertDocument } from '../../../util/database-util'
+import { connectDatabase, deleteDocument, getDocuments, insertDocument } from '../../../util/database-util'
 
 async function handler(req, res) {
 
@@ -31,6 +31,15 @@ async function handler(req, res) {
         data._id = document.insertedId
 
         res.status(201).json({ product: data, message: "product created successfully" })
+    }
+
+    if(req.method === "DELETE") {
+        let data = JSON.parse(req.body);
+        let docId = data.id
+
+        let result = await deleteDocument(client, 'products', docId)
+
+        res.status(200).json({ result, message: "product deleted successfully" })
     }
 
     client.close()

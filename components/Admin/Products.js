@@ -48,6 +48,22 @@ function Products() {
 
     }
 
+    const handleDeleteProduct = async docId => {
+
+        let response = await fetch('/api/products', {
+            method: "DELETE",
+            body: JSON.stringify({id: docId}),
+            headers: {
+                ContentType: "application/json"
+            }
+        })
+
+        if(response.status === 200) {
+            toast.success("Product Deleted Successfully")
+            fetchProducts()
+        }
+    }
+
     return (
         <section className='mt-4 flex flex-col justify-center gap-y-4'>
             <Button
@@ -101,7 +117,9 @@ function Products() {
                                     <Divider borderColor='gray.900' bgColor='gray.900' borderWidth="1px" />
                                     <CardFooter>
                                         <ButtonGroup spacing='2'>
-                                            <Button variant='solid' colorScheme='red'>
+                                            <Button
+                                            onClick={handleDeleteProduct.bind(null, product._id)}
+                                            variant='solid' colorScheme='red'>
                                                 Delete
                                             </Button>
                                             <Button variant='solid' colorScheme='yellow'>
