@@ -33,6 +33,10 @@ function Products() {
                 hideProgressBar: false,
                 closeOnClick: true,
             })
+            let data = await res.json()
+            setProducts(data.products)
+            setLoading(false)
+            console.log(data);
         } else {
             toast.update(toastLoadingId, {
                 render: "error while loading data", type: "error", isLoading: false, autoClose: 5000,
@@ -41,9 +45,7 @@ function Products() {
             })
         }
 
-        let data = await res.json()
-        setProducts(data.products)
-        setLoading(false)
+
     }
 
     return (
@@ -79,7 +81,7 @@ function Products() {
                     )}
 
                     {!loading && products.length > 0 && (
-                        <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2'>
+                        <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
                             {products.map(product => (
                                 <Card key={product._id} maxW='sm' bgColor="whiteAlpha.800">
                                     <CardBody>

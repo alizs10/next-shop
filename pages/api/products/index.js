@@ -1,26 +1,11 @@
-import fs from 'fs'
-import path from 'path'
-
-import { MongoClient } from 'mongodb'
-import { connectDatabase, getDocuments } from '../../../util/database-util'
-
-export function getProductsData() {
-    let databaseFilePath = path.join(process.cwd(), 'database', 'data.json')
-    let dataFile = fs.readFileSync(databaseFilePath)
-    let data = JSON.parse(dataFile)
-    let sortedData = data.products.sort((a, b) => a.id - b.id)
-    return sortedData
-}
-
-
+import { connectDatabase, getDocuments, insertDocument } from '../../../util/database-util'
 
 async function handler(req, res) {
 
     let client = await connectDatabase('nikes_shoes_shop')
 
     if (req.method === "GET") {
-
-        let documents = getDocuments(client,'products')
+        let documents = await getDocuments(client, 'products')
         res.status(200).json({ products: documents })
     }
 
@@ -42,12 +27,13 @@ async function handler(req, res) {
             return
         }
 
-        const result = await db.collection('products').insertOne(data)
-        data._id = result.insertedId
-        client.close()
+        const document = await insertDocument(client, 'products', data)
+        data._id = document.insertedId
 
         res.status(201).json({ product: data, message: "product created successfully" })
     }
+
+    client.close()
 }
 
 export default handler;

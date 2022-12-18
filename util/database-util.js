@@ -16,3 +16,9 @@ export async function findDocument(client, collection, filter) {
     const document = await db.collection(collection).findOne(filter)
     return document
 }
+
+export async function insertDocument(client, collection, data) {
+    const db = client.db()
+    const document = await db.collection(collection).insertOne(data)
+    return document
+}

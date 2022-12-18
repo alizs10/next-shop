@@ -21,6 +21,7 @@ function CreateProduct() {
 
     const manSizeRef = useRef()
     const womanSizeRef = useRef()
+    const sizePriceIncreaseRef = useRef()
 
     const handleAddSize = () => {
         let size = {};
@@ -28,21 +29,26 @@ function CreateProduct() {
         if (manSizeRef.current.value === "" ||
             manSizeRef.current.value.trim() === "" ||
             womanSizeRef.current.value === "" ||
-            womanSizeRef.current.value.trim() === "") return
+            womanSizeRef.current.value.trim() === "" ||
+            sizePriceIncreaseRef.current.value === "" ||
+            sizePriceIncreaseRef.current.value.trim() === "") return
 
 
         size.size = `M ${manSizeRef.current.value} / W ${womanSizeRef.current.value}`
+        size.price_increase = sizePriceIncreaseRef.current.value
         size.id = new Date().toISOString()
         setSizes(prevState => [...prevState, size])
 
         manSizeRef.current.value = ""
         womanSizeRef.current.value = ""
+        sizePriceIncreaseRef.current.value = ""
     }
 
     const [colors, setColors] = useState([])
 
     const colorCodeRef = useRef()
     const colorNameRef = useRef()
+    const colorPriceIncreaseRef = useRef()
 
     const handleAddColor = () => {
 
@@ -51,16 +57,20 @@ function CreateProduct() {
         if (colorCodeRef.current.value === "" ||
             colorCodeRef.current.value.trim() === "" ||
             colorNameRef.current.value === "" ||
-            colorNameRef.current.value.trim() === "") return
+            colorNameRef.current.value.trim() === "" ||
+            colorPriceIncreaseRef.current.value === "" ||
+            colorPriceIncreaseRef.current.value.trim() === "") return
 
         color.code = "#" + colorCodeRef.current.value
         color.name = colorNameRef.current.value
+        color.price_increase = colorPriceIncreaseRef.current.value
         color.id = new Date().toISOString()
 
         setColors(prevState => [...prevState, color])
 
         colorCodeRef.current.value = ""
         colorNameRef.current.value = ""
+        colorPriceIncreaseRef.current.value = ""
     }
 
     const handleDeleteColor = colorId => {
@@ -123,6 +133,13 @@ function CreateProduct() {
                     hideProgressBar: false,
                     closeOnClick: true,
                 })
+            } else {
+                toast.update(toastLoadingId, {
+                    render: "error while creating new product", type: "error", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+
             }
 
         } catch (error) {
@@ -218,12 +235,15 @@ function CreateProduct() {
                                     ))}
                                 </div>
 
-                                <div className='mt-2 grid grid-cols-5 gap-x-2'>
+                                <div className='mt-2 grid grid-cols-7 gap-x-2'>
                                     <span className='col-span-2'>
                                         <Input ref={manSizeRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Men's Size" />
                                     </span>
                                     <span className='col-span-2'>
                                         <Input ref={womanSizeRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Women's Size" />
+                                    </span>
+                                    <span className='col-span-2'>
+                                        <Input ref={sizePriceIncreaseRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Size Price Increase" />
                                     </span>
                                     <span className='col-span-1'>
                                         <Button
@@ -261,12 +281,15 @@ function CreateProduct() {
                                     ))}
                                 </div>
 
-                                <div className='mt-2 grid grid-cols-5 gap-x-2'>
+                                <div className='mt-2 grid grid-cols-7 gap-x-2'>
                                     <span className='col-span-2'>
                                         <Input ref={colorNameRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Color's Name" />
                                     </span>
                                     <span className='col-span-2'>
                                         <Input ref={colorCodeRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Color's Code" />
+                                    </span>
+                                    <span className='col-span-2'>
+                                        <Input ref={colorPriceIncreaseRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Color's Price Increase" />
                                     </span>
                                     <span className='col-span-1'>
                                         <Button
