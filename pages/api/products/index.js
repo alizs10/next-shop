@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 import { MongoClient } from 'mongodb'
+import { connectDatabase, getDocuments } from '../../../util/database-util'
 
 export function getProductsData() {
     let databaseFilePath = path.join(process.cwd(), 'database', 'data.json')
@@ -12,16 +13,14 @@ export function getProductsData() {
 }
 
 
+
 async function handler(req, res) {
 
-    //connect to database
-    const client = await MongoClient.connect('mongodb://localhost:27017/nikes_shoes_shop');
-    const db = client.db()
+    let client = await connectDatabase('nikes_shoes_shop')
 
     if (req.method === "GET") {
 
-        const documents = await db.collection('products').find().sort({ _id: -1 }).toArray()
-
+        let documents = getDocuments(client,'products')
         res.status(200).json({ products: documents })
     }
 

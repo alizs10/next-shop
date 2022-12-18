@@ -5,7 +5,8 @@ import Products from '../../components/Products'
 import FilterProvider from '../../components/Providers/FilterProvider'
 import ProductsProvider from '../../components/Providers/ProductsProvider'
 import ConnectionError from '../../components/ui/ConnectionError'
-import { getProductsData } from '../api/products'
+import { connectDatabase, getDocuments } from '../../util/database-util'
+
 
 function ProductsPage(props) {
   return (
@@ -31,10 +32,12 @@ function ProductsPage(props) {
 
 export async function getStaticProps() {
 
-  let data = getProductsData()
+  let client = await connectDatabase('nikes_shoes_shop')
+  let documents = await getDocuments(client, 'products')
+
   return {
     props: {
-      products: data,
+      products: JSON.parse(JSON.stringify(documents)),
       hasError: false
     }
   }
