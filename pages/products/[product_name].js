@@ -9,6 +9,7 @@ import { connectDatabase, findDocument } from '../../util/database-util'
 
 function ProductPage(props) {
 
+    const [displayedImg, setDesplayedImg] = useState(props.product.image)
     const [selectedColor, setSelectedColor] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
     const [finalPrice, setFinalPrice] = useState(calculateFinalPrice(props.product, 0, 0))
@@ -31,24 +32,37 @@ function ProductPage(props) {
     }
 
 
+    const handleDisplayImage = (src) => {
+        setDesplayedImg(src)
+    }
+
     return (
         <Master>
             <div className='mx-20 mt-20 grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
 
                 <div className='flex flex-col gap-2 col-span-1'>
 
-                    <div className='w-full overflow-hidden hover:scale-105 transition-all duration-300 aspect-square rounded-3xl shadow-lg'>
-                        <Image src={props.product.image} alt={props.product.name} width="600" height="600" />
+                    <div className='w-full object-center overflow-hidden hover:scale-105 transition-all duration-300 aspect-square rounded-3xl shadow-lg'>
+                        <Image src={displayedImg} alt={props.product.name} width="600" height="600" />
                     </div>
 
                     <div className='mt-8 grid grid-cols-5 gap-x-2 gap-y-4'>
-                        <div key={props.product._id + "-image"} className='relative col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
+                        <div
+                            onClick={handleDisplayImage.bind(null, props.product.image)}
+                            key={props.product._id + "-image"} className='relative col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
                             <Image src={props.product.image} width="200" height="200" />
-                            <SelectedItem />
+                            {displayedImg === props.product.image && (
+                                <SelectedItem />
+                            )}
                         </div>
                         {props.product.gallery.map((image, index) => (
-                            <div key={index} className='col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
+                            <div key={index}
+                                onClick={handleDisplayImage.bind(null, image.src)}
+                                className='col-span-1 relative aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
                                 <Image src={image.src} width="200" height="200" />
+                                {displayedImg === image.src && (
+                                    <SelectedItem />
+                                )}
                             </div>
                         ))}
 
@@ -70,7 +84,7 @@ function ProductPage(props) {
                                             style={{ backgroundColor: color.code }}
                                             className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                             {index == selectedColor && (
-                                                <SelectedItem/>
+                                                <SelectedItem />
                                             )}
                                         </div>
                                     </span>
