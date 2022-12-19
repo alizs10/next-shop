@@ -1,4 +1,4 @@
-import { Button, HStack, Input, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react'
+import { Button, HStack, Input, Tag, TagCloseButton, TagLabel, Textarea } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -15,6 +15,27 @@ function CreateProduct() {
     const soldNumberRef = useRef()
     const frozenNumberRef = useRef()
     const imageSrcRef = useRef()
+    const descriptionRef = useRef()
+
+
+    const [images, setImages] = useState([])
+
+    const galleryImageSrcRef = useRef()
+
+    const handleAddImage = () => {
+        let image = {};
+
+        if (galleryImageSrcRef.current.value === "" ||
+            galleryImageSrcRef.current.value.trim() === ""
+        ) return
+
+
+        image.src = galleryImageSrcRef.current.value
+        image.id = new Date().toISOString()
+        setImages(prevState => [...prevState, image])
+
+        galleryImageSrcRef.current.value = ""
+    }
 
 
     const [sizes, setSizes] = useState([])
@@ -83,6 +104,11 @@ function CreateProduct() {
         setSizes(filteredSizes)
     }
 
+    const handleDeleteImage = imageId => {
+        let filteredImages = images.filter(image => image.id !== imageId)
+        setImages(filteredImages)
+    }
+
     const toggleShowCreateProduct = () => {
         setShowCreateProduct(prevState => !prevState)
     }
@@ -99,8 +125,10 @@ function CreateProduct() {
         inputData.marketableNumber = marketableNumberRef.current.value
         inputData.soldNumber = soldNumberRef.current.value
         inputData.frozenNumber = frozenNumberRef.current.value
+        inputData.description = descriptionRef.current.value
         inputData.sizes = sizes
         inputData.colors = colors
+        inputData.gallery = images
 
 
         try {
@@ -161,6 +189,7 @@ function CreateProduct() {
     const clearFrom = () => {
         setSizes([])
         setColors([])
+        setImages([])
         nameRef.current.value = ""
         priceRef.current.value = ""
         imageSrcRef.current.value = ""
@@ -199,6 +228,49 @@ function CreateProduct() {
                             <div className='col-span-1 flex flex-col gap-y-2'>
                                 <label>Discount Percentage:</label>
                                 <Input ref={discountPercentageRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                            </div>
+                            <div className='col-span-1  md:col-span-2 flex flex-col gap-y-2'>
+                                <label>Description:</label>
+                                <Textarea ref={descriptionRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                            </div>
+                            <span className='mt-4 col-span-1 md:col-span-2'>Gallery</span>
+                            <div className='col-span-1 md:col-span-2 flex flex-col gap-y-2'>
+                                <div className='flex gap-2 flex-wrap'>
+                                    {images.map(image => (
+
+                                        <Tag
+                                            key={image.id}
+                                            borderRadius='full'
+                                            variant='solid'
+                                            colorScheme='green'
+                                            width='fit-content'
+                                            fontSize='lg'
+                                            padding='5px 10px'
+                                            boxShadow='lg'
+                                        >
+                                            <TagLabel>{image.src}</TagLabel>
+                                            <TagCloseButton onClick={() => handleDeleteImage(image.id)} />
+                                        </Tag>
+                                    ))}
+                                </div>
+
+                                <div className='mt-2 grid grid-cols-7 gap-x-2'>
+                                    
+                                    <span className='col-span-6'>
+                                        <Input ref={galleryImageSrcRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' _placeholder={{ color: 'gray.500' }} placeholder="Image Src" />
+                                    </span>
+                                    <span className='col-span-1'>
+                                        <Button
+                                            onClick={handleAddImage}
+                                            width='full'
+                                            bgColor='gray.600'
+                                            color='white'
+                                            _hover={{ bgColor: 'gray.700' }}
+                                        >
+                                            Add
+                                        </Button>
+                                    </span>
+                                </div>
                             </div>
                             <span className='mt-4 col-span-1 md:col-span-2'>Store</span>
                             <div className='col-span-1 flex flex-col gap-y-2'>

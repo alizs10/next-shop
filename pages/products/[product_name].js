@@ -1,9 +1,9 @@
-import { CheckIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Master from '../../components/Layouts/Master'
 import BagIcon from '../../components/ui/icons/BagIcon'
 import HeartIcon from '../../components/ui/icons/HeartIcon'
+import SelectedItem from '../../components/ui/SelectedItem'
 import { calculateFinalPrice } from '../../herlpers/product-helper'
 import { connectDatabase, findDocument } from '../../util/database-util'
 
@@ -41,22 +41,17 @@ function ProductPage(props) {
                         <Image src={props.product.image} alt={props.product.name} width="600" height="600" />
                     </div>
 
-                    <div className='mt-8 grid grid-cols-5 gap-2'>
-                        <div className='col-span-1 rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src='/products/p-1.webp' width="200" height="200" />
+                    <div className='mt-8 grid grid-cols-5 gap-x-2 gap-y-4'>
+                        <div key={props.product._id + "-image"} className='relative col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
+                            <Image src={props.product.image} width="200" height="200" />
+                            <SelectedItem />
                         </div>
-                        <div className='col-span-1 rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src='/products/p-1.webp' width="200" height="200" />
-                        </div>
-                        <div className='col-span-1 rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src='/products/p-1.webp' width="200" height="200" />
-                        </div>
-                        <div className='col-span-1 rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src='/products/p-1.webp' width="200" height="200" />
-                        </div>
-                        <div className='col-span-1 rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src='/products/p-1.webp' width="200" height="200" />
-                        </div>
+                        {props.product.gallery.map((image, index) => (
+                            <div key={index} className='col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
+                                <Image src={image.src} width="200" height="200" />
+                            </div>
+                        ))}
+
                     </div>
                 </div>
 
@@ -69,13 +64,13 @@ function ProductPage(props) {
                             <div className="flex flex-wrap gap-2">
                                 {props.product.colors.map((color, index) => (
                                     <span
-                                    onClick={handleSelectColor.bind(null, index)}
-                                    key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
+                                        onClick={handleSelectColor.bind(null, index)}
+                                        key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                         <div
                                             style={{ backgroundColor: color.code }}
-                                            className='flex justify-center items-center rounded-full w-full h-full'>
+                                            className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                             {index == selectedColor && (
-                                                <CheckIcon color="gray.200" />
+                                                <SelectedItem/>
                                             )}
                                         </div>
                                     </span>
@@ -91,9 +86,9 @@ function ProductPage(props) {
                             <span className="text-sm">Size:</span>
                             <div className='flex flex-wrap gap-2'>
                                 {props.product.sizes.map((size, index) => (
-                                    <span 
-                                    onClick={handleSelectSize.bind(null, index)}
-                                    key={index} className={`rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
+                                    <span
+                                        onClick={handleSelectSize.bind(null, index)}
+                                        key={index} className={`rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
                                         {size.size}
                                     </span>
                                 ))}
@@ -115,9 +110,7 @@ function ProductPage(props) {
                 <div className='col-span-1 p-3 flex flex-col gap-4'>
                     <h3 className='font-bold text-sm'>About Prodcut</h3>
                     <p className='leading-7 text-md text-justify'>
-                        Laboris nostrud occaecat quis laboris irure anim Lorem eu. Elit incididunt officia aliquip magna ut exercitation laborum dolor amet nulla cillum anim non. Ad ea tempor sit cupidatat sunt. Deserunt in elit voluptate esse.
-
-                        Lorem veniam quis eu Lorem voluptate ex pariatur veniam culpa do in do. Nulla nostrud occaecat incididunt et culpa qui commodo ipsum anim labore ad quis. Ea exercitation dolore incididunt non cupidatat ullamco.
+                        {props.product.description}
                     </p>
                     <div className='mt-auto flex flex-col gap-y-4'>
                         <button className='w-full rounded-3xl py-5 bg-gray-100 hover:bg-gray-200 transition-all duration-300 shadow-md text-gray-800 flex justify-center gap-x-4 items-center'>

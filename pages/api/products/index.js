@@ -18,7 +18,9 @@ async function handler(req, res) {
             data.marketableNumber === "" || data.marketableNumber.trim() === "" ||
             data.soldNumber === "" || data.soldNumber.trim() === "" ||
             data.frozenNumber === "" || data.frozenNumber.trim() === "" ||
+            data.description === "" || data.description.trim() === "" ||
             data.image === "" || data.image.trim() === "" ||
+            data.gallery.length == 0 ||
             data.colors.length == 0 ||
             data.sizes.length == 0
         ) {

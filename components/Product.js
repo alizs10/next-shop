@@ -38,7 +38,7 @@ function Product({ colStart, product }) {
 
                 <div className='absolute top-1 left-1/2 flex gap-1'>
                     {colors.map((color, index) => (
-                        <span key={color.id} style={{ backgroundColor: color.color_code, marginTop: `${index * 2}px` }} className="shadow-md w-2 h-2 rounded-full z-50"></span>
+                        <span key={color.id} style={{ backgroundColor: color.code, marginTop: `${index * 2}px` }} className="shadow-md w-2 h-2 rounded-full z-50"></span>
                     ))}
 
                 </div>
