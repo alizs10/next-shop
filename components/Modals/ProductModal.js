@@ -7,9 +7,9 @@ import SelectedItem from "../ui/SelectedItem";
 
 const ProductModal = ({ isOpen, onClose, product }) => {
 
-    const { finalPrice, selectedColor, selectedSize, handleUpdatePrice, handleSelectColor, handleSelectSize, handleInitialPrice } = useContext(ProductContext)
-
     const router = useRouter()
+
+    const { finalPrice, selectedColor, selectedSize, handleUpdatePrice, handleSelectColor, handleSelectSize, handleInitialPrice } = useContext(ProductContext)
 
     useEffect(() => {
         if(!product) return
