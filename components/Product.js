@@ -1,9 +1,10 @@
 import { useDisclosure } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ProductModal from './Modals/ProductModal'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import ProductProvider from './Providers/ProductProvider'
 
 function Product({ colStart, product }) {
 
@@ -66,7 +67,11 @@ function Product({ colStart, product }) {
                         </button>
                     </>
                 )}
-                {isOpen && (<ProductModal isOpen={isOpen} onClose={onClose} product={product} />)}
+                {isOpen && (
+                    <ProductProvider>
+                        <ProductModal isOpen={isOpen} onClose={onClose} product={product} />
+                    </ProductProvider>
+                )}
             </motion.div>
         </AnimatePresence>
     )

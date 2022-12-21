@@ -18,7 +18,7 @@ function Landing() {
             <div className='col-span-1 flex justify-center items-center flex-col gap-y-4'>
                 <h1 className='text-7xl font-bold'>JUST DO IT</h1>
                 <Link href="/products">
-                    <button className='rounded-full bg-orange-200 text-lg px-5 py-3 hover:scale-125 transition-all duration-300'>Explore now</button>
+                    <button className='rounded-full bg-orange-200 text-lg px-5 py-3 hover:px-8 transition-all duration-300'>Explore now</button>
                 </Link>
             </div>
 
