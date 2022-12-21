@@ -1,4 +1,4 @@
-import { Link } from '@chakra-ui/react'
+import Link from 'next/link'
 import React from 'react'
 
 function Navbar() {
@@ -6,7 +6,7 @@ function Navbar() {
         <ul className='col-span-7 flex justify-center items-center gap-8 text-base'>
             <li className='underline underline-offset-4 cursor-pointer'>
                 <Link href="/">
-                    Home
+                        Home
                 </Link>
             </li>
             <li className='underline underline-offset-4 cursor-pointer'>
