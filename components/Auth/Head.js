@@ -3,6 +3,7 @@ import { Badge, Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
+import BagIcon from '../../components/ui/icons/BagIcon'
 
 function Head() {
 
@@ -40,9 +41,9 @@ function Head() {
                     <Popover>
                         <PopoverTrigger>
                             <Button colorScheme='gray' variant='link'>
-                                <img className='w-7 h-7' src='/assets/icons/cart.svg' />
+                                <span className='text-gray-800'><BagIcon /></span>
                                 <div className='absolute -bottom-4 -right-1'>
-                                    <Badge>1</Badge>
+                                    <Badge borderRadius="md" paddingX="1.5" paddingY="0.5">1</Badge>
                                 </div>
                             </Button>
                         </PopoverTrigger>
@@ -88,11 +89,11 @@ function Head() {
                     <span>|</span>
                     {router.pathname === "/auth/login" ? (
                         <Link href="/auth/register">
-                            <span className='text-lg font-light'>Register</span>
+                            <span className='text-xl font-light'>Register</span>
                         </Link>
                     ) : (
                         <Link href="/auth/login">
-                            <span className='text-lg font-light'>Login</span>
+                            <span className='text-xl font-light'>Login</span>
                         </Link>
                     )}
                 </div>
