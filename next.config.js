@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
+
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+
+module.exports = (phase) => {
+
+  return {
+    /* config options for all phases except development here */
+    env: {
+      DB_NAME: 'nikes_shoes_shop',
+      DB_USERNAME: 'alizs10',
+      DB_PASSWORD: 'sharrr77a',
+    },
+    reactStrictMode: true,
+  }
 }

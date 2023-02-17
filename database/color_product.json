@@ -1,0 +1,22 @@
+{
+    "color_product": [
+        {
+            "colorId": {
+                "$oid": "63ee5d05035689d832255673"
+            },
+            "productId": {
+                "$oid": "63ee5453035689d832255637"
+            },
+            "price_increase": 0
+        },
+        {
+            "colorId": {
+                "$oid": "63ee5d05035689d832255674"
+            },
+            "productId": {
+                "$oid": "63ee5453035689d832255637"
+            },
+            "price_increase": 0
+        }
+    ]
+}

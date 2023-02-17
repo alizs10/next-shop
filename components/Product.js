@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import ProductModal from './Modals/ProductModal'
 
 import { AnimatePresence, motion } from 'framer-motion'
@@ -62,7 +62,7 @@ function Product({ colStart, product }) {
                         </div>
                         <button onClick={e => {
                             e.stopPropagation()
-                        }} className='absolute text-center p-2 text-xs bottom-0 left-0 right-0 bg-green-200 z-20'>
+                        }} className='absolute w-full text-center p-2 text-xs bottom-0 left-0 right-0 bg-green-200 z-20'>
                             BUY NOW!
                         </button>
                     </>

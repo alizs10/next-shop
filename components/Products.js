@@ -14,14 +14,15 @@ function Products(props) {
   const { onScreenItems, loading } = useContext(ProductsContext)
 
   const onSearch = (searchedValue) => {
+
     if (!searchedValue) return
+
     let url = `/search/${searchedValue}`
     router.push(url)
   }
 
-  if(loading) return
+  if (loading) return
 
-  console.log(props.onScreenItems);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ProductContext from "../../context/ProductContext"
-import { calculateFinalPrice } from "../../herlpers/product-helper"
+import { calculateFinalPrice } from "../../helpers/product-helper"
 
 function ProductProvider(props) {
 

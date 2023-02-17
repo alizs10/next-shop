@@ -1,6 +1,6 @@
 export const paginateProducts = (products, pageNumber, count) => {
     let productsIns = [...products]
-    let sortedProducts = productsIns.sort((a,b) => a.id - b.id)
+    let sortedProducts = productsIns.sort((a, b) => a.id - b.id)
     let startIndex = (pageNumber - 1) * count;
     let endIndex = startIndex + count;
     let paginatedProducts = sortedProducts.slice(startIndex, endIndex)
@@ -25,7 +25,7 @@ export const sliceProducts = (products, breakIndex) => {
 export const searchThroughProducts = (searchedValue, products) => {
 
     let productsIns = [...products]
-    let filterdProducts = productsIns.filter(product => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
+    let filteredProducts = productsIns.filter(product => product.name.toLowerCase().includes(searchedValue.toLowerCase()))
 
-    return filterdProducts
+    return filteredProducts
 }

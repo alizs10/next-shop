@@ -1,0 +1,13 @@
+{
+    "product_size": [
+        {
+            "productId": {
+                "$oid": "63ee5453035689d832255637"
+            },
+            "sizeId": {
+                "$oid": "63ee591f035689d83225564b"
+            },
+            "price_increase": 0
+        }
+    ]
+}

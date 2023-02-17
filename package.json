@@ -12,6 +12,7 @@
     "@emotion/styled": "^11.10.5",
     "framer-motion": "^7.6.12",
     "mongodb": "^4.12.1",
+    "mongoose": "^6.9.2",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -4,12 +4,10 @@ import FilterContext from '../../context/FilterContext'
 
 function PriceRangeItem({ isExpanded, priceLimit }) {
 
-    const { handlePriceRangeChange, priceRangeValue,priceRangeEffect, setPriceRangeEffect } = useContext(FilterContext)
+    const { handlePriceRangeChange, priceRangeValue, priceRangeEffect, setPriceRangeEffect } = useContext(FilterContext)
 
     useEffect(() => {
-        if(isExpanded !== undefined)
-        {
-            console.log(isExpanded);
+        if (isExpanded !== undefined) {
             setPriceRangeEffect(isExpanded)
         }
     }, [isExpanded])

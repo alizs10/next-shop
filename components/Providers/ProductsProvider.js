@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import ProductsContext from '../../context/ProductsContext'
-import { paginateProducts, sliceProducts } from '../../herlpers/products-helper'
+import { paginateProducts, sliceProducts } from '../../helpers/products-helper'
 
 function ProductsProvider(props) {
 
@@ -13,10 +13,11 @@ function ProductsProvider(props) {
     const [pageNum, setPageNum] = useState(1)
 
     const router = useRouter()
+    const { search } = router.query;
 
     useEffect(() => {
         setItems(props.items)
-    }, [])
+    }, [search])
 
     useEffect(() => {
         setItems(props.items)
@@ -31,7 +32,7 @@ function ProductsProvider(props) {
     const setItems = items => {
         const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 9)
         const slicedProducts = sliceProducts(paginatedProducts, 4)
-        
+
         setOnScreenItems(slicedProducts)
         setPages(pages)
         setAllProducts(allProducts)

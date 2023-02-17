@@ -32,8 +32,10 @@ function ProductsPage(props) {
 
 export async function getStaticProps() {
 
-  let client = await connectDatabase('nikes_shoes_shop')
+  let client = await connectDatabase(process.env.DB_NAME)
   let documents = await getDocuments(client, 'products')
+
+  client.close()
 
   return {
     props: {

@@ -12,12 +12,12 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     const { finalPrice, selectedColor, selectedSize, handleUpdatePrice, handleSelectColor, handleSelectSize, handleInitialPrice } = useContext(ProductContext)
 
     useEffect(() => {
-        if(!product) return
+        if (!product) return
         handleInitialPrice(product)
     }, [])
 
     useEffect(() => {
-        if(!product) return
+        if (!product) return
         handleUpdatePrice(product)
     }, [selectedColor, selectedSize])
 
@@ -66,7 +66,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                         <span className="text-sm">Size:</span>
                         <Select
                             onChange={e => handleSelectSize(e.target.value)}
-                            >
+                        >
                             {product.sizes.map((size, index) => (
                                 <option value={index}>{size.size}</option>
                             ))}

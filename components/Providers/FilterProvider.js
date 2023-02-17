@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import FilterContext from '../../context/FilterContext'
 import ProductsContext from '../../context/ProductsContext'
-import { filterProducts, getCheckedColors, getCheckedSizes } from '../../herlpers/filter-helper'
+import { filterProducts, getCheckedColors, getCheckedSizes } from '../../helpers/filter-helper'
 
 function FilterProvider(props) {
 
@@ -78,8 +78,7 @@ function FilterProvider(props) {
             let checkedColors = getCheckedColors(colors)
 
             filtersSchema = {}
-            if(priceRangeEffect)
-            {
+            if (priceRangeEffect) {
                 filtersSchema.priceRange = priceRangeValue;
             } else {
                 filtersSchema.priceRange = null;
