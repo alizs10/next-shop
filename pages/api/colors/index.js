@@ -10,6 +10,18 @@ async function handler(req, res) {
         res.status(200).json({ message: "colors loaded successfully", colors })
     }
 
+    if (req.method === "POST") {
+
+        let formData = req.body;
+
+        console.log(formData);
+        // insert new colors
+        const newColor = await Color.create(formData)
+        console.log(newColor);
+
+        res.status(201).json({ message: "new color created successfully", color: newColor })
+    }
+
     closeConnection()
 }
 

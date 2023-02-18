@@ -1,5 +1,5 @@
 import { RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
-import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -100,7 +100,9 @@ function Colors() {
                         <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
                             {colors.map(color => (
                                 <div key={color._id} className='p-3 bg-white text-gray-800 flex items-center gap-x-2 rounded-xl'>
-                                    <div className='border-2 border-black h-[2rem] aspect-square rounded-full' style={{ backgroundColor: color.color_code }}></div>
+                                    <div className='border-2 border-black p-[2px] rounded-full'>
+                                        <div className='h-[2rem] aspect-square rounded-full' style={{ backgroundColor: '#' + color.color_code }}></div>
+                                    </div>
                                     <span>{color.color_name}</span>
                                 </div>
                             ))}
