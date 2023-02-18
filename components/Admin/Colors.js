@@ -1,4 +1,4 @@
-import { RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
+import { DeleteIcon, RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
 import { Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -48,20 +48,20 @@ function Colors() {
 
     }
 
-    const handleDeleteProduct = async docId => {
+    const handleDeleteColor = async id => {
 
-        let response = await fetch('/api/colors', {
-            method: "DELETE",
-            body: JSON.stringify({ id: docId }),
-            headers: {
-                ContentType: "application/json"
-            }
+        let response = await fetch(`/api/colors/${id}`, {
+            method: "DELETE"
         })
 
         if (response.status === 200) {
             toast.success("Product Deleted Successfully")
-            fetchColors()
+            handleRemoveColor(id)
         }
+    }
+
+    const handleRemoveColor = id => {
+        setColors(prevState => prevState.filter(color => color._id !== id))
     }
 
     return (
@@ -99,11 +99,19 @@ function Colors() {
                     {!loading && colors.length > 0 && (
                         <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
                             {colors.map(color => (
-                                <div key={color._id} className='p-3 bg-white text-gray-800 flex items-center gap-x-2 rounded-xl'>
-                                    <div className='border-2 border-black p-[2px] rounded-full'>
-                                        <div className='h-[2rem] aspect-square rounded-full' style={{ backgroundColor: '#' + color.color_code }}></div>
+                                <div key={color._id} className='p-3 bg-white text-gray-800 flex justify-between items-center gap-x-2 rounded-xl'>
+                                    <div className='flex items-center gap-x-2'>
+                                        <div className='border-2 border-black p-[2px] rounded-full'>
+                                            <div className='h-[2rem] aspect-square rounded-full' style={{ backgroundColor: '#' + color.color_code }}></div>
+                                        </div>
+                                        <span>{color.color_name}</span>
+
                                     </div>
-                                    <span>{color.color_name}</span>
+
+                                    <button onClick={() => handleDeleteColor(color._id)} className='flex justify-center items-center p-3 aspect-square rounded-full transition-all duration-300 hover:bg-gray-200'>
+                                        <DeleteIcon color="red.400" />
+                                    </button>
+
                                 </div>
                             ))}
                         </div>
