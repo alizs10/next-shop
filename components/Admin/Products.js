@@ -9,7 +9,7 @@ function Products() {
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState([])
 
-    const toggleShowProudcts = () => {
+    const toggleShowProducts = () => {
         setShowProducts(prevState => !prevState)
     }
 
@@ -24,41 +24,47 @@ function Products() {
         setLoading(true)
         const toastLoadingId = toast.loading("fetching products ...")
 
-        let res = await fetch('/api/products')
+
+        try {
+
+            let res = await fetch('/api/products')
 
 
-        if (res.status === 200) {
-            toast.update(toastLoadingId, {
-                render: "porudcts loaded successfully", type: "success", isLoading: false, autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-            })
-            let data = await res.json()
-            setProducts(data.products)
-            setLoading(false)
-            console.log(data);
-        } else {
-            toast.update(toastLoadingId, {
-                render: "error while loading data", type: "error", isLoading: false, autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-            })
+            if (res.status === 200) {
+                toast.update(toastLoadingId, {
+                    render: "porudcts loaded successfully", type: "success", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+                let data = await res.json()
+                setProducts(data.products)
+                setLoading(false)
+                console.log(data);
+            } else {
+                toast.update(toastLoadingId, {
+                    render: "error while loading data", type: "error", isLoading: false, autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+            }
+
+
+        } catch (error) {
+            console.log(error.message);
         }
-
-
     }
 
     const handleDeleteProduct = async docId => {
 
         let response = await fetch('/api/products', {
             method: "DELETE",
-            body: JSON.stringify({id: docId}),
+            body: JSON.stringify({ id: docId }),
             headers: {
                 ContentType: "application/json"
             }
         })
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             toast.success("Product Deleted Successfully")
             fetchProducts()
         }
@@ -67,7 +73,7 @@ function Products() {
     return (
         <section className='mt-4 flex flex-col justify-center gap-y-4'>
             <Button
-                onClick={toggleShowProudcts}
+                onClick={toggleShowProducts}
                 width="fit-content"
                 margin="auto"
                 bgColor='orange.200' variant='solid'>
@@ -118,8 +124,8 @@ function Products() {
                                     <CardFooter>
                                         <ButtonGroup spacing='2'>
                                             <Button
-                                            onClick={handleDeleteProduct.bind(null, product._id)}
-                                            variant='solid' colorScheme='red'>
+                                                onClick={handleDeleteProduct.bind(null, product._id)}
+                                                variant='solid' colorScheme='red'>
                                                 Delete
                                             </Button>
                                             <Button variant='solid' colorScheme='yellow'>

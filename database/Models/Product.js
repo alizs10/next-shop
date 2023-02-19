@@ -13,6 +13,14 @@ const ProductSchema = new Schema({
         maxLength: 255,
         required: true
     },
+    gallery: {
+        type: [String],
+        required: true
+    },
+    status: {
+        type: Boolean,
+        required: true
+    },
     discount_percentage: {
         type: Number,
         min: 0,
