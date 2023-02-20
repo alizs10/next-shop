@@ -5,7 +5,8 @@ import Products from '../../components/Products'
 import FilterProvider from '../../components/Providers/FilterProvider'
 import ProductsProvider from '../../components/Providers/ProductsProvider'
 import ConnectionError from '../../components/ui/ConnectionError'
-import { connectDatabase, getDocuments } from '../../util/database-util'
+import Product from '../../database/Models/Product'
+import { closeConnection, connectDatabase, getDocuments } from '../../util/database-util'
 
 
 function ProductsPage(props) {
@@ -32,14 +33,15 @@ function ProductsPage(props) {
 
 export async function getStaticProps() {
 
-  let client = await connectDatabase(process.env.DB_NAME)
-  let documents = await getDocuments(client, 'products')
+  await connectDatabase(process.env.DB_NAME)
+  let products = await Product.find().populate('colors').populate('sizes').exec()
 
-  client.close()
+  console.log(products);
+  closeConnection()
 
   return {
     props: {
-      products: JSON.parse(JSON.stringify(documents)),
+      products: JSON.parse(JSON.stringify(products)),
       hasError: false
     }
   }

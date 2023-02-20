@@ -10,19 +10,19 @@ function Product(props) {
     const { finalPrice, selectedColor, selectedSize, handleUpdatePrice, handleSelectColor, handleSelectSize, handleInitialPrice } = useContext(ProductContext)
 
     useEffect(() => {
-        if(!props.product) return
+        if (!props.product) return
         handleInitialPrice(props.product)
     }, [])
 
     useEffect(() => {
-        if(!props.product) return
+        if (!props.product) return
         handleUpdatePrice(props.product)
     }, [selectedColor, selectedSize])
 
-    const [displayedImg, setDesplayedImg] = useState(props.product.image)
+    const [displayedImg, setDisplayedImg] = useState(props.product.image)
 
     const handleDisplayImage = (src) => {
-        setDesplayedImg(src)
+        setDisplayedImg(src)
     }
 
 
@@ -46,10 +46,10 @@ function Product(props) {
                     </div>
                     {props.product.gallery.map((image, index) => (
                         <div key={index}
-                            onClick={handleDisplayImage.bind(null, image.src)}
+                            onClick={handleDisplayImage.bind(null, image)}
                             className='col-span-1 relative aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src={image.src} width="200" height="200" />
-                            {displayedImg === image.src && (
+                            <Image src={image} width="200" height="200" />
+                            {displayedImg === image && (
                                 <SelectedItem />
                             )}
                         </div>
@@ -70,7 +70,7 @@ function Product(props) {
                                     onClick={handleSelectColor.bind(null, index)}
                                     key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                     <div
-                                        style={{ backgroundColor: color.code }}
+                                        style={{ backgroundColor: "#" + color.color_code }}
                                         className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                         {index == selectedColor && (
                                             <SelectedItem />
@@ -87,11 +87,11 @@ function Product(props) {
                 {props.product.sizes.length > 0 && (
                     <div className='flex flex-col gap-y-2'>
                         <span className="text-sm">Size:</span>
-                        <div className='flex flex-wrap gap-2'>
+                        <div className='grid grid-cols-5 gap-2'>
                             {props.product.sizes.map((size, index) => (
                                 <span
                                     onClick={handleSelectSize.bind(null, index)}
-                                    key={index} className={`rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
+                                    key={index} className={`col-span-1 text-center rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
                                     {size.size}
                                 </span>
                             ))}
@@ -111,7 +111,7 @@ function Product(props) {
             </div>
 
             <div className='col-span-1 p-3 flex flex-col gap-4'>
-                <h3 className='font-bold text-sm'>About Prodcut</h3>
+                <h3 className='font-bold text-sm'>About Product</h3>
                 <p className='leading-7 text-md text-justify'>
                     {props.product.description}
                 </p>

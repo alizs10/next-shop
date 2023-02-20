@@ -1,8 +1,9 @@
 import React from 'react'
 import Master from '../../components/Layouts/Master'
-import Product from '../../components/ProductPage/Product'
+import Product from '../../components/ProductPage/Product';
 import ProductProvider from '../../components/Providers/ProductProvider'
-import { connectDatabase, findDocument } from '../../util/database-util'
+import ProductModel from '../../database/Models/Product';
+import { closeConnection, connectDatabase } from '../../util/database-util'
 
 function ProductPage(props) {
 
@@ -15,16 +16,17 @@ function ProductPage(props) {
     )
 }
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps({ query }) {
 
-    let productName = ctx.query.product_name
-    let client = await connectDatabase('nikes_shoes_shop')
-    let document = await findDocument(client, 'products', { "name": productName })
-    let data = await JSON.parse(JSON.stringify(document))
+    let { product_name } = query;
+
+    await connectDatabase(process.env.DB_NAME)
+    let product = await ProductModel.findOne({ name: product_name }).populate('sizes').populate('colors').exec()
+    closeConnection()
 
     return {
         props: {
-            product: data
+            product: JSON.parse(JSON.stringify(product))
         }
     }
 

@@ -49,7 +49,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                                             onClick={handleSelectColor.bind(null, index)}
                                             key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                             <div
-                                                style={{ backgroundColor: color.code }}
+                                                style={{ backgroundColor: "#" + color.color_code }}
                                                 className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                                 {index == selectedColor && (
                                                     <SelectedItem />
