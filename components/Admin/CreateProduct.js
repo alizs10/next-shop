@@ -214,10 +214,6 @@ function CreateProduct() {
         descriptionRef.current.value = ""
     }
 
-
-
-    if (loading) return
-
     return (
         <section className='flex flex-col justify-center gap-y-4'>
             <Button
@@ -227,7 +223,8 @@ function CreateProduct() {
                 bgColor='orange.200' variant='solid'>
                 {showCreateProduct ? 'Hide ' : ''}Add New Product
             </Button>
-            {showCreateProduct && (
+            {loading && (<span>loading</span>)}
+            {(showCreateProduct && !loading) && (
                 <div className='mx-auto rounded-md p-3 bg-orange-200 shadow-3xl w-3/4 lg:w-2/3'>
                     <span className='font-bold text-lg'>Create New Product</span>
 

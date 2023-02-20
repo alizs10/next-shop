@@ -19,15 +19,6 @@ async function handler(req, res) {
         res.status(201).json({ product: newProduct, message: "product created successfully" })
     }
 
-    // if (req.method === "DELETE") {
-    //     let data = JSON.parse(req.body);
-    //     let docId = data.id
-
-    //     let result = await deleteDocument(client, 'products', docId)
-
-    //     res.status(200).json({ result, message: "product deleted successfully" })
-    // }
-
     closeConnection()
 }
 

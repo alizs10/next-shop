@@ -55,20 +55,21 @@ function Products() {
         }
     }
 
-    const handleDeleteProduct = async docId => {
+    const handleDeleteProduct = async pid => {
 
-        let response = await fetch('/api/products', {
-            method: "DELETE",
-            body: JSON.stringify({ id: docId }),
-            headers: {
-                ContentType: "application/json"
-            }
+        console.log("here");
+        let response = await fetch(`/api/products/${pid}`, {
+            method: "DELETE"
         })
 
         if (response.status === 200) {
             toast.success("Product Deleted Successfully")
-            fetchProducts()
+            handleRemoveProduct(pid)
         }
+    }
+
+    function handleRemoveProduct(pid) {
+        setProducts(prevState => products.filter(product => product._id !== pid))
     }
 
     // modal
@@ -138,7 +139,7 @@ function Products() {
                                     <CardFooter>
                                         <ButtonGroup spacing='2'>
                                             <Button
-                                                onClick={handleDeleteProduct.bind(null, product._id)}
+                                                onClick={() => handleDeleteProduct(product._id)}
                                                 variant='solid' colorScheme='red'>
                                                 Delete
                                             </Button>
