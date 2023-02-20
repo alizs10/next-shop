@@ -87,11 +87,11 @@ function Product(props) {
                 {props.product.sizes.length > 0 && (
                     <div className='flex flex-col gap-y-2'>
                         <span className="text-sm">Size:</span>
-                        <div className='grid grid-cols-5 gap-2'>
+                        <div className='grid grid-cols-5 gap-4'>
                             {props.product.sizes.map((size, index) => (
                                 <span
                                     onClick={handleSelectSize.bind(null, index)}
-                                    key={index} className={`col-span-1 text-center rounded-xl px-5 py-2 bg-gray-100 border-[3px] cursor-pointer ${index == selectedSize ? "border-gray-400" : "border-white hover:border-gray-400"} transition-all duration-300`}>
+                                    key={index} className={`col-span-1 text-center rounded-xl px-5 py-2 cursor-pointer shadow-sm ${index == selectedSize ? "bg-emerald-300" : "bg-gray-100"} transition-all duration-300`}>
                                     {size.size}
                                 </span>
                             ))}
@@ -116,7 +116,7 @@ function Product(props) {
                     {props.product.description}
                 </p>
                 <div className='mt-auto flex flex-col gap-y-4'>
-                    <button className='w-full rounded-3xl py-5 bg-gray-100 hover:bg-gray-200 transition-all duration-300 shadow-md text-gray-800 flex justify-center gap-x-4 items-center'>
+                    <button className='w-full rounded-3xl py-5 bg-gray-100 hover:bg-red-100 transition-all duration-300 shadow-md text-gray-800 flex justify-center gap-x-4 items-center'>
                         <span><HeartIcon /></span>
                         <span className='text-lg'>ADD TO FAVORITE</span>
                     </button>
