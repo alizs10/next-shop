@@ -21,6 +21,11 @@ const ProductSchema = new Schema({
         type: Boolean,
         required: true
     },
+    description: {
+        type: String,
+        maxLength: 700,
+        required: true
+    },
     discount_percentage: {
         type: Number,
         min: 0,
@@ -47,8 +52,8 @@ const ProductSchema = new Schema({
         min: 0,
         required: true
     },
-    colors: [mongoose.SchemaTypes.ObjectId],
-    sizes: [mongoose.SchemaTypes.ObjectId],
+    colors: [{ type: Schema.Types.ObjectId, ref: 'Color' }],
+    sizes: [{ type: Schema.Types.ObjectId, ref: 'Size' }],
     createdAt: {
         type: Date,
         default: () => Date.now(),

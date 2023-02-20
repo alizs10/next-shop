@@ -7,16 +7,13 @@ async function handler(req, res) {
 
     if (req.method === "GET") {
 
-        const products = await Product.find()
-        console.log(products);
+        const products = await Product.find().populate('colors').populate('sizes').exec()
         res.status(200).json({ products })
     }
 
     if (req.method === "POST") {
 
         let formData = req.body;
-
-        console.log(formData);
         let newProduct = await Product.create(formData)
 
         res.status(201).json({ product: newProduct, message: "product created successfully" })

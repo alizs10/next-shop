@@ -144,6 +144,7 @@ function CreateProduct() {
         inputData.gallery = images.map(image => image.src)
         inputData.status = status
 
+
         try {
             setIsFormDisable(true)
             const toastLoadingId = toast.loading("creating product ...")
@@ -210,6 +211,7 @@ function CreateProduct() {
         marketableNumberRef.current.value = ""
         soldNumberRef.current.value = ""
         frozenNumberRef.current.value = ""
+        descriptionRef.current.value = ""
     }
 
 

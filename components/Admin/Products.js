@@ -1,7 +1,8 @@
 import { RepeatIcon, SpinnerIcon } from '@chakra-ui/icons'
-import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text } from '@chakra-ui/react'
+import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, Stack, Text, useDisclosure } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import ViewProductModal from './ViewProductModal'
 
 function Products() {
 
@@ -70,6 +71,19 @@ function Products() {
         }
     }
 
+    // modal
+    const [viewProduct, setViewProduct] = useState({})
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    function handleViewProduct(product) {
+        setViewProduct(product)
+        onOpen()
+    }
+    function handleCloseViewProduct() {
+        setViewProduct({})
+        onClose()
+    }
+
     return (
         <section className='mt-4 flex flex-col justify-center gap-y-4'>
             <Button
@@ -103,7 +117,7 @@ function Products() {
                     )}
 
                     {!loading && products.length > 0 && (
-                        <div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
+                        <div className='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
                             {products.map(product => (
                                 <Card key={product._id} maxW='sm' bgColor="whiteAlpha.800">
                                     <CardBody>
@@ -131,6 +145,9 @@ function Products() {
                                             <Button variant='solid' colorScheme='yellow'>
                                                 Edit
                                             </Button>
+                                            <Button onClick={() => handleViewProduct(product)} variant='solid' colorScheme='teal'>
+                                                View
+                                            </Button>
                                         </ButtonGroup>
                                     </CardFooter>
                                 </Card>
@@ -139,6 +156,7 @@ function Products() {
                     )}
                 </div>
             )}
+            {isOpen && (<ViewProductModal isOpen={isOpen} onOpen={handleViewProduct} onClose={handleCloseViewProduct} product={viewProduct} />)}
         </section>
     )
 }
