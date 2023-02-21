@@ -5,6 +5,8 @@ import ProductModal from './Modals/ProductModal'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import ProductProvider from './Providers/ProductProvider'
+import BagIcon from './ui/icons/BagIcon'
+import ShoppingCartIcon from './ui/icons/ShoppingCartIcon'
 
 function Product({ colStart, product }) {
 
@@ -28,33 +30,44 @@ function Product({ colStart, product }) {
                 }}
                 onMouseOver={() => setShowDetails(true)}
                 onMouseLeave={() => setShowDetails(false)}
-                className={`${colStart ? `col-start-${colStart}` : ''} col-span-1 rounded-full overflow-hidden
-            bg-white cursor-pointer hover:scale-125 transition-all duration-300 shadow-md relative
+                className={`${colStart ? `col-start-${colStart}` : ''} col-span-1 rounded-3xl overflow-hidden
+            bg-white cursor-pointer hover:scale-125 transition-all duration-300 relative
             hover:z-20
             `}>
 
-                <div className='rounded-full'>
+                <div className=''>
                     <Image src={product.image} alt={product.name} priority={true} width={400} height={400} />
                 </div>
 
-                <div className='absolute top-1 left-1/2 flex gap-1'>
-                    {colors.map((color, index) => (
-                        <span key={color.id} style={{ backgroundColor: color.code, marginTop: `${index * 2}px` }} className="shadow-md w-2 h-2 rounded-full z-50"></span>
+                <div className='absolute top-4 left-2 flex flex-col gap-2'>
+                    {colors.map((color) => (
+                        <div className='w-6 p-[2px] aspect-square rounded-full border-[2px] border-gray-600'>
+                            <div key={color._id} style={{ backgroundColor: "#" + color.color_code }} className="w-full h-full rounded-full z-50"></div>
+                        </div>
                     ))}
 
                 </div>
 
-                {product.discount_percentage > 0 && (
-                    <div className='absolute top-[5%] pt-5 -left-[20%] w-[75%] z-30 text-center py-1 -rotate-45
-                bg-red-300 text-gray-800 text-xs font-bold'>{product.discount_percentage} %</div>
-                )}
+                {product.discount_percentage > 0 && <span className='absolute aspect-square flex justify-center items-center top-4 right-2 text-xs p-1 bg-red-200 rounded-full text-gray-800'>{product.discount_percentage}%</span>}
 
-                <div className='absolute w-full bottom-0 z-10 text-center py-1
-            bg-gray-200 text-gray-800 text-sm'>{product.price} $</div>
+                <div className='absolute w-full bottom-0 h-20 z-10 text-center flex items-center rounded-3xl border-2 border-gray-200 bg-gray-100 text-gray-800 text-sm'>
+                    <div className='w-80 px-5 flex flex-col gap-y-1'>
+                        <h2 className=' text-left text-lg'>{product.name}</h2>
+                        <span className='flex flex-nowrap gap-x-2'>
+                            <span className={`text-left text-md ${product.discount_percentage > 0 && 'line-through'}`}>{product.price} $</span>
+                            {product.discount_percentage > 0 && <span>{product.price - (product.price * (product.discount_percentage / 100))} $</span>}
+                        </span>
+                    </div>
+                    <span className='w-20 flex justify-center items-center'>
+                        <span className='rounded-xl p-3 bg-orange-200 hover:bg-orange-300 transition-all duration-300'>
+                            <ShoppingCartIcon />
+                        </span>
+                    </span>
+                </div>
 
-                {showDetails && (
+                {/* {showDetails && (
                     <>
-                        <div className='absolute top-0 left-0 w-full h-full rounded-full bg-white/40 flex justify-center items-center'>
+                        <div className='absolute top-0 left-0 w-full h-full  bg-white/40 flex justify-center items-center'>
 
                             <span className='text-center p-2 text-[13px]'>
                                 {product.name}
@@ -66,7 +79,7 @@ function Product({ colStart, product }) {
                             BUY NOW!
                         </button>
                     </>
-                )}
+                )} */}
                 {isOpen && (
                     <ProductProvider>
                         <ProductModal isOpen={isOpen} onClose={onClose} product={product} />

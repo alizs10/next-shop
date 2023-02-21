@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Color from "./Color";
+import Size from "./Size";
 
 const Schema = mongoose.Schema;
 
@@ -52,8 +54,8 @@ const ProductSchema = new Schema({
         min: 0,
         required: true
     },
-    colors: [{ type: Schema.Types.ObjectId, ref: 'Color' }],
-    sizes: [{ type: Schema.Types.ObjectId, ref: 'Size' }],
+    colors: [{ type: Schema.Types.ObjectId, ref: Color }],
+    sizes: [{ type: Schema.Types.ObjectId, ref: Size }],
     createdAt: {
         type: Date,
         default: () => Date.now(),
