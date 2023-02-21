@@ -7,10 +7,11 @@ function ProductsProvider(props) {
 
     const [isFilterActive, setIsFilterActive] = useState(false)
     const [loading, setIsLoading] = useState(true)
-    const [onScreenItems, setOnScreenItems] = useState([[], []])
+
     const [pages, setPages] = useState(1)
     const [allProducts, setAllProducts] = useState(0)
     const [pageNum, setPageNum] = useState(1)
+    const [pageProducts, setPageProducts] = useState([])
 
     const router = useRouter()
     const { search } = router.query;
@@ -31,9 +32,8 @@ function ProductsProvider(props) {
 
     const setItems = items => {
         const { paginatedProducts, pages, allProducts } = paginateProducts(items, pageNum, 9)
-        const slicedProducts = sliceProducts(paginatedProducts, 4)
 
-        setOnScreenItems(slicedProducts)
+        setPageProducts(paginatedProducts)
         setPages(pages)
         setAllProducts(allProducts)
         setIsLoading(false)
@@ -43,7 +43,7 @@ function ProductsProvider(props) {
     return (
         <ProductsContext.Provider value={{
             isFilterActive, setIsFilterActive,
-            onScreenItems, setOnScreenItems,
+            pageProducts, setPageProducts,
             allProducts, setAllProducts,
             pages, setPages,
             pageNum, setPageNum,

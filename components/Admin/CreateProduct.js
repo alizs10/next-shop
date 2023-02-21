@@ -63,8 +63,10 @@ function CreateProduct() {
     }
 
     useEffect(() => {
+        if ((showCreateProduct && colors.length > 0 && sizes.length > 0) || !showCreateProduct) return
+
         fetchData()
-    }, [])
+    }, [showCreateProduct])
 
 
     async function fetchData() {
@@ -76,7 +78,6 @@ function CreateProduct() {
         let data2 = await res2.json()
 
         if (res.status === 200 && res2.status === 200) {
-            console.log(data, data2);
 
             setColors(data.colors)
             setSizes(data2.sizes)

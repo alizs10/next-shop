@@ -33,14 +33,14 @@ function Products() {
 
             if (res.status === 200) {
                 toast.update(toastLoadingId, {
-                    render: "porudcts loaded successfully", type: "success", isLoading: false, autoClose: 5000,
+                    render: "products loaded successfully", type: "success", isLoading: false, autoClose: 5000,
                     hideProgressBar: false,
                     closeOnClick: true,
                 })
                 let data = await res.json()
                 setProducts(data.products)
                 setLoading(false)
-                console.log(data);
+
             } else {
                 toast.update(toastLoadingId, {
                     render: "error while loading data", type: "error", isLoading: false, autoClose: 5000,
@@ -69,7 +69,7 @@ function Products() {
     }
 
     function handleRemoveProduct(pid) {
-        setProducts(prevState => products.filter(product => product._id !== pid))
+        setProducts(prevState => prevState.filter(product => product._id !== pid))
     }
 
     // modal
