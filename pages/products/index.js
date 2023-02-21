@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
+import BreadCrumb from '../../components/Common/BreadCrumb'
 import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
 import FilterProvider from '../../components/Providers/FilterProvider'
@@ -12,6 +13,7 @@ import { closeConnection, connectDatabase, getDocuments } from '../../util/datab
 function ProductsPage(props) {
   return (
     <Master>
+      <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products", current: true }]} />
       <Head>
         <title>
           Nike's Shoes Shop - Products

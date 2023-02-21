@@ -1,4 +1,5 @@
 import React from 'react'
+import BreadCrumb from '../../components/Common/BreadCrumb';
 import Master from '../../components/Layouts/Master'
 import Product from '../../components/ProductPage/Product';
 import ProductProvider from '../../components/Providers/ProductProvider'
@@ -9,6 +10,7 @@ function ProductPage(props) {
 
     return (
         <Master>
+            <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products" }, { name: props.product.name, url: "/products/" + props.product.name, current: true }]} />
             <ProductProvider>
                 <Product product={props.product} />
             </ProductProvider>

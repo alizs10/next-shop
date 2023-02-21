@@ -39,7 +39,7 @@ function Product(props) {
                     <div
                         onClick={handleDisplayImage.bind(null, props.product.image)}
                         key={props.product._id + "-image"} className='relative col-span-1 aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                        <Image src={props.product.image} width="200" height="200" />
+                        <Image src={props.product.image} alt={props.product.name} width="200" height="200" />
                         {displayedImg === props.product.image && (
                             <SelectedItem />
                         )}
@@ -48,7 +48,7 @@ function Product(props) {
                         <div key={index}
                             onClick={handleDisplayImage.bind(null, image)}
                             className='col-span-1 relative aspect-square object-center rounded-3xl overflow-hidden shadow-md hover:translate-y-2 transition-all duration-300 cursor-pointer'>
-                            <Image src={image} width="200" height="200" />
+                            <Image src={image} width="200" height="200" alt={props.product.name} />
                             {displayedImg === image && (
                                 <SelectedItem />
                             )}

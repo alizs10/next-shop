@@ -57,9 +57,9 @@ function Product({ colStart, product }) {
                         </span>
                     </div>
                     <span className=' w-1/5 flex justify-center items-center'>
-                        <span className='rounded-xl p-3 bg-orange-200 hover:bg-orange-300 transition-all duration-300'>
+                        <button type='button' onClick={e => e.stopPropagation()} className='rounded-xl p-3 bg-orange-200 hover:bg-orange-300 transition-all duration-300'>
                             <ShoppingCartIcon />
-                        </span>
+                        </button>
                     </span>
                 </div>
 
