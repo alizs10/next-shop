@@ -7,8 +7,6 @@ import BagIcon from '../../components/ui/icons/BagIcon'
 
 function Head({ type }) {
 
-    console.log(typeof type);
-
     return (
         <>
             <div className='relative px-5 py-2 grid grid-cols-12 bg-orange-200'>

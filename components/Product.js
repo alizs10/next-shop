@@ -38,7 +38,7 @@ function Product({ colStart, product }) {
 
                 <div className='absolute top-4 left-2 flex flex-col flex-wrap max-h-[30%] gap-2'>
                     {colors.map((color) => (
-                        <div className='w-6 p-[2px] aspect-square rounded-full border-[2px] border-gray-600'>
+                        <div key={color._id} className='w-6 p-[2px] aspect-square rounded-full border-[2px] border-gray-600'>
                             <div key={color._id} style={{ backgroundColor: "#" + color.color_code }} className="w-full h-full rounded-full z-50"></div>
                         </div>
                     ))}

@@ -12,22 +12,24 @@ import { closeConnection, connectDatabase, getDocuments } from '../../util/datab
 function ProductsPage(props) {
   return (
     <>
-      <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products", current: true }]} />
       <Head>
         <title>
           Nike's Shoes Shop - Products
         </title>
         <meta name="description" content="Nike's Shoes Shop - All Products" />
       </Head>
-      {props.hasError ? (
-        <ConnectionError />
-      ) : (
-        <ProductsProvider items={props.products}>
-          <FilterProvider items={props.products}>
-            <Products items={props.products} />
-          </FilterProvider>
-        </ProductsProvider>
-      )}
+      <section className='flex flex-col gap-y-8'>
+        <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products", current: true }]} />
+        {props.hasError ? (
+          <ConnectionError />
+        ) : (
+          <ProductsProvider items={props.products}>
+            <FilterProvider items={props.products}>
+              <Products items={props.products} />
+            </FilterProvider>
+          </ProductsProvider>
+        )}
+      </section>
     </>
   )
 }

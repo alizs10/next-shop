@@ -6,7 +6,9 @@ function AppLayout({ children }) {
     return (
         <div className="h-screen bg-white">
             <Head />
-            {children}
+            <main className='px-10 sm:px-14 md:px-16 lg:px-20 xl:px-28 pt-24'>
+                {children}
+            </main>
             <Footer />
         </div>
     )

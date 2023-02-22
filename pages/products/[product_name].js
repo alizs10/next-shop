@@ -8,12 +8,12 @@ import { closeConnection, connectDatabase } from '../../util/database-util'
 function ProductPage(props) {
 
     return (
-        <>
+        <section className='flex flex-col gap-y-8'>
             <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products" }, { name: props.product.name, url: "/products/" + props.product.name, current: true }]} />
             <ProductProvider>
                 <Product product={props.product} />
             </ProductProvider>
-        </>
+        </section>
     )
 }
 

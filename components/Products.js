@@ -26,7 +26,7 @@ function Products(props) {
 
   return (
     <>
-      <div className='relative w-full px-10 sm:px-14 md:px-16 lg:px-20 xl:px-28 pt-24 self-center rounded-t-[60px] flex flex-col gap-y-8'>
+      <div className='relative w-full self-center rounded-t-[60px] flex flex-col gap-y-8'>
 
         <ActiveFilters />
 
@@ -42,11 +42,11 @@ function Products(props) {
         ) : (
           <MessageAlert title="No Results" body="could'nt find any products" />
         )}
-        <Search onSearch={onSearch} />
-        {props.items.length > 0 && (
-          <Filter products={props.items} />
-        )}
       </div>
+      <Search onSearch={onSearch} />
+      {props.items.length > 0 && (
+        <Filter products={props.items} />
+      )}
 
       <Pagination />
 
