@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import React from 'react'
-import Master from '../components/Layouts/Master'
 
 function AboutPage() {
     return (
-        <Master>
+        <>
             <Head>
                 <title>
                     About Nike
@@ -18,8 +17,17 @@ function AboutPage() {
                     The world's largest athletic apparel company, Nike is best known for its footwear, apparel, and equipment. Founded in 1964 as Blue Ribbon Sports, the company became Nike in 1971 after the Greek goddess of victory. One of the most valuable brands among sport businesses, Nike employs over 76,000 people worldwide.
                 </p>
             </div>
-        </Master>
+        </>
     )
+}
+
+
+export function getStaticProps() {
+    return {
+        props: {
+            layoutType: "app"
+        }
+    }
 }
 
 export default AboutPage

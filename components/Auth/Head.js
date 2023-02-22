@@ -5,10 +5,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import BagIcon from '../../components/ui/icons/BagIcon'
 
-function Head() {
+function Head({ type }) {
 
-
-    const router = useRouter()
+    console.log(typeof type);
 
     return (
         <>
@@ -87,7 +86,7 @@ function Head() {
                         </PopoverContent>
                     </Popover>
                     <span>|</span>
-                    {router.pathname === "/auth/login" ? (
+                    {type === 1 ? (
                         <Link href="/auth/register">
                             <span className='text-xl font-light'>Register</span>
                         </Link>

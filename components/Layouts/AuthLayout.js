@@ -2,14 +2,14 @@ import React from 'react'
 import Head from '../Auth/Head'
 import Footer from '../Footer'
 
-function Master({ children }) {
+function AuthLayout({ children, type }) {
     return (
         <div className="h-screen bg-white">
-            <Head />
+            <Head type={type} />
             {children}
             <Footer />
         </div>
     )
 }
 
-export default Master
+export default AuthLayout

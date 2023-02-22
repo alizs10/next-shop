@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
 import BreadCrumb from '../../components/Common/BreadCrumb'
-import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
 import FilterProvider from '../../components/Providers/FilterProvider'
 import ProductsProvider from '../../components/Providers/ProductsProvider'
@@ -12,7 +11,7 @@ import { closeConnection, connectDatabase, getDocuments } from '../../util/datab
 
 function ProductsPage(props) {
   return (
-    <Master>
+    <>
       <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products", current: true }]} />
       <Head>
         <title>
@@ -29,7 +28,7 @@ function ProductsPage(props) {
           </FilterProvider>
         </ProductsProvider>
       )}
-    </Master>
+    </>
   )
 }
 
@@ -44,7 +43,8 @@ export async function getStaticProps() {
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
-      hasError: false
+      hasError: false,
+      layoutType: "app"
     }
   }
 }

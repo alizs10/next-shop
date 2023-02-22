@@ -1,6 +1,5 @@
 import React from 'react'
 import BreadCrumb from '../../components/Common/BreadCrumb';
-import Master from '../../components/Layouts/Master'
 import Product from '../../components/ProductPage/Product';
 import ProductProvider from '../../components/Providers/ProductProvider'
 import ProductModel from '../../database/Models/Product';
@@ -9,12 +8,12 @@ import { closeConnection, connectDatabase } from '../../util/database-util'
 function ProductPage(props) {
 
     return (
-        <Master>
+        <>
             <BreadCrumb paths={[{ name: "Home", url: "/" }, { name: "All Products", url: "/products" }, { name: props.product.name, url: "/products/" + props.product.name, current: true }]} />
             <ProductProvider>
                 <Product product={props.product} />
             </ProductProvider>
-        </Master>
+        </>
     )
 }
 
@@ -28,7 +27,8 @@ export async function getServerSideProps({ query }) {
 
     return {
         props: {
-            product: JSON.parse(JSON.stringify(product))
+            product: JSON.parse(JSON.stringify(product)),
+            layoutType: "app"
         }
     }
 

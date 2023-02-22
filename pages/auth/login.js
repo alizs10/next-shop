@@ -2,7 +2,6 @@ import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Input, Button, InputGroup, InputRightElement, Stack, InputLeftAddon, InputLeftElement } from '@chakra-ui/react'
 import Head from 'next/head'
 import React, { useState } from 'react'
-import AuthLayout from '../../components/Layouts/AuthLayout'
 
 function LoginPage() {
 
@@ -10,7 +9,7 @@ function LoginPage() {
   const handleClick = () => setShow(!show)
 
   return (
-    <AuthLayout>
+    <>
       <Head>
         <title>
           Login | Nike's Shoes Shop
@@ -51,8 +50,18 @@ function LoginPage() {
           </Button>
         </form>
       </div>
-    </AuthLayout>
+    </>
   )
+}
+
+
+export function getStaticProps() {
+  return {
+    props: {
+      layoutType: "auth",
+      type: 1
+    }
+  }
 }
 
 export default LoginPage
