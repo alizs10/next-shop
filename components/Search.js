@@ -35,7 +35,7 @@ function Search({ onSearch }) {
     return (
         <div
             onClick={openSearchSlider}
-            className={`absolute flex justify-center items-center top-[35%] left-0 ${isOpen ? 'w-[35vmin]' : 'w-[6vmin]'} h-fit bg-orange-200 rounded-r-3xl
+            className={`fixed flex justify-center items-center top-[35%] left-0 ${isOpen ? 'w-[35vmin]' : 'w-[6vmin]'} h-fit bg-orange-200 rounded-r-3xl
         shadow-md cursor-pointer hover:left-2 transition-all duration-300`}>
 
 

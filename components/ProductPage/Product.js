@@ -87,7 +87,7 @@ function Product(props) {
                 {props.product.sizes.length > 0 && (
                     <div className='flex flex-col gap-y-2'>
                         <span className="text-sm">Size:</span>
-                        <div className='grid grid-cols-5 gap-4'>
+                        <div className='grid grid-cols-3 text-xs md:text-sm lg:text-md md:gird-cols-3 xl:grid-cols-5 gap-4'>
                             {props.product.sizes.map((size, index) => (
                                 <span
                                     onClick={handleSelectSize.bind(null, index)}
