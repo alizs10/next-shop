@@ -44,12 +44,12 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                             <div className='flex flex-col gap-y-2'>
                                 <span className="text-sm">Color:</span>
                                 <div className="flex flex-wrap gap-2">
-                                    {product.colors.map((color, index) => (
+                                    {product.colors.map((colorContainer, index) => (
                                         <span
                                             onClick={handleSelectColor.bind(null, index)}
                                             key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                             <div
-                                                style={{ backgroundColor: "#" + color.color_code }}
+                                                style={{ backgroundColor: "#" + colorContainer.colorRef.color_code }}
                                                 className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                                 {index == selectedColor && (
                                                     <SelectedItem />
@@ -64,13 +64,10 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                         )}
 
                         <span className="text-sm">Size:</span>
-                        <Select
-                            onChange={e => handleSelectSize(e.target.value)}
-                        >
-                            {product.sizes.map((size, index) => (
-                                <option value={index}>{size.size}</option>
+                        <Select onChange={e => handleSelectSize(e.target.value)}>
+                            {product.sizes.map((sizeContainer, index) => (
+                                <option value={index}>{sizeContainer.sizeRef.size}</option>
                             ))}
-
                         </Select>
 
                         <span className="text-md">Price: {finalPrice} $</span>

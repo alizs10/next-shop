@@ -1,22 +1,17 @@
 import { useDisclosure } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React from 'react'
 import ProductModal from './Modals/ProductModal'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import ProductProvider from './Providers/ProductProvider'
 import ShoppingCartIcon from './ui/icons/ShoppingCartIcon'
-import PercentageIcon from './ui/icons/PercentageIcon'
 
-function Product({ colStart, product }) {
+function Product({ product }) {
 
     const { onOpen, isOpen, onClose } = useDisclosure()
-    const [showDetails, setShowDetails] = useState(false)
 
-    let colors = []
-    for (const key in product.colors) {
-        colors.push({ id: key, ...product.colors[key] })
-    }
+    console.log(product);
 
     return (
         <AnimatePresence>
@@ -28,8 +23,6 @@ function Product({ colStart, product }) {
                 onClick={() => {
                     onOpen()
                 }}
-                onMouseOver={() => setShowDetails(true)}
-                onMouseLeave={() => setShowDetails(false)}
                 className="col-span-1 aspect-square rounded-3xl overflow-hidden bg-white cursor-pointer hover:scale-125 transition-all duration-300 relative hover:z-20">
 
                 <div className='w-full'>
@@ -37,9 +30,9 @@ function Product({ colStart, product }) {
                 </div>
 
                 <div className='absolute top-4 left-2 flex flex-col flex-wrap max-h-[30%] gap-2'>
-                    {colors.map((color) => (
-                        <div key={color._id} className='w-6 p-[2px] aspect-square rounded-full border-[2px] border-gray-600'>
-                            <div key={color._id} style={{ backgroundColor: "#" + color.color_code }} className="w-full h-full rounded-full z-50"></div>
+                    {product.colors.map((colorContainer) => (
+                        <div key={colorContainer._id} className='w-6 p-[2px] aspect-square rounded-full border-[2px] border-gray-600'>
+                            <div style={{ backgroundColor: "#" + colorContainer.colorRef.color_code }} className="w-full h-full rounded-full z-50"></div>
                         </div>
                     ))}
                 </div>

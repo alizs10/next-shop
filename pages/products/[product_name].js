@@ -22,7 +22,7 @@ export async function getServerSideProps({ query }) {
     let { product_name } = query;
 
     await connectDatabase(process.env.DB_NAME)
-    let product = await ProductModel.findOne({ name: product_name }).populate('sizes').populate('colors').exec()
+    let product = await ProductModel.findOne({ name: product_name }).populate('sizes.sizeRef').populate('colors.colorRef').exec()
     closeConnection()
 
     return {

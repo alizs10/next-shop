@@ -22,10 +22,10 @@ function ViewProductModal({ isOpen, onOpen, onClose, product }) {
                             <div className='w-full flex flex-col gap-2'>
                                 <span className="text-sm">Sizes:</span>
                                 <div className='grid grid-cols-4 gap-2'>
-                                    {product.sizes.map((size, index) => (
+                                    {product.sizes.map((sizeContainer, index) => (
                                         <span
                                             key={index} className={`rounded-xl px-5 py-2 bg-gray-200`}>
-                                            {size.size}
+                                            {sizeContainer.sizeRef.size}
                                         </span>
                                     ))}
 
@@ -37,11 +37,11 @@ function ViewProductModal({ isOpen, onOpen, onClose, product }) {
                             <div className='w-full flex flex-col gap-y-2'>
                                 <span className="text-sm">Colors:</span>
                                 <div className="flex flex-wrap gap-2">
-                                    {product.colors.map((color, index) => (
+                                    {product.colors.map((colorContainer, index) => (
                                         <span
                                             key={index} className='p-[1px] rounded-full w-10 h-10 border-2 border-gray-500'>
                                             <div
-                                                style={{ backgroundColor: "#" + color.color_code }}
+                                                style={{ backgroundColor: "#" + colorContainer.colorRef.color_code }}
                                                 className='overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                             </div>
                                         </span>

@@ -54,8 +54,8 @@ const ProductSchema = new Schema({
         min: 0,
         required: true
     },
-    colors: [{ type: Schema.Types.ObjectId, ref: Color }],
-    sizes: [{ type: Schema.Types.ObjectId, ref: Size }],
+    colors: [{ colorRef: { type: Schema.Types.ObjectId, ref: Color }, price_increase: { type: Number, min: 0, default: 0 } }],
+    sizes: [{ sizeRef: { type: Schema.Types.ObjectId, ref: Size }, price_increase: { type: Number, min: 0, default: 0 } }],
     createdAt: {
         type: Date,
         default: () => Date.now(),

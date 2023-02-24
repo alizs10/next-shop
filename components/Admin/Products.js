@@ -38,6 +38,7 @@ function Products() {
                     closeOnClick: true,
                 })
                 let data = await res.json()
+                console.log(data.products);
                 setProducts(data.products)
                 setLoading(false)
 

@@ -37,9 +37,8 @@ function ProductsPage(props) {
 export async function getStaticProps() {
 
   await connectDatabase(process.env.DB_NAME)
-  let products = await Product.find().populate('colors').populate('sizes').exec()
+  let products = await Product.find().populate('colors.colorRef').populate('sizes.sizeRef').exec()
 
-  console.log(products);
   closeConnection()
 
   return {

@@ -1,7 +1,7 @@
 export const calculateFinalPrice = (product, selectedColor, selectedSize) => {
 
     let basePrice = +product.price;
-    let discountPercentage = +product.discountPercentage;
+    let discountPercentage = +product.discount_percentage;
 
     let colors = product.colors;
     let sizes = product.sizes;
@@ -15,5 +15,6 @@ export const calculateFinalPrice = (product, selectedColor, selectedSize) => {
     let allPrices = basePrice + colorPriceIncrease + sizePriceIncrease
     let discountPrice = allPrices * discountPercentage / 100;
     let finalPrice = allPrices - discountPrice;
+
     return finalPrice;
 }

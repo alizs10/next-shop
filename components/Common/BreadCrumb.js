@@ -33,14 +33,7 @@ function BreadCrumb({ paths }) {
             {paths.map((path, index) => {
                 let isLast = index === paths.length - 1 ? true : false
                 let isFirst = index === 0 ? true : false
-                console.log(path);
-                return (
-                    <BCLink key={index} path={path} isLast={isLast} isFirst={isFirst} />
-                    // <span className="flex gap-x-2" key={index}>
-                    //     <Link className={`${path.current ? "text-blue-400" : "text-gray-800"}`} href={path.url}>{path.name}</Link>
-                    //     {!isLast && (<span>/</span>)}
-                    // </span>
-                )
+                return <BCLink key={index} path={path} isLast={isLast} isFirst={isFirst} />
             })}
         </div>
     );

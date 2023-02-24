@@ -15,27 +15,29 @@ function CreateProduct() {
     const [selectedSizes, setSelectedSizes] = useState([])
 
     function addSize(id) {
-        setSelectedSizes(prevState => [...prevState, id])
+        let size = sizes.find(size => size._id === id)
+        setSelectedSizes(prevState => [...prevState, size])
     }
 
     function addColor(id) {
-        setSelectedColors(prevState => [...prevState, id])
+        let color = colors.find(color => color._id === id)
+        setSelectedColors(prevState => [...prevState, color])
     }
 
     function removeSize(id) {
-        setSelectedSizes(prevState => prevState.filter(sizeId => sizeId !== id))
+        setSelectedSizes(prevState => prevState.filter(size => size._id !== id))
     }
 
     function removeColor(id) {
-        setSelectedColors(prevState => prevState.filter(colorId => colorId !== id))
+        setSelectedColors(prevState => prevState.filter(color => color._id !== id))
     }
 
     function isColorSelected(id) {
-        return selectedColors.includes(id)
+        return selectedColors.find(color => color._id === id) ? true : false
     }
 
     function isSizeSelected(id) {
-        return selectedSizes.includes(id)
+        return selectedSizes.find(size => size._id === id) ? true : false
     }
 
     function toggleColor(id) {
@@ -51,7 +53,7 @@ function CreateProduct() {
             setSelectedColors([])
             return
         }
-        setSelectedColors(colors.map(color => color._id))
+        setSelectedColors(colors)
     }
 
     function selectAllSizes() {
@@ -59,7 +61,7 @@ function CreateProduct() {
             setSelectedSizes([])
             return
         }
-        setSelectedSizes(sizes.map(size => size._id))
+        setSelectedSizes(sizes)
     }
 
     useEffect(() => {
@@ -127,9 +129,33 @@ function CreateProduct() {
         setShowCreateProduct(prevState => !prevState)
     }
 
+    function handleChangeSizePriceIncrease(e, size) {
+        setSelectedSizes(prevState => {
+            let selectedSizesIns = [...prevState]
+            let updatableSizeIndex = selectedSizesIns.findIndex(selectedSize => selectedSize._id === size._id)
+            let updatableSize = selectedSizesIns[updatableSizeIndex]
+            updatableSize = size;
+            updatableSize.price_increase = e.target.value
+            return selectedSizesIns;
+        })
+    }
+
+    function handleChangeColorPriceIncrease(e, color) {
+        setSelectedColors(prevState => {
+            let selectedColorsIns = [...prevState]
+            let updatableColorIndex = selectedColorsIns.findIndex(selectedColor => selectedColor._id === color._id)
+            let updatableColor = selectedColorsIns[updatableColorIndex]
+            updatableColor = color;
+            updatableColor.price_increase = e.target.value
+            return selectedColorsIns;
+        })
+    }
+
     const handleSubmit = async e => {
         e.preventDefault();
         if (isFormDisable) return
+
+
 
         let inputData = {};
         inputData.name = nameRef.current.value
@@ -140,11 +166,11 @@ function CreateProduct() {
         inputData.sold_number = soldNumberRef.current.value
         inputData.frozen_number = frozenNumberRef.current.value
         inputData.description = descriptionRef.current.value
-        inputData.sizes = selectedSizes
-        inputData.colors = selectedColors
         inputData.gallery = images.map(image => image.src)
         inputData.status = status
 
+        inputData.sizes = selectedSizes.map(selectedSize => ({ sizeRef: selectedSize._id, price_increase: selectedSize.price_increase }))
+        inputData.colors = selectedColors.map(selectedColor => ({ colorRef: selectedColor._id, price_increase: selectedColor.price_increase }))
 
         try {
             setIsFormDisable(true)
@@ -321,6 +347,18 @@ function CreateProduct() {
                                         </button>
                                     ))}
                                 </div>
+                                <div className='mt-4 grid grid-cols-2 gap-2'>
+                                    {selectedSizes.map((selectedSize, index) => (
+                                        <span key={selectedSize._id + index} className='col-span-2 grid grid-cols-4 gap-x-2'>
+                                            <div className='col-span-1 flex items-center'>
+                                                <div key={selectedSize._id} className={`col-span-1 shadow-md flex justify-center items-center rounded-full transition-all duration-300 gap-x-2 p-3 bg-blue-300`}>
+                                                    {selectedSize.size}
+                                                </div>
+                                            </div>
+                                            <input className='col-span-3 px-3 py-2 outline-none rounded-xl' onChange={e => handleChangeSizePriceIncrease(e, selectedSize)} type="text" placeholder="price increase" value={selectedSize.price_increase !== undefined ? selectedSize.price_increase : 0} />
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                             <div className='mt-4 col-span-2 flex flex-col gap-y-2'>
 
@@ -338,7 +376,18 @@ function CreateProduct() {
                                         </button>
                                     ))}
                                 </div>
-
+                                <div className='mt-4 grid grid-cols-2 gap-2'>
+                                    {selectedColors.map((selectedColor, index) => (
+                                        <span key={selectedColor._id + index} className='col-span-2 grid grid-cols-4 gap-x-2'>
+                                            <div className='col-span-1 flex items-center'>
+                                                <div className='rounded-full w-8 p-[3px] border-2 border-black'>
+                                                    <div className='w-full aspect-square rounded-full' style={{ backgroundColor: "#" + selectedColor.color_code }}></div>
+                                                </div>
+                                            </div>
+                                            <input className='col-span-3 px-3 py-2 outline-none rounded-xl' onChange={e => handleChangeColorPriceIncrease(e, selectedColor)} type="text" placeholder="price increase" value={selectedColor.price_increase !== undefined ? selectedColor.price_increase : 0} />
+                                        </span>
+                                    ))}
+                                </div>
 
                             </div>
                         </div>

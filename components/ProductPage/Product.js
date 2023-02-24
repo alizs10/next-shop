@@ -65,12 +65,12 @@ function Product(props) {
                     <div className='flex flex-col gap-y-2'>
                         <span className="text-sm">Color:</span>
                         <div className="flex flex-wrap gap-2">
-                            {props.product.colors.map((color, index) => (
+                            {props.product.colors.map((colorContainer, index) => (
                                 <span
                                     onClick={handleSelectColor.bind(null, index)}
                                     key={index} className='p-[1px] rounded-full w-10 h-10 transition-all duration-300 cursor-pointer border-2 border-gray-500'>
                                     <div
-                                        style={{ backgroundColor: "#" + color.color_code }}
+                                        style={{ backgroundColor: "#" + colorContainer.colorRef.color_code }}
                                         className='relative overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
                                         {index == selectedColor && (
                                             <SelectedItem />
@@ -87,12 +87,12 @@ function Product(props) {
                 {props.product.sizes.length > 0 && (
                     <div className='flex flex-col gap-y-2'>
                         <span className="text-sm">Size:</span>
-                        <div className='grid grid-cols-3 text-xs md:text-sm lg:text-md md:gird-cols-3 xl:grid-cols-5 gap-4'>
-                            {props.product.sizes.map((size, index) => (
+                        <div className='grid grid-cols-3 text-xs lg:gird-cols-4 2xl:grid-cols-5 md:text-sm lg:text-md  gap-4'>
+                            {props.product.sizes.map((sizeContainer, index) => (
                                 <span
                                     onClick={handleSelectSize.bind(null, index)}
                                     key={index} className={`col-span-1 text-center rounded-xl px-5 py-2 cursor-pointer shadow-sm ${index == selectedSize ? "bg-emerald-300" : "bg-gray-100"} transition-all duration-300`}>
-                                    {size.size}
+                                    {sizeContainer.sizeRef.size}
                                 </span>
                             ))}
 
