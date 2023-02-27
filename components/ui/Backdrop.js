@@ -1,22 +1,15 @@
 import React from 'react'
+import { motion } from "framer-motion"
 
-import { motion } from 'framer-motion';
-
-function Backdrop({ handleClick, toggler, blur }) {
-    return toggler ? (
-
+export default function Backdrop({ children, handleClick, blur }) {
+    return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-                e.stopPropagation();
-                handleClick()
-            }} className={`fixed z-50 top-0 right-0 bottom-0 left-0 ${blur && "bg-black/40"}`}>
+            initial={{ left: "-100%" }}
+            animate={{ left: 0 }}
+            exit={{ left: "-100%" }}
+            transition={{ bounce: "none" }}
+            onClick={handleClick} className={`fixed flex top-0 left-0 w-full h-full ${blur && 'backdrop-blur-md'} z-[9999]`}>
+            {children}
         </motion.div>
-
-
-    ) : null;
+    );
 }
-
-export default Backdrop

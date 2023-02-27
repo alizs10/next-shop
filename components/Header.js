@@ -1,23 +1,71 @@
+import React, { useEffect, useState } from 'react';
 import { DeleteIcon } from '@chakra-ui/icons'
 import { Badge, Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger } from '@chakra-ui/react'
 import Link from 'next/link'
-import React from 'react'
-import Navbar from './Navbar'
-import BagIcon from '../components/ui/icons/BagIcon'
+import Navbar from './Navbar';
+import BagIcon from './ui/icons/BagIcon';
+import BarsIcon from './ui/icons/BarsIcon';
+import Backdrop from './ui/Backdrop';
+import { AnimatePresence } from 'framer-motion';
+
+function Header() {
+
+  const [sidebarVis, setSidebarVis] = useState(false)
+  const [width, setWidth] = useState()
+
+  useEffect(() => {
+
+    window.addEventListener("resize", handleChangeWidth)
+
+    return () => window.removeEventListener("resize", handleChangeWidth)
+
+  }, [])
+
+  function handleChangeWidth(w) {
+    setWidth(document.body.clientWidth)
+  }
 
 
-function Head() {
+  function toggleSidebar() {
+    setSidebarVis(prevState => !prevState)
+  }
+
+  function renderNavbar() {
+
+    let isScreenWide = width > 768 ? true : false;
+
+    return !isScreenWide ? (
+      <AnimatePresence>
+        {sidebarVis && (
+          <Backdrop blur={true} toggler={sidebarVis} handleClick={toggleSidebar}>
+            <Navbar toggleSidebar={toggleSidebar} sidebarVis={sidebarVis} />
+          </Backdrop>
+        )}
+      </AnimatePresence>
+    ) : <Navbar isScreenWide={isScreenWide} toggleSidebar={toggleSidebar} sidebarVis={sidebarVis} />;
+
+  }
+
   return (
     <>
       <div className='relative px-5 py-2 grid grid-cols-12 bg-orange-200'>
-        <div className='col-span-3 flex justify-center items-center font-bold text-2xl'>
-          <img className='w-20' src='/assets/icons/nike.svg' />
+
+        <div className='col-span-2 md:hidden'>
+          <span onClick={toggleSidebar} className='p-3 cursor-pointer'>
+            <BarsIcon />
+          </span>
+        </div>
+
+        <div className={`col-span-6 md:col-span-3 flex items-center font-bold text-lg md:text-2xl`}>
+          <img className='w-12 md:w-20' src='/assets/icons/nike.svg' />
           <Link href="/">
             <span className='ml-5'>Nike's Shoes</span>
           </Link>
         </div>
-        <Navbar />
-        <div className='col-span-2 z-50 flex justify-center gap-2 items-center'>
+
+        {renderNavbar()}
+
+        <div className='col-span-4 md:col-span-2 z-50 flex justify-center gap-2 items-center'>
           <Popover>
             <PopoverTrigger>
               <Button colorScheme='gray' variant='link'>
@@ -72,11 +120,9 @@ function Head() {
           </Link>
         </div>
       </div>
-      <div className='absolute top-24 left-0 right-0 h-20 bg-orange-200'>
-        <div className='bg-white w-full h-full rounded-t-full'></div>
-      </div>
+
     </>
   )
 }
 
-export default Head
+export default Header;
