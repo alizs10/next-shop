@@ -4,8 +4,8 @@ import React from 'react'
 
 function Landing() {
     return (
-        <div className="pt-20 px-52 grid grid-cols-2">
-            <div className='col-span-1 relative'>
+        <div className="grid grid-cols-2 gap-8">
+            <div className='col-span-2 md:col-span-1 relative'>
                 <div className='y-animated-radio w-full aspect-square bg-orange-200 rounded-full'>
                 </div>
                 <div className='x-animated-radio absolute bg-white rounded-full top-8 -left-8 w-full aspect-square flex justify-center items-center'>
@@ -15,8 +15,8 @@ function Landing() {
                 </div>
             </div>
 
-            <div className='col-span-1 flex justify-center items-center flex-col gap-y-4'>
-                <h1 className='text-7xl font-bold'>JUST DO IT</h1>
+            <div className='col-span-2 md:col-span-1 flex justify-center items-center flex-col gap-y-4'>
+                <h1 className='text-5xl md:text-7xl font-bold'>JUST DO IT</h1>
                 <Link href="/products">
                     <button className='rounded-full bg-orange-200 text-lg px-5 py-3 hover:px-8 transition-all duration-300'>Explore now</button>
                 </Link>
