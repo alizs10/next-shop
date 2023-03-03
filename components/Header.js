@@ -15,13 +15,14 @@ function Header() {
 
   useEffect(() => {
 
+    handleChangeWidth()
     window.addEventListener("resize", handleChangeWidth)
 
     return () => window.removeEventListener("resize", handleChangeWidth)
 
   }, [])
 
-  function handleChangeWidth(w) {
+  function handleChangeWidth() {
     setWidth(document.body.clientWidth)
   }
 
@@ -30,11 +31,13 @@ function Header() {
     setSidebarVis(prevState => !prevState)
   }
 
+  var isScreenWide = width > 768 ? true : false;
+
   function renderNavbar() {
 
-    let isScreenWide = width > 768 ? true : false;
-
-    return !isScreenWide ? (
+    return isScreenWide ? (
+      <Navbar isScreenWide={isScreenWide} toggleSidebar={toggleSidebar} sidebarVis={sidebarVis} />
+    ) : (
       <AnimatePresence>
         {sidebarVis && (
           <Backdrop blur={true} toggler={sidebarVis} handleClick={toggleSidebar}>
@@ -42,7 +45,7 @@ function Header() {
           </Backdrop>
         )}
       </AnimatePresence>
-    ) : <Navbar isScreenWide={isScreenWide} toggleSidebar={toggleSidebar} sidebarVis={sidebarVis} />;
+    );
 
   }
 
@@ -65,7 +68,8 @@ function Header() {
 
         {renderNavbar()}
 
-        <div className='col-span-4 md:col-span-2 z-50 flex justify-center gap-2 items-center'>
+
+        <div className="col-span-4 md:col-span-2 z-50 flex justify-center gap-2 items-center">
           <Popover>
             <PopoverTrigger>
               <Button colorScheme='gray' variant='link'>
