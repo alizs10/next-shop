@@ -8,7 +8,7 @@ import BarsIcon from './ui/icons/BarsIcon';
 import Backdrop from './ui/Backdrop';
 import { AnimatePresence } from 'framer-motion';
 
-function Header() {
+function Header({ user }) {
 
   const [sidebarVis, setSidebarVis] = useState(false)
   const [width, setWidth] = useState()
@@ -59,8 +59,8 @@ function Header() {
           </span>
         </div>
 
-        <div className={`col-span-6 md:col-span-3 flex items-center font-bold text-lg md:text-2xl`}>
-          <img className='w-12 md:w-20' src='/assets/icons/nike.svg' />
+        <div className={`col-span-6 md:col-span-4 flex items-center font-bold text-lg md:text-lg lg:text-2xl`}>
+          <img className='w-12 md:w-16 lg:w-20' src='/assets/icons/nike.svg' />
           <Link href="/">
             <span className='ml-5'>Nike's Shoes</span>
           </Link>
@@ -119,11 +119,15 @@ function Header() {
             </PopoverContent>
           </Popover>
           <span>|</span>
-          <Link href="/auth/login">
-            <span className='text-xl font-light'>Login</span>
-          </Link>
+          {user ? (
+            <span>{user.fullName}</span>
+          ) : (
+            <Link href="/auth/login">
+              <span className='text-xl font-light'>Login</span>
+            </Link>
+          )}
         </div>
-      </div>
+      </div >
 
     </>
   )

@@ -7,7 +7,7 @@ function Navbar({ sidebarVis, toggleSidebar }) {
     return (
         <ul
             className='h-screen w-1/2 transition-all duration-300 bg-gray-200 z-[999] flex flex-col p-3 
-                 md:p-0 md:bg-transparent md:h-auto md:w-auto md:flex-row md:col-span-7 md:justify-center items-center gap-8 text-base'>
+                 md:p-0 md:bg-transparent md:h-auto md:w-auto md:flex-row md:col-span-6 md:justify-center items-center gap-8 text-base'>
 
             {sidebarVis && (<div className='md:hidden w-full flex justify-end'>
                 <span onClick={(e) => {

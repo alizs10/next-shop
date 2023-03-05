@@ -1,11 +1,12 @@
 import React from 'react'
-import Head from '../Header'
+import Header from '../Header'
 import Footer from '../Footer'
 
-function AppLayout({ children }) {
+function AppLayout({ children, user }) {
+
     return (
         <div className="h-screen bg-white">
-            <Head />
+            <Header user={user} />
             <div className='h-20 bg-orange-200'>
                 <div className='bg-white w-full h-full rounded-t-full'></div>
             </div>

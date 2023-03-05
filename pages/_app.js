@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
       break;
     case "app":
       getLayout = ((page) => (
-        <AppLayout children={page} />
+        <AppLayout children={page} user={pageProps.user} />
       ))
       break;
     default:
