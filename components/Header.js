@@ -7,6 +7,7 @@ import BagIcon from './ui/icons/BagIcon';
 import BarsIcon from './ui/icons/BarsIcon';
 import Backdrop from './ui/Backdrop';
 import { AnimatePresence } from 'framer-motion';
+import UserPopup from './Layouts/Header/UserPopup'
 
 function Header({ user }) {
 
@@ -120,7 +121,7 @@ function Header({ user }) {
           </Popover>
           <span>|</span>
           {user ? (
-            <span>{user.fullName}</span>
+            <UserPopup user={user} />
           ) : (
             <Link href="/auth/login">
               <span className='text-xl font-light'>Login</span>
