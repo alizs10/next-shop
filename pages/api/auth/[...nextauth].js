@@ -1,10 +1,11 @@
 import NextAuth from "next-auth/next"
 import CredentialsProvider from "next-auth/providers/credentials";
+import User from "../../../database/Models/User";
 import { verifyPassword } from "../../../helpers/helpers";
 import { closeConnection, connectDatabase } from "../../../util/database-util";
 
 export const authOptions = {
-
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         jwt: true
     },
@@ -18,10 +19,10 @@ export const authOptions = {
             async authorize(credentials) {
 
                 // connect to database
-                let client = await connectDatabase(process.env.DB_NAME)
-                let db = client.db()
+                await connectDatabase(process.env.DB_NAME)
 
-                let user = await db.collection("users").findOne({ email: credentials.email })
+
+                let user = await User.findOne({ email: credentials.email })
 
                 if (!user) {
                     closeConnection()

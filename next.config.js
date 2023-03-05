@@ -10,6 +10,7 @@ module.exports = (phase) => {
       DB_NAME: 'nikes_shoes_shop',
       DB_USERNAME: 'alizs10',
       DB_PASSWORD: 'sharrr77a',
+      NEXTAUTH_SECRET: 'alizs10_is_the_best_programmer_ever'
     },
     reactStrictMode: true,
   }

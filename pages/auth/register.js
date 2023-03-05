@@ -1,5 +1,6 @@
 import { EmailIcon, LockIcon } from '@chakra-ui/icons'
 import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Stack } from '@chakra-ui/react'
+import { getSession } from 'next-auth/react'
 import Head from 'next/head'
 import React, { useRef, useState } from 'react'
 
@@ -113,7 +114,19 @@ function RegisterPage() {
   )
 }
 
-export function getStaticProps() {
+export async function getServerSideProps({ req }) {
+
+  let session = await getSession({ req })
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false
+      }
+    }
+  }
+
   return {
     props: {
       layoutType: "auth",
