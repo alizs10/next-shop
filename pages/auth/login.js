@@ -31,10 +31,11 @@ function LoginPage() {
 
     if (result.error) {
       console.log(result);
+    } else {
+      router.replace('/')
     }
 
 
-    router.replace('/')
   }
 
 

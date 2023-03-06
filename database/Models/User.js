@@ -21,9 +21,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
+    role: {
+        type: String,
+        default: 'user',
         immutable: true
     },
     favorites: [{
