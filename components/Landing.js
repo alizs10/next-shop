@@ -4,16 +4,13 @@ import React from 'react'
 
 function Landing() {
     return (
-        <div className="grid grid-cols-2 gap-8">
-            <div className='col-span-2 md:col-span-1 relative'>
-                <div className='y-animated-radio w-full aspect-square bg-orange-200 rounded-full'>
-                </div>
-                <div className='x-animated-radio absolute bg-white rounded-full top-8 -left-8 w-full aspect-square flex justify-center items-center'>
-                    <div className='w-full rotate-[15deg] hover:scale-110 hover:rotate-[-15deg] transition-all duration-300'>
-                        <Image src='/assets/landing-img.png' width={600} height={600} />
-                    </div>
-                </div>
+        <div className="mt-20 grid grid-cols-2 gap-8">
+
+
+            <div className='col-span-1 bg-orange-200 rounded-full mx-auto w-[400px] aspect-square flex justify-center items-center'>
+                <Image className='mr-20 rotate-[15deg] scale-[175%]' src='/assets/landing-img.png' width={600} height={600} />
             </div>
+
 
             <div className='col-span-2 md:col-span-1 flex justify-center items-center flex-col gap-y-4'>
                 <h1 className='text-5xl md:text-7xl font-bold'>JUST DO IT</h1>

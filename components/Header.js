@@ -8,8 +8,11 @@ import BarsIcon from './ui/icons/BarsIcon';
 import Backdrop from './ui/Backdrop';
 import { AnimatePresence } from 'framer-motion';
 import UserPopup from './Layouts/Header/UserPopup'
+import userStore from '../stores/user-store';
 
-function Header({ user }) {
+function Header() {
+
+  const user = userStore(state => state.user)
 
   const [sidebarVis, setSidebarVis] = useState(false)
   const [width, setWidth] = useState()
