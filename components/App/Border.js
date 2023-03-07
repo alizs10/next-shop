@@ -1,8 +1,9 @@
-function Border({ classes }) {
+import Image from "next/image";
+
+function Border({ deg }) {
     return (
-        <div className='w-60 h-60 border-r-4 scale-[350%] border-white rounded-full relative'>
-            {/* <div className="absolute -top-2 right-0 w-60 h-40 rounded-full bg-gray-800 z-0"></div> */}
-            {/* <div className="absolute top-1 -left-2 w-60 h-60 rounded-full bg-gray-800 z-0"></div> */}
+        <div className="pr-16" style={{ transform: 'rotate(' + deg + 'deg)' }}>
+            <Image className="w-48" src='/assets/curve.png' height={400} width={200} />
         </div>
     );
 }
