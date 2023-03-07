@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import AuthLayout from '../components/Layouts/AuthLayout'
-import AppLayout from '../components/Layouts/AppLayout';
+import AppLayout from '../components/App/AppLayout';
 
 function MyApp({ Component, pageProps }) {
 

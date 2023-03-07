@@ -30,3 +30,26 @@
         transform: translate(10px, 20px);
     }
 }
+
+.vertical-text {
+    writing-mode: sideways-lr;
+}
+
+main:before {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: rotate(-10deg);
+    scale: 250%;
+    content: url('/assets/icons/nike-gray-logo.png');
+    filter: alpha(opacity=50);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+    opacity: .20;
+}
+
+.span {
+    display: inline-block;
+    background-color: green;
+    line-height: 34px;
+    height: 35px;
+}

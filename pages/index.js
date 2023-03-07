@@ -14,7 +14,7 @@ const HomePage = () => {
         </title>
         <meta name="description" content="Nike's Shoes Shop - best shoes brand in the world" />
       </Head>
-      <Landing />
+      {/* <Landing /> */}
     </>
 
   )
