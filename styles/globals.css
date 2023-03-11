@@ -35,16 +35,33 @@
     writing-mode: sideways-lr;
 }
 
-main:before {
+.back-nike-logo:before {
     position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: rotate(-10deg);
-    scale: 250%;
+    top: 5rem;
+    left: -4rem;
+    right: 0;
+    scale: 70%;
+    transform: rotate(-12deg);
     content: url('/assets/icons/nike-gray-logo.png');
     filter: alpha(opacity=50);
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
     opacity: .20;
+}
+
+@media only screen and (min-width: 1024px) {
+
+    .back-nike-logo:before {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: rotate(-10deg);
+        scale: 250%;
+        content: url('/assets/icons/nike-gray-logo.png');
+        filter: alpha(opacity=50);
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+        opacity: .20;
+    }
+
 }
 
 .span {
@@ -54,9 +71,14 @@ main:before {
     height: 35px;
 }
 
-.flip {
-    -moz-transform: scale(-1, -1);
-    -o-transform: scale(-1, -1);
-    -webkit-transform: scale(-1, -1);
-    transform: scale(-1, -1);
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
 }

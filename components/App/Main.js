@@ -9,20 +9,48 @@ import ArrowLeftIcon from '../ui/icons/ArrowLeftIcon'
 
 function Main() {
     return (
-        <div className="h-full grid grid-cols-7 gap-2">
+        <div className="mt-6 w-full h-full grid grid-cols-7 gap-2">
 
-            <div className="pl-20 pt-32 col-span-3 flex flex-col font-sans">
+            <div className="p-3 lg:pl-20 lg:pt-32 col-span-7 lg:col-span-3 flex flex-col font-sans">
                 <Image className="w-14 mb-2" src='/assets/icons/nike-logo-text.png' width={80} height={60} />
-                <strong className="text-orange-200/90 inline-block text-[150px] leading-[120px] break-words font-bold">BORING</strong>
-                <strong className="text-orange-200/90 text-[100px] leading-[120px] font-bold">SHOES?</strong>
-                <span className="text-white text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
+                <strong className="text-orange-200/90 inline-block text-5xl lg:text-[150px] lg:leading-[120px] break-words font-bold">BORING</strong>
+                <strong className="text-orange-200/90 text-3xl lg:text-[100px] lg:leading-[120px] font-bold">SHOES?</strong>
+                <span className="text-white text-md lg:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
 
-                <button className="mt-10 w-fit text-md font-bold text-white rounded-xl bg-red-500/100 py-2 px-5">EXPLORE OUT STORE</button>
+                <button className="mt-4 lg:mt-10 w-fit text-xs lg:text-md font-semibold lg:font-bold text-white rounded-lg lg:rounded-xl bg-red-500/100 py-1 px-3 lg:py-2 lg:px-5">EXPLORE OUT STORE</button>
             </div>
 
-            <div className="col-span-4 relative flex items-center">
+            <div className="col-span-7 lg:col-span-4 relative flex flex-col items-center">
 
-                <div className="absolute -bottom-10 left-[16rem] flex flex-row items-center gap-x-2">
+
+                <div className="back-nike-logo mt-10 lg:absolute top-12 -left-24">
+                    <Image className="rotate-[-32deg] scale-95 lg:scale-[150%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
+                </div>
+
+
+
+                <div className="lg:absolute top-10 pr-8 right-64 flex flex-col gap-y-10">
+
+                    <TopCurve />
+                    <div className="mt-32 self-end flex lg:flex-col gap-4">
+                        <div className="w-8 h-8 mx-auto rounded-full rotate-12 border-white border-2 flex flex-nowrap overflow-hidden">
+                            <div className="w-1/2 h-full border-r-2 border-white bg-red-500"></div>
+                            <div className="w-1/2 h-full bg-white"></div>
+                        </div>
+                        <div className="w-12 h-12 mx-auto rounded-full border-white border-2 flex flex-nowrap overflow-hidden">
+                            <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
+                            <div className="w-1/2 h-full bg-green-800"></div>
+                        </div>
+                        <div className="w-8 h-8 mx-auto -rotate-12 rounded-full border-white border-2 flex flex-nowrap overflow-hidden">
+                            <div className="w-1/2 h-full border-r-2 border-white bg-blue-500"></div>
+                            <div className="w-1/2 h-full bg-white"></div>
+                        </div>
+                    </div>
+                    <BottomCurve />
+
+                </div>
+
+                <div className="lg:absolute -bottom-10 left-[16rem] mt-10 flex flex-row items-center gap-x-2">
 
                     <ChevronLeftIcon fontSize={'7xl'} color={'white'} />
 
@@ -57,37 +85,13 @@ function Main() {
 
                 </div>
 
-                <div className="absolute top-10 pr-8 right-64 flex flex-col gap-y-10">
-
-                    <TopCurve />
-                    <div className="self-end flex flex-col gap-y-4">
-                        <div className="w-8 h-8 mx-auto rounded-full rotate-12 border-white border-2 flex flex-nowrap overflow-hidden">
-                            <div className="w-1/2 h-full border-r-2 border-white bg-red-500"></div>
-                            <div className="w-1/2 h-full bg-white"></div>
-                        </div>
-                        <div className="w-12 h-12 mx-auto rounded-full border-white border-2 flex flex-nowrap overflow-hidden">
-                            <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                            <div className="w-1/2 h-full bg-green-800"></div>
-                        </div>
-                        <div className="w-8 h-8 mx-auto -rotate-12 rounded-full border-white border-2 flex flex-nowrap overflow-hidden">
-                            <div className="w-1/2 h-full border-r-2 border-white bg-blue-500"></div>
-                            <div className="w-1/2 h-full bg-white"></div>
-                        </div>
-                    </div>
-                    <BottomCurve />
-
-                </div>
-
-                <div className="absolute top-12 -left-24">
-                    <Image className="rotate-[-32deg] scale-[150%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
-                </div>
 
 
             </div>
 
             <div className="col-span-7 h-fit mt-auto flex flex-col justify-end pb-10 gap-y-6">
 
-                <div className="self-end pr-20 flex gap-x-4 items-center">
+                <div className="mt-10 self-center lg:self-end lg:pr-20 flex gap-x-4 items-center">
 
                     <span className="text-red-500">
                         <ArrowLeftIcon />
@@ -98,11 +102,12 @@ function Main() {
 
                 </div>
 
-                <div className="w-full ml-20 pl-10 pr-24 overflow-x-scroll overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
+                {/* products */}
+                <div className="w-full lg:ml-20 px-10 lg:pr-24 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
 
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -136,7 +141,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-blue-500">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -170,7 +175,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-yellow-200">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -204,7 +209,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-pink-300">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -238,7 +243,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -272,7 +277,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
@@ -306,7 +311,7 @@ function Main() {
                     </div>
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">
-                            <Image className="absolute top-2 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
+                            <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
                         </div>
                         <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                             <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
