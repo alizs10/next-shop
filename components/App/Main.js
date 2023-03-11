@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import Image from "next/image";
-import Border from './Border'
+import TopCurve from './TopCurve'
+import BottomCurve from './BottomCurve'
 import SolidStarIcon from '../ui/icons/SolidStarIcon';
 import HeartIcon from '../ui/icons/HeartIcon';
 import ArrowRightIcon from '../ui/icons/ArrowRightIcon'
@@ -21,12 +22,12 @@ function Main() {
 
             <div className="col-span-4 relative flex items-center">
 
-                <div className="absolute -bottom-10 left-[20rem] flex flex-row items-center gap-x-2">
+                <div className="absolute -bottom-10 left-[16rem] flex flex-row items-center gap-x-2">
 
                     <ChevronLeftIcon fontSize={'7xl'} color={'white'} />
 
                     <div className="flex flex-col gap-y-1 items-center">
-                        <h2 className="font-bold text-white text-xl">NIKE AIR MAX III</h2>
+                        <h2 className="font-bold text-white italic text-2xl">NIKE AIR MAX III</h2>
                         <div className="flex flex-nowrap gap-x-[1px] items-center">
                             <div className="flex flex-nowrap">
                                 <span className="text-yellow-500">
@@ -56,8 +57,9 @@ function Main() {
 
                 </div>
 
-                <div className="absolute -top-20 right-60 flex flex-col gap-y-0">
-                    <Border deg={-40} />
+                <div className="absolute top-10 pr-8 right-64 flex flex-col gap-y-10">
+
+                    <TopCurve />
                     <div className="self-end flex flex-col gap-y-4">
                         <div className="w-8 h-8 mx-auto rounded-full rotate-12 border-white border-2 flex flex-nowrap overflow-hidden">
                             <div className="w-1/2 h-full border-r-2 border-white bg-red-500"></div>
@@ -72,11 +74,12 @@ function Main() {
                             <div className="w-1/2 h-full bg-white"></div>
                         </div>
                     </div>
-                    <Border deg={55} />
+                    <BottomCurve />
+
                 </div>
 
-                <div className="absolute top-16 -left-32">
-                    <Image className="rotate-[-27deg] scale-[140%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
+                <div className="absolute top-12 -left-24">
+                    <Image className="rotate-[-32deg] scale-[150%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
                 </div>
 
 
