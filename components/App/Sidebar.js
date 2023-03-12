@@ -4,7 +4,7 @@ import FacebookIcon from '../../components/ui/icons/FacebookIcon';
 
 function Sidebar() {
     return (
-        <aside className="col-span-1 grid-rows-6 h-[calc(100vh_-_5rem)] lg:grid hidden">
+        <aside className="col-span-1 grid-rows-6 h-[calc(100vh_-_5rem)] xl:grid hidden">
             <ul className="row-span-4 flex flex-col justify-center items-end gap-y-8">
                 <li className="vertical-text text-2xl w-fit text-white">DELIVERY</li>
                 <li className="vertical-text text-2xl w-fit text-red-500">PACKAGING</li>

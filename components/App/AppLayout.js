@@ -11,7 +11,7 @@ function AppLayout({ children }) {
 
                 <Sidebar />
 
-                <main className='relative overflow-hidden col-span-10 lg:col-span-9'>
+                <main className='relative overflow-hidden col-span-10 xl:col-span-9'>
                     <Main />
                     {children}
                 </main>

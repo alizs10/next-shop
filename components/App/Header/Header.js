@@ -6,11 +6,11 @@ import Logo from './Logo'
 
 function Header() {
     return (
-        <header className="flex items-center px-3 lg:px-0 lg:grid grid-cols-10 h-16 lg:h-20 lg:items-end">
+        <header className="flex items-center px-3 xl:px-0 xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end">
             <Bars />
             <Logo />
             <Menus />
-            <div className='col-span-1 ml-auto flex justify-start lg:ml-0 items-center gap-x-1 lg:gap-x-2'>
+            <div className='col-span-1 ml-auto flex justify-start xl:ml-0 items-center gap-x-1 xl:gap-x-2'>
                 <Search />
                 <Cart />
             </div>
