@@ -6,6 +6,7 @@ import SolidStarIcon from '../ui/icons/SolidStarIcon';
 import HeartIcon from '../ui/icons/HeartIcon';
 import ArrowRightIcon from '../ui/icons/ArrowRightIcon'
 import ArrowLeftIcon from '../ui/icons/ArrowLeftIcon'
+import NikeIcon from '../ui/icons/NikeIcon'
 
 function Main() {
     return (
@@ -13,26 +14,29 @@ function Main() {
 
             <div className="p-3 lg:pl-20 lg:pt-32 col-span-7 lg:col-span-3 flex flex-col font-sans">
                 <Image className="w-14 mb-2" src='/assets/icons/nike-logo-text.png' width={80} height={60} />
-                <strong className="text-orange-200/90 inline-block text-5xl lg:text-[150px] lg:leading-[120px] break-words font-bold">BORING</strong>
-                <strong className="text-orange-200/90 text-3xl lg:text-[100px] lg:leading-[120px] font-bold">SHOES?</strong>
-                <span className="text-white text-md lg:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
+                <strong className="text-orange-200/90 inline-block text-5xl sm:text-9xl lg:text-[150px] lg:leading-[120px] break-words font-bold">BORING</strong>
+                <strong className="text-orange-200/90 text-3xl lg:text-[100px] sm:text-7xl lg:leading-[120px] font-bold">SHOES?</strong>
+                <span className="text-white text-md sm:text-lg lg:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
 
-                <button className="mt-4 lg:mt-10 w-fit text-xs lg:text-md font-semibold lg:font-bold text-white rounded-lg lg:rounded-xl bg-red-500/100 py-1 px-3 lg:py-2 lg:px-5">EXPLORE OUT STORE</button>
+                <button className="mt-4 lg:mt-10 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUT STORE</button>
             </div>
 
             <div className="col-span-7 lg:col-span-4 relative flex flex-col items-center">
 
 
-                <div className="back-nike-logo mt-10 lg:absolute top-12 -left-24">
-                    <Image className="rotate-[-32deg] scale-95 lg:scale-[150%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
+                <div className="relative w-full h-full flex flex-col">
+                    <Image className="absolute top-0 left-0 rotate-[-32deg] mt-44 z-50 scale-95 sm:scale-110 lg:scale-[110%]" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
+                    <span className="absolute left-8 bottom-0 rotate-[-15deg] scale-[220%] w-full fill-gray-400 opacity-20">
+                        <NikeIcon />
+                    </span>
                 </div>
 
 
 
-                <div className="lg:absolute top-10 pr-8 right-64 flex flex-col gap-y-10">
+                <div className="lg:absolute top-0 pr-4 right-64 flex flex-col gap-y-16">
 
                     <TopCurve />
-                    <div className="mt-32 self-end flex lg:flex-col gap-4">
+                    <div className="mt-32 lg:mt-0 self-end flex lg:flex-col gap-4">
                         <div className="w-8 h-8 mx-auto rounded-full rotate-12 border-white border-2 flex flex-nowrap overflow-hidden">
                             <div className="w-1/2 h-full border-r-2 border-white bg-red-500"></div>
                             <div className="w-1/2 h-full bg-white"></div>
@@ -103,7 +107,7 @@ function Main() {
                 </div>
 
                 {/* products */}
-                <div className="w-full lg:ml-20 px-10 lg:pr-24 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
+                <div className="w-full lg:ml-20 py-2 px-10 lg:pr-24 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
 
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">

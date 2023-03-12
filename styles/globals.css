@@ -37,15 +37,31 @@
 
 .back-nike-logo:before {
     position: absolute;
-    top: 5rem;
-    left: -4rem;
+    top: 25%;
+    left: -2rem;
     right: 0;
-    scale: 70%;
-    transform: rotate(-12deg);
+    scale: 90%;
+    transform: rotate(-14deg);
     content: url('/assets/icons/nike-gray-logo.png');
     filter: alpha(opacity=50);
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
     opacity: .20;
+}
+
+@media only screen and (min-width: 640px) {
+
+    .back-nike-logo:before {
+        position: absolute;
+        top: 10rem;
+        left: 5rem;
+        transform: rotate(-10deg);
+        scale: 120%;
+        content: url('/assets/icons/nike-gray-logo.png');
+        filter: alpha(opacity=50);
+        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
+        opacity: .20;
+    }
+
 }
 
 @media only screen and (min-width: 1024px) {
