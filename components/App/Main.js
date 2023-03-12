@@ -12,13 +12,17 @@ function Main() {
     return (
         <div className="mt-6 w-full h-full grid grid-cols-7 gap-2">
 
-            <div className="p-3 lg:pl-20 lg:pt-32 col-span-7 lg:col-span-3 flex flex-col font-sans">
+            <div className="p-3 lg:pl-20 lg:pt-32 col-span-7 lg:col-span-3 flex flex-col gap-y-4 font-sans">
                 <Image className="w-14 mb-2" src='/assets/icons/nike-logo-text.png' width={80} height={60} />
-                <strong className="text-orange-200/90 inline-block text-5xl sm:text-9xl lg:text-[150px] lg:leading-[120px] break-words font-bold">BORING</strong>
-                <strong className="text-orange-200/90 text-3xl lg:text-[100px] sm:text-7xl lg:leading-[120px] font-bold">SHOES?</strong>
-                <span className="text-white text-md sm:text-lg lg:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
+                <span>
+                    <h1>
+                        <strong className="text-orange-200/90 inline-block text-5xl sm:text-9xl lg:text-[150px] lg:leading-[120px] break-words font-bold">BORING</strong>
+                        <strong className="text-orange-200/90 text-3xl lg:text-[100px] sm:text-7xl lg:leading-[120px] font-bold">SHOES?</strong>
+                    </h1>
+                    <span className="text-white text-md sm:text-lg lg:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
+                </span>
 
-                <button className="mt-4 lg:mt-10 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUT STORE</button>
+                <button className="mt-4 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUT STORE</button>
             </div>
 
             <div className="col-span-7 lg:col-span-4 relative flex flex-col items-center">

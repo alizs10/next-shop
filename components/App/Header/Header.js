@@ -10,7 +10,7 @@ function Header() {
             <Bars />
             <Logo />
             <Menus />
-            <div className='col-span-1 ml-auto flex justify-start items-center gap-x-1 lg:gap-x-2'>
+            <div className='col-span-1 ml-auto flex justify-start lg:ml-0 items-center gap-x-1 lg:gap-x-2'>
                 <Search />
                 <Cart />
             </div>
