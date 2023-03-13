@@ -10,14 +10,14 @@ import NikeIcon from '../ui/icons/NikeIcon'
 
 function Main() {
     return (
-        <div className="mt-6 w-full h-full lg:pt-20 grid grid-cols-7 gap-y-2">
+        <div className="mt-6 w-full h-full lg:pt-20 xl:pt-0 grid grid-cols-7 gap-y-2">
 
-            <div className="p-3 xl:pl-20 xl:pt-32 col-span-7 z-10 lg:col-span-3 flex flex-col gap-y-4 font-sans">
+            <div className="p-3 xl:pl-20 col-span-7 z-10 lg:col-span-3 flex flex-col gap-y-4 font-sans">
                 <Image className="w-14 mb-2" src='/assets/icons/nike-logo-text.png' width={80} height={60} />
                 <span>
-                    <h1 className="flex flex-col lg:leading-[100px] xl:leading-[120px]">
-                        <strong className="text-orange-200/90 inline-block text-5xl sm:text-9xl lg:text-[100px] xl:text-[150px] break-words font-bold">BORING</strong>
-                        <strong className="text-orange-200/90 text-3xl lg:text-[80px] xl:text-[100px] sm:text-7xl font-bold">SHOES?</strong>
+                    <h1 className="flex flex-col lg:leading-[100px] xl:leading-[110px] 2xl:leading-[120px]">
+                        <strong className="text-orange-200/90 inline-block text-5xl sm:text-9xl lg:text-[100px] 2xl:text-[120px] break-words font-bold">BORING</strong>
+                        <strong className="text-orange-200/90 text-3xl lg:text-[80px] 2xl:text-[100px] sm:text-7xl font-bold">SHOES?</strong>
                     </h1>
                     <span className="text-white text-md sm:text-lg lg:text-xl xl:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
                 </span>
@@ -25,19 +25,19 @@ function Main() {
                 <button className="mt-4 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUT STORE</button>
             </div>
 
-            <div className="col-span-7 xl:mt-44 lg:col-span-4 relative flex flex-col items-center">
+            <div className="col-span-7 xl:mt-24 lg:col-span-4 relative flex flex-col items-center">
 
 
-                <div className="relative lg:absolute lg:top-0 lg:-left-36 flex flex-col w-full h-full">
-                    <Image className="rotate-[-32deg] z-50 w-full py-20" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
-                    <span className="absolute top-[35%] lg:top-0 lg:left-[-40%] rotate-[-15deg] w-[150%] lg:w-[250%] fill-gray-400 opacity-20">
+                <div className="relative lg:absolute lg:top-0 xl:top-[-20%] lg:-left-36 flex flex-col w-full h-full">
+                    <Image className="rotate-[-32deg] z-50 w-full lg:w-[90%] 2xl:w-[80%] py-20" src={'/assets/nike-shoe-rmed-bg.png'} width={600} height={600} />
+                    <span className="absolute top-[35%] lg:top-[-10%] xl:top-[-20] 2xl:top-[-40%] lg:left-[-40%] xl:left-[-47%] rotate-[-15deg] w-[150%] lg:w-[250%] fill-gray-400 opacity-20">
                         <NikeIcon />
                     </span>
                 </div>
 
 
 
-                <div className="lg:absolute top-0 lg:-top-[25%] pr-4 right-64 lg:right-0 flex flex-col gap-y-16 lg:gap-y-4">
+                <div className="lg:absolute top-0 lg:-top-[30%] xl:top-[-40%] pr-4 right-64 lg:right-[5%] xl:right-[8%] flex flex-col gap-y-16 lg:gap-y-8 xl:gap-y-4 2xl:gap-y-10">
 
                     <TopCurve />
                     <div className="mt-20 lg:mt-0 self-end flex lg:flex-col gap-4">
@@ -58,7 +58,7 @@ function Main() {
 
                 </div>
 
-                <div className="lg:absolute -bottom-10 left-[16rem] lg:left-[30%] lg:-bottom-[15%] mt-10 flex flex-row items-center gap-x-2">
+                <div className="lg:absolute -bottom-10 left-[16rem] lg:left-[30%] xl:left-[18vw] 2xl:left-[35%] lg:-bottom-[15%] xl:bottom-[-35%] 2xl:bottom-[-23%] mt-10 flex flex-row items-center gap-x-2">
 
                     <ChevronLeftIcon fontSize={'7xl'} color={'white'} />
 
@@ -111,7 +111,7 @@ function Main() {
                 </div>
 
                 {/* products */}
-                <div className="w-full py-2 px-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
+                <div className="w-full py-2 pl-20 pr-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
 
                     <div className="h-fit flex min-w-[400px] z-20">
                         <div className="relative w-[35%] rounded-l-3xl aspect-square bg-emerald-500">
