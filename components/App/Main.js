@@ -10,7 +10,7 @@ import NikeIcon from '../ui/icons/NikeIcon'
 
 function Main() {
     return (
-        <div className="mt-6 w-full h-full lg:pt-20 xl:pt-0 grid grid-cols-7 gap-y-2">
+        <div className="mt-10 w-full h-full lg:pt-20 xl:pt-0 grid grid-cols-7 gap-y-2">
 
             <div className="p-3 xl:pl-20 col-span-7 z-10 lg:col-span-3 flex flex-col gap-y-4 font-sans">
                 <Image className="w-14 mb-2" src='/assets/icons/nike-logo-text.png' width={80} height={60} />
