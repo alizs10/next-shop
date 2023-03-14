@@ -5,6 +5,8 @@ import Cart from './Cart'
 import Logo from './Logo'
 
 function Header() {
+
+
     return (
         <header className="flex items-center px-3 xl:px-0 xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end">
             <Bars />

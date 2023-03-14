@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    @apply bg-gray-800
+html,
+body {
+    background-color: #1f2937 !important;
 }
 
 .x-animated-radio {
