@@ -34,6 +34,8 @@ function Drawer() {
                         <li className={listStyle}>Login/Register</li>
                         <li className={listStyle}>Cart</li>
                         <li className={listStyle}>Categories</li>
+                        <li className={listStyle}>Delivery</li>
+                        <li className={listStyle}>Packaging</li>
                         <li className={listStyle}>FAQ</li>
                         <li className={listStyle}>Contact</li>
                         <li className={listStyle}>About</li>
