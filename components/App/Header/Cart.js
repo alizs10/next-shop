@@ -1,15 +1,22 @@
-import Link from "next/link";
+import useAppStore from "../../../stores/app-store";
 import BagIcon from "../../ui/icons/BagIcon";
+import CartPopup from "./CartPopup";
 
 function Cart() {
+
+    const { toggleCartPopup } = useAppStore()
+
     return (
-        <Link href="/cart">
-            <div className="cursor-pointer rounded-full text-white bg-red-600 p-1 lg:p-2">
+        <section className="relative">
+            <div onClick={toggleCartPopup} className="cursor-pointer rounded-full text-white bg-red-600 p-1 lg:p-2">
                 <div className="scale-75 lg:scale-[80%]">
                     <BagIcon />
                 </div>
             </div>
-        </Link>
+
+            <CartPopup />
+        </section>
+
     );
 }
 
