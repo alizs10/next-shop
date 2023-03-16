@@ -4,9 +4,12 @@ import TopCurve from '../TopCurve'
 import BottomCurve from '../BottomCurve'
 import SolidStarIcon from '../../ui/icons/SolidStarIcon';
 import NikeIcon from '../../ui/icons/NikeIcon'
+import useAppStore from "../../../stores/app-store";
 
 
-function MainProduct({ shownProduct }) {
+function MainProduct() {
+
+    const { shownProduct, toggleMainAddToCartPopup } = useAppStore()
 
 
     return (
@@ -63,7 +66,7 @@ function MainProduct({ shownProduct }) {
                         <span className="text-gray-400 text-3xl lg:text-xl">|</span>
                         <span className="font-bold text-xl lg:text-lg text-orange-200/90">${shownProduct.price}</span>
                     </div>
-                    <button className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
+                    <button onClick={toggleMainAddToCartPopup} className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
                 </div>
 
                 <ChevronRightIcon fontSize={'7xl'} color={'red.500'} />
