@@ -15,6 +15,7 @@ function Cart() {
             </div>
 
             <CartPopup />
+
         </section>
 
     );

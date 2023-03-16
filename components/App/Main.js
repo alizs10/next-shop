@@ -20,7 +20,7 @@ function Main() {
                     <span className="text-white text-md sm:text-lg lg:text-xl xl:text-2xl">Let Us <strong>HELP</strong> you fix it...</span>
                 </span>
 
-                <button className="mt-4 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUT STORE</button>
+                <button className="mt-4 w-fit text-xs sm:text-lg lg:text-xl font-semibold lg:font-bold text-white rounded-lg sm:rounded-xl bg-red-500/100 py-1 px-3 sm:py-2 sm:px-5">EXPLORE OUR STORE</button>
             </div>
 
             <div className="col-span-7 xl:mt-24 lg:col-span-4 relative flex flex-col items-center">

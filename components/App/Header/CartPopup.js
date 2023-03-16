@@ -19,7 +19,7 @@ function CartPopup() {
                     animate={{ scale: [0.9, 1], opacity: [0, 1] }}
                     exit={{ scale: [1, 0.9], opacity: [1, 0] }}
                     transition={{ bounce: "spring", duration: "0.3" }}
-                    className="absolute top-0 right-0 flex flex-col gap-y-4 z-[900] shadow-lg w-[350px] p-5 bg-red-600 rounded-3xl">
+                    className="absolute top-0 right-0 flex flex-col gap-y-4 z-[9999] shadow-lg w-[350px] p-5 bg-red-600 rounded-3xl">
                     <div className='flex justify-between items-center'>
                         <div className="flex gap-x-2 items-end">
                             <span className='text-white text-xl font-semibold'>

@@ -4,8 +4,9 @@ import Main from './Main';
 import Drawer from './Drawer';
 import useAppStore from "../../stores/app-store";
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from "react";
+import ClickOutside from "../Common/ClickOutside";
 
 function AppLayout({ children }) {
 
@@ -17,7 +18,7 @@ function AppLayout({ children }) {
     }, [drawerVis])
 
     return (
-        <div className={`${drawerVis && 'overflow-hidden'}`}>
+        <div className={` ${drawerVis ? 'overflow-hidden' : ''}`}>
             <motion.section
                 initial={{ translateX: "0" }}
                 animate={{ translateX: translateX + "px" }}
@@ -35,6 +36,7 @@ function AppLayout({ children }) {
                     </main>
 
                 </section>
+                <ClickOutside />
             </motion.section>
 
             <Drawer />
