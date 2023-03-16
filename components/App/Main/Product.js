@@ -1,5 +1,5 @@
-import HeartIcon from '../ui/icons/HeartIcon';
-import SolidStarIcon from '../ui/icons/SolidStarIcon';
+import HeartIcon from '../../ui/icons/HeartIcon';
+import SolidStarIcon from '../../ui/icons/SolidStarIcon';
 import Image from "next/image";
 
 

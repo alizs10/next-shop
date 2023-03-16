@@ -1,10 +1,10 @@
-import ArrowRightIcon from '../ui/icons/ArrowRightIcon'
-import ArrowLeftIcon from '../ui/icons/ArrowLeftIcon'
+import ArrowRightIcon from '../../ui/icons/ArrowRightIcon'
+import ArrowLeftIcon from '../../ui/icons/ArrowLeftIcon'
 import Product from "./Product";
 import { useRef } from 'react';
 
 
-function Products() {
+function MainProducts() {
 
     const productsContainerRef = useRef()
     const productWidth = 400;
@@ -55,4 +55,4 @@ function Products() {
     );
 }
 
-export default Products;
+export default MainProducts;
