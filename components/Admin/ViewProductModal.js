@@ -18,33 +18,15 @@ function ViewProductModal({ isOpen, onOpen, onClose, product }) {
                             <p className="text-sm text-justify w-full">{product.description}</p>
                         </div>
 
-                        {product.sizes.length > 0 && (
-                            <div className='w-full flex flex-col gap-2'>
-                                <span className="text-sm">Sizes:</span>
-                                <div className='grid grid-cols-4 gap-2'>
-                                    {product.sizes.map((sizeContainer, index) => (
-                                        <span
-                                            key={index} className={`rounded-xl px-5 py-2 bg-gray-200`}>
-                                            {sizeContainer.sizeRef.size}
-                                        </span>
-                                    ))}
-
-                                </div>
-                            </div>
-                        )}
-
-                        {product.colors.length > 0 && (
+                        {product.attributes.length > 0 && (
                             <div className='w-full flex flex-col gap-y-2'>
                                 <span className="text-sm">Colors:</span>
                                 <div className="flex flex-wrap gap-2">
-                                    {product.colors.map((colorContainer, index) => (
-                                        <span
-                                            key={index} className='p-[1px] rounded-full w-10 h-10 border-2 border-gray-500'>
-                                            <div
-                                                style={{ backgroundColor: "#" + colorContainer.colorRef.color_code }}
-                                                className='overflow-hidden flex justify-center items-center rounded-full w-full h-full'>
-                                            </div>
-                                        </span>
+                                    {product.attributes.map((attr) => (
+                                        <div key={attr._id} className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
+                                            <div style={{ backgroundColor: attr.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
+                                            <div style={{ backgroundColor: attr.palette[1] }} className="w-1/2 h-full"></div>
+                                        </div>
                                     ))}
 
                                 </div>
