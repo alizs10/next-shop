@@ -1,6 +1,9 @@
 import { Button, color, HStack, Input, Switch, Tag, TagCloseButton, TagLabel, Textarea } from '@chakra-ui/react'
+import { randomUUID } from 'crypto'
+import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import NewAttributeModal from './NewAttributeModal'
 
 function CreateProduct() {
 
@@ -8,64 +11,10 @@ function CreateProduct() {
     const [isFormDisable, setIsFormDisable] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    const [colors, setColors] = useState([])
     const [sizes, setSizes] = useState([])
 
-    const [selectedColors, setSelectedColors] = useState([])
-    const [selectedSizes, setSelectedSizes] = useState([])
-
-    function addSize(id) {
-        let size = sizes.find(size => size._id === id)
-        setSelectedSizes(prevState => [...prevState, size])
-    }
-
-    function addColor(id) {
-        let color = colors.find(color => color._id === id)
-        setSelectedColors(prevState => [...prevState, color])
-    }
-
-    function removeSize(id) {
-        setSelectedSizes(prevState => prevState.filter(size => size._id !== id))
-    }
-
-    function removeColor(id) {
-        setSelectedColors(prevState => prevState.filter(color => color._id !== id))
-    }
-
-    function isColorSelected(id) {
-        return selectedColors.find(color => color._id === id) ? true : false
-    }
-
-    function isSizeSelected(id) {
-        return selectedSizes.find(size => size._id === id) ? true : false
-    }
-
-    function toggleColor(id) {
-        isColorSelected(id) ? removeColor(id) : addColor(id)
-    }
-
-    function toggleSize(id) {
-        isSizeSelected(id) ? removeSize(id) : addSize(id)
-    }
-
-    function selectAllColors() {
-        if (selectedColors.length === colors.length) {
-            setSelectedColors([])
-            return
-        }
-        setSelectedColors(colors)
-    }
-
-    function selectAllSizes() {
-        if (selectedSizes.length === sizes.length) {
-            setSelectedSizes([])
-            return
-        }
-        setSelectedSizes(sizes)
-    }
-
     useEffect(() => {
-        if ((showCreateProduct && colors.length > 0 && sizes.length > 0) || !showCreateProduct) return
+        if ((showCreateProduct && sizes.length > 0) || !showCreateProduct) return
 
         fetchData()
     }, [showCreateProduct])
@@ -73,16 +22,13 @@ function CreateProduct() {
 
     async function fetchData() {
 
-        let res = await fetch('/api/colors')
-        let res2 = await fetch('/api/sizes')
+        let res = await fetch('/api/sizes')
 
         let data = await res.json()
-        let data2 = await res2.json()
 
-        if (res.status === 200 && res2.status === 200) {
+        if (res.status === 200) {
 
-            setColors(data.colors)
-            setSizes(data2.sizes)
+            setSizes(data.sizes)
             setLoading(false)
         }
 
@@ -169,9 +115,6 @@ function CreateProduct() {
         inputData.gallery = images.map(image => image.src)
         inputData.status = status
 
-        inputData.sizes = selectedSizes.map(selectedSize => ({ sizeRef: selectedSize._id, price_increase: selectedSize.price_increase }))
-        inputData.colors = selectedColors.map(selectedColor => ({ colorRef: selectedColor._id, price_increase: selectedColor.price_increase }))
-
         try {
             setIsFormDisable(true)
             const toastLoadingId = toast.loading("creating product ...")
@@ -228,8 +171,7 @@ function CreateProduct() {
 
 
     const clearFrom = () => {
-        setSelectedSizes([])
-        setSelectedColors([])
+
         setImages([])
         nameRef.current.value = ""
         priceRef.current.value = ""
@@ -239,6 +181,32 @@ function CreateProduct() {
         soldNumberRef.current.value = ""
         frozenNumberRef.current.value = ""
         descriptionRef.current.value = ""
+    }
+
+    const [newAttributeModalVis, setNewAttributeModalVis] = useState(false)
+
+    function toggleNewAttributeModal() {
+        setNewAttributeModalVis(prevState => !prevState)
+    }
+
+    const [attributes, setAttributes] = useState([])
+
+    function handleAddNewAttribute() {
+        newAttr.key = Math.floor(Math.random()) * 1000;
+        setAttributes(prevState => [...prevState, newAttr])
+        setNewAttr({})
+        setNewAttributeModalVis(false)
+    }
+
+    function handleRemoveAttribute(attrKey) {
+        let filteredAttributes = attributes.filter(attr => attr.key !== attrKey)
+        setAttributes(filteredAttributes)
+    }
+
+    const [newAttr, setNewAttr] = useState({})
+
+    function handleChangeNewAttr(field, newValue) {
+        setNewAttr(prevState => ({ ...prevState, [field]: newValue }))
     }
 
     return (
@@ -335,61 +303,28 @@ function CreateProduct() {
                             </div>
 
                             <div className='col-span-2 flex flex-col gap-y-2'>
-                                <span className='flex justify-between items-center py-2'>
-                                    <label>Sizes:</label>
-                                    <button className='px-2 py-1 rounded-xl bg-blue-300' type='button' onClick={selectAllSizes}>check all</button>
-                                </span>
 
-                                <div className='grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 gap-2'>
-                                    {sizes.map(size => (
-                                        <button onClick={() => toggleSize(size._id)} type='button' key={size._id} className={`col-span-1 shadow-md flex justify-center items-center rounded-full transition-all duration-300 gap-x-2 p-3 ${isSizeSelected(size._id) ? 'bg-emerald-400' : 'bg-white'}`}>
-                                            {size.size}
-                                        </button>
-                                    ))}
+                                <div className='flex justify-between items-center'>
+                                    <label className='text-lg'>Attributes:</label>
+                                    <button type='button' onClick={toggleNewAttributeModal} className='px-3 py-2 bg-blue-500 rounded-md w-fit text-sm text-white font-semibold'>New Attribute</button>
                                 </div>
-                                <div className='mt-4 grid grid-cols-2 gap-2'>
-                                    {selectedSizes.map((selectedSize, index) => (
-                                        <span key={selectedSize._id + index} className='col-span-2 grid grid-cols-4 gap-x-2'>
-                                            <div className='col-span-1 flex items-center'>
-                                                <div key={selectedSize._id} className={`col-span-1 shadow-md flex justify-center items-center rounded-full transition-all duration-300 gap-x-2 p-3 bg-blue-300`}>
-                                                    {selectedSize.size}
-                                                </div>
+
+
+                                <div className='grid grid-cols-6 gap-2'>
+                                    {attributes.map(attr => (
+                                        <div key={attr.key} className='col-span-1 rounded-md bg-gray-200 p-3 flex flex-col gap-y-1'>
+                                            <Image className='w-full aspect-square rounded-md' src={attr.image} height={100} width={100} />
+                                            <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
+                                                <div style={{ backgroundColor: attr.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
+                                                <div style={{ backgroundColor: attr.palette[1] }} className="w-1/2 h-full"></div>
                                             </div>
-                                            <input className='col-span-3 px-3 py-2 outline-none rounded-xl' onChange={e => handleChangeSizePriceIncrease(e, selectedSize)} type="text" placeholder="price increase" value={selectedSize.price_increase !== undefined ? selectedSize.price_increase : 0} />
-                                        </span>
+                                            <span className='text-xs text-gray-800'>Sizes: {attr.sizes.length}</span>
+                                            <span onClick={() => handleRemoveAttribute(attr.key)} className='text-xs cursor-pointer text-red-500 underline underline-offset-4'>remove</span>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className='mt-4 col-span-2 flex flex-col gap-y-2'>
 
-                                <span className='flex justify-between items-center py-2'>
-                                    <label>Colors:</label>
-                                    <button className='px-2 py-1 rounded-xl bg-blue-300' type='button' onClick={selectAllColors}>check all</button>
-                                </span>
-                                <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2'>
-                                    {colors.map(color => (
-                                        <button onClick={() => toggleColor(color._id)} type='button' key={color._id} className={`col-span-1 shadow-md flex items-center rounded-full transition-all duration-300 gap-x-2 p-3 ${isColorSelected(color._id) ? 'bg-emerald-400' : 'bg-white'}`}>
-                                            <div className='rounded-full w-8 p-[3px] border-2 border-black'>
-                                                <div className='w-full aspect-square rounded-full' style={{ backgroundColor: "#" + color.color_code }}></div>
-                                            </div>
-                                            <span>{color.color_name}</span>
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className='mt-4 grid grid-cols-2 gap-2'>
-                                    {selectedColors.map((selectedColor, index) => (
-                                        <span key={selectedColor._id + index} className='col-span-2 grid grid-cols-4 gap-x-2'>
-                                            <div className='col-span-1 flex items-center'>
-                                                <div className='rounded-full w-8 p-[3px] border-2 border-black'>
-                                                    <div className='w-full aspect-square rounded-full' style={{ backgroundColor: "#" + selectedColor.color_code }}></div>
-                                                </div>
-                                            </div>
-                                            <input className='col-span-3 px-3 py-2 outline-none rounded-xl' onChange={e => handleChangeColorPriceIncrease(e, selectedColor)} type="text" placeholder="price increase" value={selectedColor.price_increase !== undefined ? selectedColor.price_increase : 0} />
-                                        </span>
-                                    ))}
-                                </div>
-
-                            </div>
                         </div>
 
                         <Button
@@ -402,6 +337,10 @@ function CreateProduct() {
                         </Button>
                     </form>
                 </div>
+            )}
+
+            {newAttributeModalVis && (
+                <NewAttributeModal newAttr={newAttr} handleAddNewAttribute={handleAddNewAttribute} toggleNewAttributeModal={toggleNewAttributeModal} handleChangeNewAttr={handleChangeNewAttr} sizes={sizes} />
             )}
         </section>
     )

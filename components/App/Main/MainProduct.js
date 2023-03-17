@@ -31,7 +31,7 @@ function MainProduct() {
                 <TopCurve />
                 <div className="mt-20 lg:mt-0 self-end flex lg:flex-col gap-4">
                     {shownProduct.colors.map((color, index) => (
-                        <div className={`${index === 1 ? 'w-12 h-12' : 'w-8 h-8'} mx-auto rounded-full rotate-12 border-white border-2 flex flex-nowrap overflow-hidden`}>
+                        <div className={`${index === 1 ? 'w-12 h-12 rotate-12' : 'w-8 h-8'} mx-auto rounded-full border-white border-2 flex flex-nowrap overflow-hidden`}>
                             <div style={{ backgroundColor: color.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
                             <div style={{ backgroundColor: color.palette[1] }} className="w-1/2 h-full"></div>
                         </div>
