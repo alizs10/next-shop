@@ -58,7 +58,6 @@ function Products() {
 
     const handleDeleteProduct = async pid => {
 
-        console.log("here");
         let response = await fetch(`/api/products/${pid}`, {
             method: "DELETE"
         })
@@ -123,11 +122,14 @@ function Products() {
                             {products.map(product => (
                                 <Card key={product._id} maxW='sm' bgColor="whiteAlpha.800">
                                     <CardBody>
-                                        <Image
-                                            src={product.image}
-                                            alt='Green double couch with wooden legs'
-                                            borderRadius='lg'
-                                        />
+                                        <div className='w-full aspect-square flex items-center'>
+                                            <Image
+                                                className='w-full'
+                                                src={product.image}
+                                                alt='Green double couch with wooden legs'
+                                                borderRadius='lg'
+                                            />
+                                        </div>
                                         <Stack mt='6' spacing='3'>
                                             <Heading size='md'>{product.name}</Heading>
 

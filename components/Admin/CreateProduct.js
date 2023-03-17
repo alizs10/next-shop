@@ -175,8 +175,8 @@ function CreateProduct() {
     const [attributes, setAttributes] = useState([])
 
     function handleAddNewAttribute() {
-        newAttr.key = Math.floor(Math.random()) * 1000;
-        setAttributes(prevState => [...prevState, newAttr])
+        let newAttribute = { ...newAttr, key: Math.floor(Math.random() * 1000) }
+        setAttributes(prevState => [...prevState, newAttribute])
         setNewAttr({})
         setNewAttributeModalVis(false)
     }
