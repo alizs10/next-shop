@@ -75,33 +75,10 @@ function CreateProduct() {
         setShowCreateProduct(prevState => !prevState)
     }
 
-    function handleChangeSizePriceIncrease(e, size) {
-        setSelectedSizes(prevState => {
-            let selectedSizesIns = [...prevState]
-            let updatableSizeIndex = selectedSizesIns.findIndex(selectedSize => selectedSize._id === size._id)
-            let updatableSize = selectedSizesIns[updatableSizeIndex]
-            updatableSize = size;
-            updatableSize.price_increase = e.target.value
-            return selectedSizesIns;
-        })
-    }
-
-    function handleChangeColorPriceIncrease(e, color) {
-        setSelectedColors(prevState => {
-            let selectedColorsIns = [...prevState]
-            let updatableColorIndex = selectedColorsIns.findIndex(selectedColor => selectedColor._id === color._id)
-            let updatableColor = selectedColorsIns[updatableColorIndex]
-            updatableColor = color;
-            updatableColor.price_increase = e.target.value
-            return selectedColorsIns;
-        })
-    }
 
     const handleSubmit = async e => {
         e.preventDefault();
         if (isFormDisable) return
-
-
 
         let inputData = {};
         inputData.name = nameRef.current.value
@@ -114,6 +91,12 @@ function CreateProduct() {
         inputData.description = descriptionRef.current.value
         inputData.gallery = images.map(image => image.src)
         inputData.status = status
+        inputData.attributes = attributes.map(attr => {
+            delete attr.key
+            return attr
+        });
+
+        console.log(inputData.attributes);
 
         try {
             setIsFormDisable(true)
@@ -171,8 +154,8 @@ function CreateProduct() {
 
 
     const clearFrom = () => {
-
         setImages([])
+        setAttributes([])
         nameRef.current.value = ""
         priceRef.current.value = ""
         imageSrcRef.current.value = ""

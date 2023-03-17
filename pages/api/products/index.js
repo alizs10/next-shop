@@ -7,7 +7,7 @@ async function handler(req, res) {
 
     if (req.method === "GET") {
 
-        const products = await Product.find().populate('colors.colorRef').populate('sizes.sizeRef').exec()
+        const products = await Product.find()
         res.status(200).json({ products })
     }
 

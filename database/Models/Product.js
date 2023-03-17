@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-import Color from "./Color";
-import Size from "./Size";
+import mongoose, { SchemaTypes } from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -54,8 +52,27 @@ const ProductSchema = new Schema({
         min: 0,
         required: true
     },
-    colors: [{ colorRef: { type: Schema.Types.ObjectId, ref: Color }, price_increase: { type: Number, min: 0, default: 0 } }],
-    sizes: [{ sizeRef: { type: Schema.Types.ObjectId, ref: Size }, price_increase: { type: Number, min: 0, default: 0 } }],
+    attributes: [{
+        color_name: {
+            type: String,
+            required: true
+        },
+        image: { type: String, required: true },
+        palette: [{ type: String, required: true, minlength: 4 }, { type: String, required: true, minlength: 4 }],
+        price_increase: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+        sizes: [{
+            sizeId: SchemaTypes.ObjectId,
+            price_increase: {
+                type: Number,
+                required: true,
+                min: 0
+            }
+        }]
+    }],
     createdAt: {
         type: Date,
         default: () => Date.now(),
