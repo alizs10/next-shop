@@ -11,7 +11,7 @@ function Main() {
             <MainTitle />
             <MainProduct />
             <MainProducts />
-            <AddToCartPopup/>
+            <AddToCartPopup />
         </div>
     );
 }

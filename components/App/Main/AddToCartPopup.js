@@ -3,18 +3,30 @@ import useAppStore from "../../../stores/app-store";
 import XIcon from "../../ui/icons/XIcon";
 
 import { motion } from 'framer-motion';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AddToCartPopup() {
 
     const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct } = useAppStore()
 
-    let colors = shownProduct.colors;
-    let sizes = shownProduct.sizes;
 
-    const [selectedSize, setSelectedSize] = useState(0)
+    const [sizes, setSizes] = useState([])
     const [selectedColor, setSelectedColor] = useState(0)
 
+    const [selectedSize, setSelectedSize] = useState(0)
+
+    
+    useEffect(() => {
+
+        if(shownProduct)
+        {
+            setSizes(shownProduct.attributes[selectedColor].sizes)
+            setSelectedSize(0)
+        }
+
+    }, [selectedColor, shownProduct])
+
+    if (!shownProduct) return
     return (
         <AnimatePresence>
             {mainAddToCartPopupVis && (
@@ -34,27 +46,28 @@ function AddToCartPopup() {
                     <div className="mt-4 flex flex-col gap-y-4">
 
                         <div className="flex flex-col gap-y-2">
-                            <label className="text-lg">Select Size:</label>
-                            <div className="grid grid-cols-5 gap-4">
-                                {sizes.map((size, index) => (
-                                    <span onClick={() => setSelectedSize(index)} className={`col-span-1 px-3 py-2 text-md text-gray-800 bg-white rounded-xl text-center border-[3px] ${index === selectedSize ? 'border-red-500' : 'border-white hover:border-gray-200 hover:bg-gray-200'} transition-all duration-300 cursor-pointer`}>{size.size}</span>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-y-2">
                             <label className="text-lg">Select Color:</label>
 
                             <div className="grid grid-cols-6 gap-4">
-                                {colors.map((color, index) => (
-                                    <div onClick={() => setSelectedColor(index)} className={`col-span-1 aspect-square cursor-pointer transition-all duration-300 rounded-full shadow-md border-[3px] ${index === selectedColor ? 'border-red-500' : 'border-gray-500'} flex flex-nowrap overflow-hidden`}>
-                                        <div style={{ backgroundColor: color.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
-                                        <div style={{ backgroundColor: color.palette[1] }} className="w-1/2 h-full"></div>
+                                {shownProduct.attributes.map((attr, index) => (
+                                    <div key={index} onClick={() => setSelectedColor(index)} className={`col-span-1 aspect-square cursor-pointer transition-all duration-300 rounded-full shadow-md border-[3px] ${index === selectedColor ? 'border-red-500' : 'border-gray-500'} flex flex-nowrap overflow-hidden`}>
+                                        <div style={{ backgroundColor: attr.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
+                                        <div style={{ backgroundColor: attr.palette[1] }} className="w-1/2 h-full"></div>
                                     </div>
                                 ))}
                             </div>
 
                         </div>
+
+                        <div className="flex flex-col gap-y-2">
+                            <label className="text-lg">Select Size:</label>
+                            <div className="grid grid-cols-4 gap-4">
+                                {sizes.map((size, index) => (
+                                    <span key={size._id} onClick={() => setSelectedSize(index)} className={`col-span-1 px-3 py-2 text-md text-gray-800 bg-white rounded-xl text-center border-[3px] ${index === selectedSize ? 'border-red-500' : 'border-white hover:border-gray-200 hover:bg-gray-200'} transition-all duration-300 cursor-pointer`}>{size.sizeId.size}</span>
+                                ))}
+                            </div>
+                        </div>
+
 
                         <div className="mt-4 flex flex-col gap-y-2">
                             <span className="flex justify-between text-white font-bold text-lg">

@@ -1,6 +1,5 @@
 import Header from "./Header/Header";
 import Sidebar from './Sidebar';
-import Main from './Main';
 import Drawer from './Drawer';
 import useAppStore from "../../stores/app-store";
 
@@ -31,7 +30,7 @@ function AppLayout({ children }) {
                     <Sidebar />
 
                     <main className='relative overflow-hidden col-span-10 xl:col-span-9'>
-                        <Main />
+                        
                         {children}
                     </main>
 

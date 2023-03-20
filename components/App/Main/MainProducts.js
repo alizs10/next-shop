@@ -2,9 +2,12 @@ import ArrowRightIcon from '../../ui/icons/ArrowRightIcon'
 import ArrowLeftIcon from '../../ui/icons/ArrowLeftIcon'
 import Product from "./Product";
 import { useRef } from 'react';
+import useProductStore from '../../../stores/product-store';
 
 
 function MainProducts() {
+
+    const { products } = useProductStore()
 
     const productsContainerRef = useRef()
     const productWidth = 400;
@@ -39,16 +42,8 @@ function MainProducts() {
 
             <div ref={productsContainerRef} className="w-full py-2 pl-20 pr-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
 
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
+                {products.map(product => <Product key={product._id} product={product} />)}
+
 
             </div>
         </div>

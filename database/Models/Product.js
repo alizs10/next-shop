@@ -1,4 +1,5 @@
 import mongoose, { SchemaTypes } from "mongoose";
+import Size from './Size';
 
 const Schema = mongoose.Schema;
 
@@ -65,7 +66,7 @@ const ProductSchema = new Schema({
             min: 0
         },
         sizes: [{
-            sizeId: SchemaTypes.ObjectId,
+            sizeId: { type: SchemaTypes.ObjectId, ref: Size },
             price_increase: {
                 type: Number,
                 required: true,
