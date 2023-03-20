@@ -16,6 +16,14 @@ const useAppStore = create((set) => ({
 
     clickOutside: false,
     onClickOutside: () => set(() => ({ clickOutside: false, drawerVis: false, cartPopupVis: false, mainAddToCartPopupVis: false })),
+
+    cartItems: [],
+    addCartItem: (payload) => set((state) => ({ cartItems: [...state.cartItems, payload] })),
+    removeCartItem: (payload) => set((state) => {
+        let cartItemsIns = [...state.cartItems]
+        let filteredItems = cartItemsIns.filter(item => item._id !== payload)
+        return { cartItems: filteredItems }
+    }),
 }))
 
 export default useAppStore;

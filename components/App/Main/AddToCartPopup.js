@@ -15,16 +15,41 @@ function AddToCartPopup() {
 
     const [selectedSize, setSelectedSize] = useState(0)
 
-    
+
     useEffect(() => {
 
-        if(shownProduct)
-        {
+        if (shownProduct) {
             setSizes(shownProduct.attributes[selectedColor].sizes)
             setSelectedSize(0)
         }
 
     }, [selectedColor, shownProduct])
+
+    const { addCartItem } = useAppStore()
+
+    async function handleAddToCart() {
+        // api call
+        let newItem = {
+            productId: shownProduct._id,
+            attributeId: shownProduct.attributes[selectedColor]._id,
+            sizeId: shownProduct.attributes[selectedColor].sizes[selectedSize]._id
+        }
+
+        let result = await fetch('/api/cart', {
+            method: 'POST',
+            body: JSON.stringify(newItem),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (result.status === 201) {
+            let data = await result.json()
+            addCartItem(data.item)
+
+            console.log('new cart item added successfully');
+        }
+    }
 
     if (!shownProduct) return
     return (
@@ -75,7 +100,7 @@ function AddToCartPopup() {
                                 <span>$149</span>
                             </span>
 
-                            <button className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
+                            <button onClick={handleAddToCart} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
                                 Add To Cart
                             </button>
 
