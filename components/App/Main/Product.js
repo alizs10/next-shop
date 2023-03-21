@@ -1,15 +1,23 @@
 import HeartIcon from '../../ui/icons/HeartIcon';
 import SolidStarIcon from '../../ui/icons/SolidStarIcon';
 import Image from "next/image";
+import useAppStore from '../../../stores/app-store';
 
 
 function Product({ product }) {
+
+    const { shownProduct, setShownProduct } = useAppStore()
+
+    function handleSelectShowProduct(product) {
+        setShownProduct(product)
+    }
+
     return (
-        <div className="h-fit flex min-w-[400px] z-20">
+        <div onClick={() => handleSelectShowProduct(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 ${shownProduct._id === product._id ? 'outline-emerald-400' : 'outline-white'} bg-white outline outline-[3px] rounded-3xl transition-all duration-300`}>
             <div style={{ backgroundColor: product.attributes[0].palette[0] }} className="relative w-[35%] rounded-l-3xl aspect-square">
                 <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
-            <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
+            <div className={`w-[65%] flex flex-col gap-y-0 p-2 px-5`}>
                 <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
                 <div className="flex flex-nowrap">
 
