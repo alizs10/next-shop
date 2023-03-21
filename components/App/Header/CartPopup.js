@@ -1,14 +1,152 @@
-import Image from "next/image";
 import XIcon from "../../ui/icons/XIcon";
-import TrashIcon from "../../ui/icons/TrashIcon";
 import { AnimatePresence } from "framer-motion";
 import useAppStore from "../../../stores/app-store";
+import CartItem from './CartItem'
 
 import { motion } from 'framer-motion';
+import userStore from "../../../stores/user-store";
+import { useEffect, useState } from "react";
 
 function CartPopup() {
 
-    const { cartPopupVis, toggleCartPopup } = useAppStore()
+    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems, removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity } = useAppStore()
+    const { user } = userStore()
+
+    const [payAmount, setPayAmount] = useState(0)
+    const [loading, setLoading] = useState(false)
+
+    async function handleGetCartItems() {
+        setLoading(true)
+        try {
+            let result = await fetch('/api/cart')
+            let data = await result.json()
+
+            setCartItems(data.items)
+            setLoading(false)
+
+        } catch (error) {
+            console.log(error.message);
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+
+        console.log('here now');
+        if (cartPopupVis && user) {
+            console.log("here");
+            handleGetCartItems()
+        }
+
+    }, [cartPopupVis])
+
+    useEffect(() => {
+
+        if (cartItems.length === 0) {
+            setPayAmount(0)
+        } else {
+
+            let prices = 0;
+            cartItems.map(item => {
+                prices += item.payPrice
+            })
+
+            setPayAmount(prices)
+        }
+
+    }, [cartItems])
+
+
+    async function handlePostIncreaseCartItemQuantity(itemKey) {
+
+        try {
+
+            let result = await fetch('/api/cart/' + itemKey, {
+                method: "POST",
+                body: JSON.stringify({ mode: "increase" }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (result.status === 200) {
+                return true
+            } else {
+                return false
+            }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async function handlePostDecreaseCartItemQuantity(itemKey) {
+
+        try {
+
+            let result = await fetch('/api/cart/' + itemKey, {
+                method: "POST",
+                body: JSON.stringify({ mode: "decrease" }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (result.status === 200) {
+                return true
+            } else {
+                return false
+            }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async function handleIncreaseQuantity(item) {
+
+        if (user) {
+
+            let result = await handlePostIncreaseCartItemQuantity(item._id)
+
+            if (!result) {
+                console.log('couldnt increase cart item quantity, try again');
+                return
+            }
+
+        }
+
+        increaseCartItemQuantity(item._id)
+        console.log("cart item's quantity increased!");
+    }
+
+    async function handleDecreaseQuantity(item) {
+
+
+        if (user) {
+
+            let result = await handlePostDecreaseCartItemQuantity(item._id)
+
+            if (!result) {
+                console.log('couldnt delete/decrease cart item, try again');
+                return
+            }
+
+        }
+
+        if (item.quantity > 1) {
+            // decrease
+            decreaseCartItemQuantity(item._id)
+        } else {
+            // delete
+            removeCartItem(item._id)
+        }
+
+        console.log('cart item deleted!');
+
+    }
+
+
 
     return (
         <AnimatePresence>
@@ -25,133 +163,38 @@ function CartPopup() {
                             <span className='text-white text-xl font-semibold'>
                                 Cart
                             </span>
-                            <span className="text-sm w-6 aspect-square bg-white flex justify-center items-center text-red-500 font-bold rounded-md">6</span>
+                            <span className="text-sm w-6 aspect-square bg-white flex justify-center items-center text-red-500 font-bold rounded-md">{cartItems.length}</span>
                         </div>
                         <span onClick={toggleCartPopup} className='hover:bg-red-700 transition-all duration-300 p-1 rounded-md cursor-pointer text-gray-300 scale-125'>
                             <XIcon />
                         </span>
                     </div>
 
+                    {loading ? (
+                        <div className="text-white text-md">loading items...</div>
+                    ) : (
+                        cartItems.length > 0 ? (
+                            <>
+                                <ul className="flex flex-col gap-y-2 max-h-[50vh] overflow-y-scroll no-scrollbar">
 
-                    <ul className="flex flex-col gap-y-2 max-h-[50vh] overflow-y-scroll no-scrollbar">
-                        <li className="relative flex items-center bg-white rounded-xl">
-                            <span className="absolute bottom-0 right-0 z-10 p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 hover:border-red-100 transition-all duration-300 border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                                <TrashIcon />
-                            </span>
+                                    {cartItems.map(item => <CartItem key={item._id} item={item} handleIncreaseQuantity={handleIncreaseQuantity} handleDecreaseQuantity={handleDecreaseQuantity} />)}
 
-                            <div className="relative w-[35%] flex items-center aspect-square">
-                                <Image className="w-full p-2" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
-                            </div>
-
-                            <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
-                                <span className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</span>
-                                <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                                    <div className="w-1/2 h-full bg-green-800"></div>
+                                </ul>
+                                <div className="flex flex-col gap-y-2">
+                                    <span className="font-bold text-lg text-white">Pay Amount: {payAmount} $</span>
+                                    <button className="rounded-xl bg-white text-red-500 font-bold w-full py-2">
+                                        Check Out
+                                    </button>
                                 </div>
-                                <span className="font-sans text-gray-800 text-md">Size: 6</span>
-                                <span className="font-sans text-gray-800 font-bold text-md">$189</span>
-
+                            </>
+                        ) : (
+                            <div className="text-lg text-white w-full">
+                                <span>No items...</span>
                             </div>
+                        )
+                    )}
 
 
-                        </li>
-                        <li className="relative flex items-center bg-white rounded-xl">
-                            <span className="absolute bottom-0 right-0 z-10 p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 hover:border-red-100 transition-all duration-300 border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                                <TrashIcon />
-                            </span>
-
-                            <div className="relative w-[35%] flex items-center aspect-square">
-                                <Image className="w-full p-2" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
-                            </div>
-
-                            <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
-                                <span className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</span>
-                                <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                                    <div className="w-1/2 h-full bg-green-800"></div>
-                                </div>
-                                <span className="font-sans text-gray-800 text-md">Size: 6</span>
-                                <span className="font-sans text-gray-800 font-bold text-md">$189</span>
-
-                            </div>
-
-
-                        </li>
-                        <li className="relative flex items-center bg-white rounded-xl">
-                            <span className="absolute bottom-0 right-0 z-10 p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 hover:border-red-100 transition-all duration-300 border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                                <TrashIcon />
-                            </span>
-
-                            <div className="relative w-[35%] flex items-center aspect-square">
-                                <Image className="w-full p-2" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
-                            </div>
-
-                            <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
-                                <span className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</span>
-                                <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                                    <div className="w-1/2 h-full bg-green-800"></div>
-                                </div>
-                                <span className="font-sans text-gray-800 text-md">Size: 6</span>
-                                <span className="font-sans text-gray-800 font-bold text-md">$189</span>
-
-                            </div>
-
-
-                        </li>
-                        <li className="relative flex items-center bg-white rounded-xl">
-                            <span className="absolute bottom-0 right-0 z-10 p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 hover:border-red-100 transition-all duration-300 border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                                <TrashIcon />
-                            </span>
-
-                            <div className="relative w-[35%] flex items-center aspect-square">
-                                <Image className="w-full p-2" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
-                            </div>
-
-                            <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
-                                <span className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</span>
-                                <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                                    <div className="w-1/2 h-full bg-green-800"></div>
-                                </div>
-                                <span className="font-sans text-gray-800 text-md">Size: 6</span>
-                                <span className="font-sans text-gray-800 font-bold text-md">$189</span>
-
-                            </div>
-
-
-                        </li>
-                        <li className="relative flex items-center bg-white rounded-xl">
-                            <span className="absolute bottom-0 right-0 z-10 p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 hover:border-red-100 transition-all duration-300 border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                                <TrashIcon />
-                            </span>
-
-                            <div className="relative w-[35%] flex items-center aspect-square">
-                                <Image className="w-full p-2" src={'/assets/nike-shoe-rmed-bg.png'} width={200} height={200} />
-                            </div>
-
-                            <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
-                                <span className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</span>
-                                <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                                    <div className="w-1/2 h-full bg-green-800"></div>
-                                </div>
-                                <span className="font-sans text-gray-800 text-md">Size: 6</span>
-                                <span className="font-sans text-gray-800 font-bold text-md">$189</span>
-
-                            </div>
-
-
-                        </li>
-                    </ul>
-
-                    <div className="flex flex-col gap-y-2">
-                        <span className="font-bold text-lg text-white">Pay Amount: 768 $</span>
-                        <button className="rounded-xl bg-white text-red-500 font-bold w-full py-2">
-                            Check Out
-                        </button>
-                    </div>
 
                 </motion.div>
             )}

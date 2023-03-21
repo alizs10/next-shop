@@ -11,3 +11,9 @@ export const verifyPassword = async (password, hashedPassword) => {
 export const jsonParser = data => {
     return JSON.parse(JSON.stringify(data))
 }
+
+export const generateRandomId = () => {
+
+    return Math.floor(Math.random() * 1000000)
+
+}

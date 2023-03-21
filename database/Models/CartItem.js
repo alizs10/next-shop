@@ -6,12 +6,12 @@ import User from "./User";
 const Schema = mongoose.Schema;
 
 const CartItemSchema = new Schema({
-    userId: {
+    user: {
         type: SchemaTypes.ObjectId,
         ref: User,
         required: true
     },
-    productId: {
+    product: {
         type: SchemaTypes.ObjectId,
         ref: Product,
         required: true
@@ -29,13 +29,19 @@ const CartItemSchema = new Schema({
             min: 0
         },
         size: {
-            sizeId: { type: SchemaTypes.ObjectId, ref: Size },
+            size: { type: SchemaTypes.ObjectId, ref: Size, required: true },
             price_increase: {
                 type: Number,
                 required: true,
                 min: 0
             }
         }
+    },
+    quantity: {
+        type: Number,
+        min: 1,
+        default: 1,
+        required: true
     },
     discountAmount: {
         type: Number,

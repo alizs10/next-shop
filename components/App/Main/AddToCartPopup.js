@@ -4,16 +4,37 @@ import XIcon from "../../ui/icons/XIcon";
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from "react";
+import { generateRandomId } from "../../../helpers/helpers";
+import userStore from "../../../stores/user-store";
 
 function AddToCartPopup() {
 
     const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct } = useAppStore()
-
+    const { user } = userStore()
 
     const [sizes, setSizes] = useState([])
     const [selectedColor, setSelectedColor] = useState(0)
 
     const [selectedSize, setSelectedSize] = useState(0)
+    const [payPrice, setPayPrice] = useState(0)
+
+    function calcPayPrice() {
+        let colorAttr = shownProduct.attributes[selectedColor]
+        let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
+
+        let allPrices = +shownProduct.price + +colorAttr.price_increase + +sizeAttr.price_increase;
+        let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
+        let payPrice = +allPrices - +discountAmount;
+        setPayPrice(payPrice)
+    }
+
+    useEffect(() => {
+
+        if (mainAddToCartPopupVis) {
+            calcPayPrice()
+        }
+
+    }, [selectedColor, selectedSize, mainAddToCartPopupVis])
 
 
     useEffect(() => {
@@ -27,7 +48,20 @@ function AddToCartPopup() {
 
     const { addCartItem } = useAppStore()
 
+    async function handlePostCartItem(item) {
+        let result = await fetch('/api/cart', {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        return result;
+    }
+
     async function handleAddToCart() {
+
         // api call
         let newItem = {
             productId: shownProduct._id,
@@ -35,21 +69,39 @@ function AddToCartPopup() {
             sizeId: shownProduct.attributes[selectedColor].sizes[selectedSize]._id
         }
 
-        let result = await fetch('/api/cart', {
-            method: 'POST',
-            body: JSON.stringify(newItem),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
 
-        if (result.status === 201) {
+        if (user) {
+            let result = await handlePostCartItem(newItem)
             let data = await result.json()
             addCartItem(data.item)
 
-            console.log('new cart item added successfully');
+        } else {
+
+            let colorAttr = shownProduct.attributes[selectedColor]
+            let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
+            colorAttr.size = sizeAttr
+
+            let allPrices = +shownProduct.price + +colorAttr.price_increase + +sizeAttr.price_increase;
+            let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
+            let payPrice = +allPrices - +discountAmount;
+
+            let cartItem = {
+                _id: generateRandomId(),
+                product: shownProduct,
+                selectedAttributes: colorAttr,
+                payPrice,
+                discountAmount,
+                quantity: 1,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+            }
+
+            addCartItem(cartItem)
         }
+
+        toggleMainAddToCartPopup()
     }
+
 
     if (!shownProduct) return
     return (
@@ -97,7 +149,7 @@ function AddToCartPopup() {
                         <div className="mt-4 flex flex-col gap-y-2">
                             <span className="flex justify-between text-white font-bold text-lg">
                                 <span>Pay Price:</span>
-                                <span>$149</span>
+                                <span>${payPrice}</span>
                             </span>
 
                             <button onClick={handleAddToCart} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">

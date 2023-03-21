@@ -6,8 +6,15 @@ import useAppStore from "../../stores/app-store";
 import { motion } from 'framer-motion';
 import { useEffect, useState } from "react";
 import ClickOutside from "../Common/ClickOutside";
+import userStore from "../../stores/user-store";
 
-function AppLayout({ children }) {
+function AppLayout({ children, user }) {
+
+    const setUser = userStore((state) => state.setUser)
+    useEffect(() => {
+
+        setUser(user)
+    }, [])
 
     const [translateX, setTranslateX] = useState(0)
     const { drawerVis } = useAppStore()
@@ -30,7 +37,7 @@ function AppLayout({ children }) {
                     <Sidebar />
 
                     <main className='relative overflow-hidden col-span-10 xl:col-span-9'>
-                        
+
                         {children}
                     </main>
 

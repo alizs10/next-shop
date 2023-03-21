@@ -1,15 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from '../Header'
 import Footer from '../Footer'
-import userStore from '../../stores/user-store'
-
-function AppLayout({ children, user }) {
-
-    const setUser = userStore((state) => state.setUser)
-
-    useEffect(() => {
-        setUser(user)
-    }, [])
+function AppLayout({ children}) {
 
     return (
         <div className="h-screen bg-white">

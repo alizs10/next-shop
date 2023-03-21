@@ -5,10 +5,22 @@ import XIcon from '../ui/icons/XIcon';
 import LoginIcon from '../ui/icons/LoginIcon';
 import ShoppingCartIcon from '../ui/icons/ShoppingCartIcon';
 import RectanglesGroupIcon from '../ui/icons/RectanglesGroupIcon';
+import LogoutIcon from '../ui/icons/LogoutIcon';
 
+import userStore from '../../stores/user-store';
 import { motion } from 'framer-motion';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 function Drawer() {
+
+    const { user, removeUser } = userStore()
+
+    async function handleSignOut() {
+        signOut({ redirect: false })
+        toggleDrawer()
+        removeUser()
+    }
 
     const { drawerVis, toggleDrawer } = useAppStore()
 
@@ -34,12 +46,16 @@ function Drawer() {
 
 
                     <ul className='flex flex-col mt-10 w-full px-10 items-center gap-y-4 text-xl text-gray-200'>
-                        <li className={listStyle}>
-                            <span>
-                                <LoginIcon />
-                            </span>
-                            <span>Login/Register</span>
-                        </li>
+                        {!user && (
+                            <Link className='w-full' href="/auth/login">
+                                <li className={listStyle}>
+                                    <span>
+                                        <LoginIcon />
+                                    </span>
+                                    <span>Login/Register</span>
+                                </li>
+                            </Link>
+                        )}
                         <li className={listStyle}>
                             <span>
                                 <ShoppingCartIcon />
@@ -58,6 +74,14 @@ function Drawer() {
                         <li className={listStyle}>FAQ</li>
                         <li className={listStyle}>Contact</li>
                         <li className={listStyle}>About</li>
+                        {user && (
+                            <li onClick={handleSignOut} className={listStyle}>
+                                <span>
+                                    <LogoutIcon />
+                                </span>
+                                <span>Logout</span>
+                            </li>
+                        )}
                     </ul>
                 </motion.div>
             )}

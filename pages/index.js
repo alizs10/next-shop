@@ -10,7 +10,6 @@ import useProductStore from '../stores/product-store';
 
 const HomePage = ({ products }) => {
 
-  console.log(products);
   const { setProducts } = useProductStore()
 
   useEffect(() => {

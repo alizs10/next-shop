@@ -7,7 +7,7 @@ function Product({ product }) {
     return (
         <div className="h-fit flex min-w-[400px] z-20">
             <div style={{ backgroundColor: product.attributes[0].palette[0] }} className="relative w-[35%] rounded-l-3xl aspect-square">
-                <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} width={200} height={200} />
+                <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
             <div className="w-[65%] bg-white rounded-r-3xl flex flex-col gap-y-0 p-2 px-5">
                 <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
