@@ -1,8 +1,9 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import Image from "next/image";
-import TopCurve from '../TopCurve' 
+import TopCurve from '../TopCurve'
 import BottomCurve from '../BottomCurve'
 import SolidStarIcon from '../../ui/icons/SolidStarIcon';
+import ChevronRightIcon from '../../ui/icons/ChevronRightIcon';
+import ChevronLeftIcon from '../../ui/icons/ChevronLeftIcon';
 import NikeIcon from '../../ui/icons/NikeIcon'
 import useAppStore from "../../../stores/app-store";
 import useProductStore from "../../../stores/product-store";
@@ -64,7 +65,7 @@ function MainProduct() {
                 <TopCurve />
                 <div className="mt-20 lg:mt-0 self-end flex lg:flex-col gap-4 min-h-[7rem] justify-center">
                     {shownProduct.attributes.map((attr, index) => (
-                        <div onClick={() => setShownProductImage(index)} key={index} className={`${index === 1 ? 'w-12 h-12 rotate-12' : 'w-8 h-8'} cursor-pointer mx-auto rounded-full ${index === shownProductImage ? 'border-emerald-400' : 'border-white'} border-2 transition-all duration-300 flex flex-nowrap overflow-hidden`}>
+                        <div onClick={() => setShownProductImage(index)} key={index} className={`${index === 1 ? 'w-12 h-12 rotate-12' : 'w-8 h-8'} cursor-pointer mx-auto rounded-full ${index === shownProductImage ? 'border-red-500' : 'border-white'} border-2 transition-all duration-300 flex flex-nowrap overflow-hidden`}>
                             <div style={{ backgroundColor: attr.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
                             <div style={{ backgroundColor: attr.palette[1] }} className="w-1/2 h-full"></div>
                         </div>
@@ -78,8 +79,8 @@ function MainProduct() {
             <div className="lg:absolute -bottom-10 left-[16rem] lg:left-[30%] xl:left-[18vw] 2xl:left-[35%] lg:-bottom-[15%] xl:bottom-[-35%] 2xl:bottom-[-23%] mt-10 flex flex-row items-center gap-x-2">
 
 
-                <span onClick={handleShowPrevProduct} className="cursor-pointer z-50">
-                    <ChevronLeftIcon fontSize={'7xl'} color={'white'} />
+                <span onClick={handleShowPrevProduct} className="mr-8 cursor-pointer text-white scale-[250%] text-3xl">
+                    <ChevronLeftIcon />
                 </span>
 
 
@@ -109,9 +110,9 @@ function MainProduct() {
                     <button onClick={toggleMainAddToCartPopup} className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
                 </div>
 
-                <span onClick={handleShowNextProduct} className="cursor-pointer z-20">
-                    <ChevronRightIcon fontSize={'7xl'} color={'red.500'} />
-                </span>
+                <div onClick={handleShowNextProduct} className="ml-8 cursor-pointer text-red-500 scale-[250%] text-3xl z-20">
+                    <ChevronRightIcon />
+                </div>
 
             </div>
 
