@@ -2,9 +2,13 @@ import Image from "next/image";
 import TrashIcon from "../../ui/icons/TrashIcon";
 import PlusIcon from "../../ui/icons/PlusIcon";
 import MinusIcon from "../../ui/icons/MinusIcon";
+import { useContext } from "react";
+import { CartContext } from "../../../context/CartContext";
 
-function CartItem({ item, handleDecreaseQuantity, handleIncreaseQuantity }) {
-console.log(item);
+function CartItem({ item }) {
+
+    const { handleDecreaseQuantity, handleIncreaseQuantity } = useContext(CartContext)
+
     return (
         <li className="relative flex items-center bg-white rounded-xl">
 

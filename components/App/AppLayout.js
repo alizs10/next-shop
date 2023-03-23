@@ -12,9 +12,9 @@ function AppLayout({ children, user }) {
 
     const setUser = userStore((state) => state.setUser)
     useEffect(() => {
-
         setUser(user)
     }, [])
+
 
     const [translateX, setTranslateX] = useState(0)
     const { drawerVis } = useAppStore()
@@ -37,7 +37,6 @@ function AppLayout({ children, user }) {
                     <Sidebar />
 
                     <main className='relative overflow-hidden col-span-10 xl:col-span-9'>
-
                         {children}
                     </main>
 

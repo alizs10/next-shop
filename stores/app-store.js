@@ -2,7 +2,9 @@ import { create } from "zustand";
 
 const useAppStore = create((set) => ({
     shownProduct: null,
-    setShownProduct: (payload) => set(() => ({ shownProduct: payload })),
+    shownProductImage: 0,
+    setShownProduct: (payload) => set(() => ({ shownProduct: payload, shownProductImage: 0 })),
+    setShownProductImage: (payload) => set(() => ({ shownProductImage: payload })),
 
     mainAddToCartPopupVis: false,
     toggleMainAddToCartPopup: () => set((state) => ({ mainAddToCartPopupVis: !state.mainAddToCartPopupVis, clickOutside: !state.mainAddToCartPopupVis })),
@@ -15,6 +17,11 @@ const useAppStore = create((set) => ({
     toggleCartPopup: () => set((state) => ({ cartPopupVis: !state.cartPopupVis, clickOutside: !state.cartPopupVis })),
 
     clickOutside: false,
+    setClickOutside: (payload) => set(() => {
+        if (!payload) {
+            return { clickOutside: false, drawerVis: false, cartPopupVis: false, mainAddToCartPopupVis: false }
+        }
+    }),
     onClickOutside: () => set(() => ({ clickOutside: false, drawerVis: false, cartPopupVis: false, mainAddToCartPopupVis: false })),
 
     cartItems: [],

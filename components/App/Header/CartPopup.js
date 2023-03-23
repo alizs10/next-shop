@@ -6,13 +6,13 @@ import CartItem from './CartItem'
 import { motion } from 'framer-motion';
 import userStore from "../../../stores/user-store";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 function CartPopup() {
 
-    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems, removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity } = useAppStore()
+    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems, payAmount } = useAppStore()
     const { user } = userStore()
 
-    const [payAmount, setPayAmount] = useState(0)
     const [loading, setLoading] = useState(false)
 
     async function handleGetCartItems() {
@@ -32,121 +32,11 @@ function CartPopup() {
 
     useEffect(() => {
 
-        console.log('here now');
         if (cartPopupVis && user) {
-            console.log("here");
             handleGetCartItems()
         }
 
     }, [cartPopupVis])
-
-    useEffect(() => {
-
-        if (cartItems.length === 0) {
-            setPayAmount(0)
-        } else {
-
-            let prices = 0;
-            cartItems.map(item => {
-                prices += item.payPrice
-            })
-
-            setPayAmount(prices)
-        }
-
-    }, [cartItems])
-
-
-    async function handlePostIncreaseCartItemQuantity(itemKey) {
-
-        try {
-
-            let result = await fetch('/api/cart/' + itemKey, {
-                method: "POST",
-                body: JSON.stringify({ mode: "increase" }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-
-            if (result.status === 200) {
-                return true
-            } else {
-                return false
-            }
-
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
-    async function handlePostDecreaseCartItemQuantity(itemKey) {
-
-        try {
-
-            let result = await fetch('/api/cart/' + itemKey, {
-                method: "POST",
-                body: JSON.stringify({ mode: "decrease" }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-
-            if (result.status === 200) {
-                return true
-            } else {
-                return false
-            }
-
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
-    async function handleIncreaseQuantity(item) {
-
-        if (user) {
-
-            let result = await handlePostIncreaseCartItemQuantity(item._id)
-
-            if (!result) {
-                console.log('couldnt increase cart item quantity, try again');
-                return
-            }
-
-        }
-
-        increaseCartItemQuantity(item._id)
-        console.log("cart item's quantity increased!");
-    }
-
-    async function handleDecreaseQuantity(item) {
-
-
-        if (user) {
-
-            let result = await handlePostDecreaseCartItemQuantity(item._id)
-
-            if (!result) {
-                console.log('couldnt delete/decrease cart item, try again');
-                return
-            }
-
-        }
-
-        if (item.quantity > 1) {
-            // decrease
-            decreaseCartItemQuantity(item._id)
-        } else {
-            // delete
-            removeCartItem(item._id)
-        }
-
-        console.log('cart item deleted!');
-
-    }
-
-
 
     return (
         <AnimatePresence>
@@ -177,14 +67,16 @@ function CartPopup() {
                             <>
                                 <ul className="flex flex-col gap-y-2 max-h-[50vh] overflow-y-scroll no-scrollbar">
 
-                                    {cartItems.map(item => <CartItem key={item._id} item={item} handleIncreaseQuantity={handleIncreaseQuantity} handleDecreaseQuantity={handleDecreaseQuantity} />)}
+                                    {cartItems.map(item => <CartItem key={item._id} item={item} />)}
 
                                 </ul>
                                 <div className="flex flex-col gap-y-2">
                                     <span className="font-bold text-lg text-white">Pay Amount: {payAmount} $</span>
-                                    <button className="rounded-xl bg-white text-red-500 font-bold w-full py-2">
-                                        Check Out
-                                    </button>
+                                    <Link className="w-full block" href="/cart">
+                                        <button className="w-full rounded-xl bg-white text-red-500 font-bold py-2">
+                                            Check Out
+                                        </button>
+                                    </Link>
                                 </div>
                             </>
                         ) : (

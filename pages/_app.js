@@ -1,9 +1,23 @@
 import '../styles/globals.css'
-import { ChakraProvider } from '@chakra-ui/react'
 import AuthLayout from '../components/Layouts/AuthLayout'
 import AppLayout from '../components/App/AppLayout';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useAppStore from '../stores/app-store';
 
 function MyApp({ Component, pageProps }) {
+
+  const router = useRouter()
+  const { clickOutside, setClickOutside } = useAppStore()
+
+  useEffect(() => {
+
+    if(clickOutside)
+    {
+      setClickOutside(false)
+    }
+
+  }, [router.pathname])
 
   let getLayout;
 
@@ -24,9 +38,7 @@ function MyApp({ Component, pageProps }) {
 
 
   return (
-    <ChakraProvider>
-      {getLayout(<Component {...pageProps} />, pageProps)}
-    </ChakraProvider>
+    getLayout(<Component {...pageProps} />, pageProps)
   )
 }
 
