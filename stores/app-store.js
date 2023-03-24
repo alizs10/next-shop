@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
 const useAppStore = create((set) => ({
+    loading: true,
+    setLoading: (payload) => set(() => ({ loading: payload })),
+
     shownProduct: null,
     shownProductImage: 0,
     setShownProduct: (payload) => set(() => ({ shownProduct: payload, shownProductImage: 0 })),

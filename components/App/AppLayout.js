@@ -10,18 +10,22 @@ import userStore from "../../stores/user-store";
 
 function AppLayout({ children, user }) {
 
-    const setUser = userStore((state) => state.setUser)
+    const { setUser } = userStore()
+    const { loading, setLoading, drawerVis } = useAppStore()
+
     useEffect(() => {
         setUser(user)
+        setLoading(false)
     }, [])
 
 
     const [translateX, setTranslateX] = useState(0)
-    const { drawerVis } = useAppStore()
 
     useEffect(() => {
         setTranslateX(drawerVis ? 50 : 0)
     }, [drawerVis])
+
+    if (loading) return
 
     return (
         <div className={` ${drawerVis ? 'overflow-hidden' : ''}`}>

@@ -3,7 +3,7 @@ import { closeConnection, connectDatabase } from '../util/database-util';
 import User from '../database/Models/User';
 import { jsonParser } from '../helpers/helpers';
 
-async function useRole(req, ...roles) {
+async function useRole(req, roles, props = {}) {
 
     await connectDatabase(process.env.DB_NAME)
     let session = await getSession({ req })
@@ -42,6 +42,7 @@ async function useRole(req, ...roles) {
 
     return {
         props: {
+            ...props,
             user: jsonParser(user)
         }
     }

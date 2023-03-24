@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import useAppStore from '../../stores/app-store'
 import NikeIcon from '../ui/icons/NikeIcon';
 import XIcon from '../ui/icons/XIcon';
+import UserIcon from '../ui/icons/UserIcon';
 import LoginIcon from '../ui/icons/LoginIcon';
 import ShoppingCartIcon from '../ui/icons/ShoppingCartIcon';
 import RectanglesGroupIcon from '../ui/icons/RectanglesGroupIcon';
@@ -53,6 +54,16 @@ function Drawer() {
                                         <LoginIcon />
                                     </span>
                                     <span>Login/Register</span>
+                                </li>
+                            </Link>
+                        )}
+                        {user && (
+                            <Link className='w-full' href="/profile">
+                                <li className={listStyle}>
+                                    <span>
+                                        <UserIcon />
+                                    </span>
+                                    <span>Profile</span>
                                 </li>
                             </Link>
                         )}
