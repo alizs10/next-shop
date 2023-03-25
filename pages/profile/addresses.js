@@ -2,8 +2,10 @@ import Head from "next/head";
 import Addresses from "../../components/App/Profile/Addresses";
 import ProfileLayout from "../../components/App/Profile/ProfileLayout";
 import useRole from "../../hooks/useRole";
+import Address from '../../database/Models/Address';
+import { jsonParser } from "../../helpers/helpers";
 
-function AddressesPage() {
+function AddressesPage({ addresses }) {
     return (
         <>
             <Head>
@@ -13,14 +15,22 @@ function AddressesPage() {
                 <meta name="description" content="addresses page - nike's shoes shop" />
             </Head>
             <ProfileLayout>
-                <Addresses />
+                <Addresses items={addresses} />
             </ProfileLayout>
         </>
     );
 }
 
 export async function getServerSideProps({ req }) {
-    return await useRole(req, ['admin', 'user'], { layoutType: "app" })
+
+    const cb = async (props, user) => {
+        props.layoutType = "app";
+
+        let addresses = await Address.find({ user: user._id });
+        props.addresses = jsonParser(addresses);
+    }
+
+    return await useRole(req, ['admin', 'user'], cb)
 }
 
 export default AddressesPage;

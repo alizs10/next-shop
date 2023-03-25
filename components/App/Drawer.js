@@ -15,12 +15,10 @@ import Link from 'next/link';
 
 function Drawer() {
 
-    const { user, removeUser } = userStore()
+    const { user } = userStore()
 
     async function handleSignOut() {
-        signOut({ redirect: false })
-        toggleDrawer()
-        removeUser()
+        signOut({ callbackUrl: process.env.APP_URL })
     }
 
     const { drawerVis, toggleDrawer } = useAppStore()

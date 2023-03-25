@@ -3,7 +3,9 @@ import { closeConnection, connectDatabase } from '../util/database-util';
 import User from '../database/Models/User';
 import { jsonParser } from '../helpers/helpers';
 
-async function useRole(req, roles, props = {}) {
+async function useRole(req, roles, cb = null) {
+
+    let props = {};
 
     await connectDatabase(process.env.DB_NAME)
     let session = await getSession({ req })
@@ -19,9 +21,9 @@ async function useRole(req, roles, props = {}) {
     }
 
     let user = await User.findOne({ email: session.user.email })
-    closeConnection()
 
     if (!user) {
+        closeConnection()
         return {
             redirect: {
                 destination: "/",
@@ -31,6 +33,7 @@ async function useRole(req, roles, props = {}) {
     }
 
     if (!roles.includes(user.role)) {
+        closeConnection()
         return {
             redirect: {
                 destination: "/403",
@@ -39,12 +42,14 @@ async function useRole(req, roles, props = {}) {
         }
     }
 
-
+    props.user = jsonParser(user);
+    if(cb)
+    {
+        await cb(props,user)
+    }
+    closeConnection()
     return {
-        props: {
-            ...props,
-            user: jsonParser(user)
-        }
+        props
     }
 }
 

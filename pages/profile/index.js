@@ -21,9 +21,11 @@ function ProfilePage() {
 
 export async function getServerSideProps({ req }) {
 
-    return await useRole(req, ['user', 'admin'], {
-        layoutType: "app"
-    })
+    const cb = (props) => {
+        props.layoutType = "app"
+    }
+
+    return await useRole(req, ['user', 'admin'], cb)
 
 }
 

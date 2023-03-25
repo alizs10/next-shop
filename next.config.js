@@ -7,6 +7,7 @@ module.exports = (phase) => {
   return {
     /* config options for all phases except development here */
     env: {
+      APP_URL: "localhost:3000",
       APP_NAME: "Nike's Shoes Shop",
       DB_NAME: 'nikes_shoes_shop',
       DB_USERNAME: 'alizs10',

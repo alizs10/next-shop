@@ -1,7 +1,4 @@
-import mongoose, { SchemaTypes } from "mongoose";
-import Order from "./Order";
-import Payment from "./Payment";
-import Product from "./Product";
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -26,22 +23,24 @@ const UserSchema = new Schema({
         default: 'user',
         immutable: true
     },
-    favorites: [{
-        type: SchemaTypes.ObjectId,
-        ref: Product
-    }],
-    carts: [{
-        type: SchemaTypes.ObjectId,
-        ref: Product
-    }],
-    orders: [{
-        type: SchemaTypes.ObjectId,
-        ref: Order
-    }],
-    payments: [{
-        type: SchemaTypes.ObjectId,
-        ref: Payment
-    }],
+    phone: {
+        type: String,
+        default: null,
+        length: 10
+    },
+    birthday: {
+        type: Date,
+        default: null,
+    },
+    activation: {
+        type: Date,
+        default: null,
+    },
+    verification_code: {
+        type: String,
+        default: null,
+        length: 6
+    },
     createdAt: {
         type: Date,
         default: () => Date.now(),

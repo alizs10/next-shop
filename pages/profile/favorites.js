@@ -20,7 +20,12 @@ function FavoritesPage() {
 }
 
 export async function getServerSideProps({ req }) {
-    return await useRole(req, ['admin', 'user'], { layoutType: "app" })
+
+    const cb = (props) => {
+        props.layoutType = "app"
+    }
+
+    return await useRole(req, ['admin', 'user'], cb)
 }
 
 export default FavoritesPage;
