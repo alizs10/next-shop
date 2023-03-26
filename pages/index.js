@@ -47,7 +47,7 @@ export async function getServerSideProps({ req }) {
   if (session) {
 
     // connect database
-    let user = await User.findOne({ email: session.user.email }).select(['fullName', 'email'])
+    let user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
 
     if (user) {
       props.user = jsonParser(user)

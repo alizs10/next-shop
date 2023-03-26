@@ -20,7 +20,7 @@ async function useRole(req, roles, cb = null) {
         }
     }
 
-    let user = await User.findOne({ email: session.user.email })
+    let user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
 
     if (!user) {
         closeConnection()

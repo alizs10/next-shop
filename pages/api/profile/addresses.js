@@ -6,7 +6,7 @@ async function handler(req, res) {
 
     if (req.method === "POST") {
 
-        connectDatabase(process.env.DB_NAME)
+        await connectDatabase(process.env.DB_NAME)
 
         let inputs = req.body;
         let user = await useAuth(req)

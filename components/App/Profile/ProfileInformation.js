@@ -11,25 +11,21 @@ function ProfileInformation() {
 
     const { user } = userStore()
 
-
     const [editUserModalVis, setEditUserModalVis] = useState(false)
 
-    function toggleEditUserModal()
-    {
+    function toggleEditUserModal() {
         setEditUserModalVis(prevState => !prevState)
     }
 
     const [changePasswordModalVis, setChangePasswordModalVis] = useState(false)
 
-    function toggleChangePasswordModal()
-    {
+    function toggleChangePasswordModal() {
         setChangePasswordModalVis(prevState => !prevState)
     }
 
     const [accActivationModalVis, setAccActivationModalVis] = useState(false)
 
-    function toggleAccActivationModal()
-    {
+    function toggleAccActivationModal() {
         setAccActivationModalVis(prevState => !prevState)
     }
 
@@ -60,13 +56,13 @@ function ProfileInformation() {
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Birthday</span>
                     <div className='px-3 py-2 rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        1999/06/11
+                        {user.birthday ? new Date(user.birthday).toLocaleDateString() : "-"}
                     </div>
                 </div>
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Phone Number</span>
                     <div className='px-3 py-2 rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        +1 555 9688
+                        {user.phone ? `(${user.phone.substring(0, 3)}) ${user.phone.substring(3, 6)}-${user.phone.substring(6, user.phone.length)}` : "-"}
                     </div>
                 </div>
                 <div className='col-span-1 flex flex-col gap-y-1'>
@@ -82,24 +78,26 @@ function ProfileInformation() {
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Join Date</span>
                     <div className='px-3 py-2 rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        2023/01/02
+                        {new Date(user.createdAt).toLocaleDateString()}
                     </div>
                 </div>
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Account Activation</span>
                     <div className='px-3 py-2 flex justify-between items-center rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        <span className='leading-3'>not activated</span>
+                        <span className='leading-3'>
+                            {user.activation ? new Date(user.activation).toLocaleDateString() : "not activated"}
+                        </span>
                         <button onClick={toggleAccActivationModal} className="flex items-center gap-x-1 px-2 py-1 w-fit rounded-xl text-sm bg-emerald-600 text-white">
-                            <span className="scale-75"><CheckBadgeIcon/></span>
+                            <span className="scale-75"><CheckBadgeIcon /></span>
                             <span>Active</span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            {editUserModalVis && (<EditUserModal toggle={toggleEditUserModal}/>)}
-            {changePasswordModalVis && (<ChangePasswordModal toggle={toggleChangePasswordModal}/>)}
-            {accActivationModalVis && (<AccountActivationModal toggle={toggleAccActivationModal}/>)}
+            {editUserModalVis && (<EditUserModal toggle={toggleEditUserModal} />)}
+            {changePasswordModalVis && (<ChangePasswordModal toggle={toggleChangePasswordModal} />)}
+            {accActivationModalVis && (<AccountActivationModal toggle={toggleAccActivationModal} />)}
         </div>
     );
 }
