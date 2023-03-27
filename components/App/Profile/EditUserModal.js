@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 import userStore from "../../../stores/user-store";
 import XIcon from "../../ui/icons/XIcon";
@@ -30,6 +31,12 @@ function EditUserModal({ toggle }) {
         let data = await result.json()
 
         if (result.status === 200) {
+
+            if (data.user.email !== user.email) {
+                signOut({ callbackUrl: process.env.APP_URL })
+                return
+            }
+
             setUser(data.user)
             toggle()
         }

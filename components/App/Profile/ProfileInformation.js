@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatDate } from '../../../helpers/helpers';
 import userStore from '../../../stores/user-store';
 import CheckBadgeIcon from '../../ui/icons/CheckBadgeIcon';
 import KeyIcon from '../../ui/icons/KeyIcon';
@@ -78,19 +79,21 @@ function ProfileInformation() {
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Join Date</span>
                     <div className='px-3 py-2 rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        {new Date(user.createdAt).toLocaleDateString()}
+                        {formatDate(new Date(user.createdAt))}
                     </div>
                 </div>
                 <div className='col-span-1 flex flex-col gap-y-1'>
                     <span className='text-lg text-gray-400'>Account Activation</span>
                     <div className='px-3 py-2 flex justify-between items-center rounded-xl bg-gray-600 text-gray-200 text-xl'>
-                        <span className='leading-3'>
-                            {user.activation ? new Date(user.activation).toLocaleDateString() : "not activated"}
+                        <span>
+                            {user.activation ? formatDate(new Date(user.activation)) : "not activated"}
                         </span>
-                        <button onClick={toggleAccActivationModal} className="flex items-center gap-x-1 px-2 py-1 w-fit rounded-xl text-sm bg-emerald-600 text-white">
-                            <span className="scale-75"><CheckBadgeIcon /></span>
-                            <span>Active</span>
-                        </button>
+                        {!user.activation && (
+                            <button onClick={toggleAccActivationModal} className="flex items-center gap-x-1 px-2 py-1 w-fit rounded-xl text-sm bg-emerald-600 text-white">
+                                <span className="scale-75"><CheckBadgeIcon /></span>
+                                <span>Active</span>
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

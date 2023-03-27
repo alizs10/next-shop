@@ -16,11 +16,21 @@ async function handler(req, res) {
             return
         }
 
-        
+        if (inputs.email !== user.email) {
+
+            let isExists = await User.findOne({ email: inputs.email })
+            if (isExists) {
+                res.status(422).json({ email: "email is already exists!" })
+                return
+            }
+
+            inputs.activation = null
+        }
+
         await User.updateOne({ email: user.email }, { $set: inputs })
-        
+
         let updatedUser = { ...user, ...inputs }
-        
+
         closeConnection()
         res.status(200).json({ message: "user updated successfully!", user: updatedUser })
     }
