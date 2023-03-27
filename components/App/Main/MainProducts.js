@@ -1,13 +1,19 @@
 import ArrowRightIcon from '../../ui/icons/ArrowRightIcon'
 import ArrowLeftIcon from '../../ui/icons/ArrowLeftIcon'
 import Product from "./Product";
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import useProductStore from '../../../stores/product-store';
 
 
 function MainProducts() {
 
     const { products } = useProductStore()
+
+    useEffect(() => {
+
+        console.log("products changes",products);
+
+    }, [products])
 
     const productsContainerRef = useRef()
     const productWidth = 400;

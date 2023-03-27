@@ -4,9 +4,10 @@ import { getSession } from 'next-auth/react'
 import { closeConnection, connectDatabase } from '../util/database-util';
 import User from '../database/Models/User'
 import { jsonParser } from '../helpers/helpers';
-import Product from '../database/Models/Product';
 import { useEffect } from 'react';
 import useProductStore from '../stores/product-store';
+import Product from '../database/Models/Product';
+import Favorite from '../database/Models/Favorite';
 
 const HomePage = ({ products }) => {
 
@@ -43,11 +44,12 @@ export async function getServerSideProps({ req }) {
 
   await connectDatabase(process.env.DB_NAME)
   let session = await getSession({ req })
+  let user;
 
   if (session) {
 
     // connect database
-    let user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
+    user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
 
     if (user) {
       props.user = jsonParser(user)
@@ -56,10 +58,24 @@ export async function getServerSideProps({ req }) {
   }
 
   let products = await Product.find().populate('attributes.sizes.sizeId').exec()
-  props.products = jsonParser(products)
+  products = jsonParser(products);
 
+  if (user) {
+    let favorites = await Favorite.find({ user: user._id })
+    favorites = jsonParser(favorites)
+    let userFavoritesIds = favorites.map(fav => fav.product)
+    products = products.map(product => {
+      let isFavorite = false
+      if (userFavoritesIds.includes(product._id)) {
+        isFavorite = true;
+      }
 
+      return { ...product, isFavorite }
+    })
+  }
 
+  console.log(products);
+  props.products = products;
   closeConnection()
   return {
     props

@@ -1,12 +1,21 @@
 import HeartIcon from '../../ui/icons/HeartIcon';
+import SolidHeartIcon from '../../ui/icons/SolidHeartIcon';
 import SolidStarIcon from '../../ui/icons/SolidStarIcon';
 import Image from "next/image";
 import useAppStore from '../../../stores/app-store';
-
+import useProductStore from '../../../stores/product-store';
+import { useEffect } from 'react';
 
 function Product({ product }) {
 
+    useEffect(() => {
+
+        console.log(product);
+
+    }, [product])
+
     const { shownProduct, setShownProduct } = useAppStore()
+    const { toggleProductToFavorite } = useProductStore()
 
     function handleSelectShowProduct(product) {
         setShownProduct(product)
@@ -18,7 +27,7 @@ function Product({ product }) {
                 <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
             <div className={`w-[65%] flex flex-col gap-y-0 p-2 px-5`}>
-                <h6 className="font-semibold font-sans text-gray-800 text-md">AIR MAX PEGASUS 37</h6>
+                <h6 className="font-semibold font-sans text-gray-800 text-md">{product.name}</h6>
                 <div className="flex flex-nowrap">
 
                     {product.stars.map((star, index) => {
@@ -35,8 +44,8 @@ function Product({ product }) {
                 </div>
                 <div className="flex justify-between items-center">
                     <span className="font-semibold font-sans text-gray-800 text-md">${product.price}</span>
-                    <span className="text-gray-500 scale-75">
-                        <HeartIcon />
+                    <span onClick={() => toggleProductToFavorite(product._id)} className="cursor-pointer text-gray-500 scale-75">
+                        {product.isFavorite ? (<span className='text-red-500'><SolidHeartIcon /></span>) : (<HeartIcon />)}
                     </span>
                 </div>
                 <span className="font-semibold font-sans text-gray-400 text-xs">men's snikers</span>
