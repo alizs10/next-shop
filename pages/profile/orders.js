@@ -20,7 +20,12 @@ function OrdersPage() {
 }
 
 export async function getServerSideProps({ req }) {
-    return await useRole(req, ['admin', 'user'], { layoutType: "app" })
+
+    function cb(props) {
+        props.layoutType = "app"
+    }
+
+    return await useRole(req, ['admin', 'user'], cb)
 }
 
 export default OrdersPage;
