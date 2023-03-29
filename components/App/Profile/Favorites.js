@@ -12,7 +12,7 @@ function NoFavorite() {
     return (
         <div className="pt-24 w-full flex flex-col justify-center items-center gap-y-4 text-gray-400">
 
-            <span className="font-bold text-4xl">You Have Not any Favorites</span>
+            <span className="font-bold text-4xl">Your Favorites List is empty</span>
             <span className="text-2xl">Add your first favorite shoe...</span>
 
         </div>

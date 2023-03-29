@@ -5,6 +5,20 @@ import PencilIcon from '../../ui/icons/PencilIcon';
 import { useState } from 'react';
 import NewAddressModal from './NewAddressModal';
 
+
+function NoAddresses() {
+
+    return (
+        <div className="pt-24 w-full flex flex-col justify-center items-center gap-y-4 text-gray-400">
+
+            <span className="font-bold text-4xl">You Have No Addresses</span>
+            <span className="text-2xl">Add your first address now...</span>
+
+        </div>
+    )
+}
+
+
 function Addresses({ items }) {
 
     const [addresses, setAddresses] = useState(items)
@@ -29,37 +43,40 @@ function Addresses({ items }) {
                 </button>
             </div>
 
-            <div className='mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4'>
+            {addresses.length === 0 ? (<NoAddresses />) : (
 
-                {addresses.map(item => (
-                    <div key={item._id} className='relative rounded-xl overflow-hidden col-span-1 shadow-md bg-gray-700 flex'>
+                <div className='mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4'>
 
-                        <div className="absolute bottom-3 right-3 z-10 flex border-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-600 overflow-hidden">
-                            <span className="p-2 cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-yellow-300 hover:border-red-100 transition-all duration-300">
-                                <PencilIcon />
-                            </span>
-                            <span className="p-2 cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-red-400 hover:border-red-100 transition-all duration-300">
-                                <TrashIcon />
-                            </span>
+                    {addresses.map(item => (
+                        <div key={item._id} className='relative rounded-xl overflow-hidden col-span-1 shadow-md bg-gray-700 flex'>
+
+                            <div className="absolute bottom-3 right-3 z-10 flex border-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-600 overflow-hidden">
+                                <span className="p-2 cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-yellow-300 hover:border-red-100 transition-all duration-300">
+                                    <PencilIcon />
+                                </span>
+                                <span className="p-2 cursor-pointer text-gray-300 hover:bg-gray-600 hover:text-red-400 hover:border-red-100 transition-all duration-300">
+                                    <TrashIcon />
+                                </span>
+                            </div>
+
+                            <div className='w-[20%] text-white bg-red-500 flex justify-center items-center aspect-square'>
+                                <span className='scale-[250%]'>
+                                    <MapIcon />
+                                </span>
+                            </div>
+
+                            <div className='w-[80%] p-3 text-gray-200 text-xl flex flex-col gap-y-2'>
+                                <span>{item.firstLine}, {item.secondLine}</span>
+                                <span>{item.zipCode}</span>
+                                <span>{`United States, ${item.state}, ${item.city}`}</span>
+                                <span>{`${item.recipient.firstName} ${item.recipient.lastName}, (${item.recipient.phoneNumber.substring(0, 3)}) ${item.recipient.phoneNumber.substring(3, 6)}-${item.recipient.phoneNumber.substring(6, item.recipient.phoneNumber.length)}`}</span>
+                                <span></span>
+                            </div>
                         </div>
+                    ))}
 
-                        <div className='w-[20%] text-white bg-red-500 flex justify-center items-center aspect-square'>
-                            <span className='scale-[250%]'>
-                                <MapIcon />
-                            </span>
-                        </div>
-
-                        <div className='w-[80%] p-3 text-gray-200 text-xl flex flex-col gap-y-2'>
-                            <span>{item.firstLine}, {item.secondLine}</span>
-                            <span>{item.zipCode}</span>
-                            <span>{`United States, ${item.state}, ${item.city}`}</span>
-                            <span>{`${item.recipient.firstName} ${item.recipient.lastName}, (${item.recipient.phoneNumber.substring(0, 3)}) ${item.recipient.phoneNumber.substring(3, 6)}-${item.recipient.phoneNumber.substring(6, item.recipient.phoneNumber.length)}`}</span>
-                            <span></span>
-                        </div>
-                    </div>
-                ))}
-
-            </div>
+                </div>
+            )}
 
             {newAddressVis && (<NewAddressModal toggle={toggleNewAddressModal} handleAddNewAddress={handleAddNewAddress} />)}
 
