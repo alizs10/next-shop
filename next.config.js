@@ -15,6 +15,7 @@ module.exports = (phase) => {
       NEXTAUTH_SECRET: 'alizs10_is_the_best_programmer_ever',
       NODEMAILER_USER: 'nikeshoeshopnoreplay@gmail.com',
       NODEMAILER_PASS: 'fztqioazawrficpw',
+      REDIS_URL: 'redis://default:2686b18fcd2c404db36e2d1f6843e069@apn1-steady-macaque-35070.upstash.io:35070',
     },
     reactStrictMode: true,
   }
