@@ -27,6 +27,8 @@ export async function getServerSideProps({ req }) {
         props.layoutType = "app"
 
         let favorites = await Favorite.find({ user: user._id }).populate('product').exec()
+        favorites = favorites.map(fav => ({ ...fav.product, isFavorite: true }))
+
         props.favorites = await jsonParser(favorites)
     }
 
