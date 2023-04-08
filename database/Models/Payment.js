@@ -1,28 +1,19 @@
 import mongoose, { SchemaTypes } from 'mongoose';
-import Order from './Order';
 
 const Schema = mongoose.Schema;
 
 const PaymentSchema = new Schema({
     orderId: {
         type: SchemaTypes.ObjectId,
-        ref: Order
+        ref: 'Order'
     },
     amount: {
         type: Number,
         min: 0,
         required: true
     },
-    bankFirstResponse: {
-        type: String,
-        maxLength: 700
-    },
-    bankSecondResponse: {
-        type: String,
-        maxLength: 700
-    },
-    type: {
-        type: String,
+    status: {
+        type: Boolean,
         required: true
     },
     paymentDate: {
@@ -45,4 +36,6 @@ const PaymentSchema = new Schema({
     }
 })
 
-export default mongoose.models.Payment || mongoose.model('Payment', PaymentSchema)
+const Payment = mongoose.models.Payment || mongoose.model('Payment', PaymentSchema)
+
+export default Payment;

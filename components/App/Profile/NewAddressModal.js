@@ -39,7 +39,7 @@ function NewAddressModal({ toggle, handleAddNewAddress }) {
 
         let data = await result.json()
 
-        if (result.status === 200) {
+        if (result.status === 201) {
             setInputs(initialState)
             handleAddNewAddress(data.address)
         }

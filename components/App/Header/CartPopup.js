@@ -5,12 +5,15 @@ import CartItem from './CartItem'
 
 import { motion } from 'framer-motion';
 import userStore from "../../../stores/user-store";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { CartContext } from "../../../context/CartContext";
 
 function CartPopup() {
 
-    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems, payAmount } = useAppStore()
+    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems } = useAppStore()
+    const { payAmount } = useContext(CartContext)
+    
     const { user } = userStore()
 
     const [loading, setLoading] = useState(false)

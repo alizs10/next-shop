@@ -12,7 +12,6 @@ async function useAuth(req) {
     }
 
     let user = await User.findOne({ email: session.user.email })
-    
     if (!user) {
         return false;
     }

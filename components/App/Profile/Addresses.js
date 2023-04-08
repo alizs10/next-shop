@@ -6,7 +6,7 @@ import { useState } from 'react';
 import NewAddressModal from './NewAddressModal';
 
 
-function NoAddresses() {
+export function NoAddresses() {
 
     return (
         <div className="pt-24 w-full flex flex-col justify-center items-center gap-y-4 text-gray-400">
@@ -29,7 +29,7 @@ function Addresses({ items }) {
     }
 
     function handleAddNewAddress(newAddress) {
-        setAddresses(prevState => ([...addresses, newAddress]))
+        setAddresses(prevState => ([...prevState, newAddress]))
         toggleNewAddressModal()
     }
 

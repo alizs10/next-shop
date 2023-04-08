@@ -29,12 +29,14 @@ function LoginPage() {
       password: passwordRef.current.value
     })
 
+    console.log(result);
+
     if (result.error) {
       console.log(result);
     } else {
 
       
-      router.replace('/')
+      // router.replace('/')
     }
 
 

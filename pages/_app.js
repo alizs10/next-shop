@@ -2,8 +2,10 @@ import '../styles/globals.css'
 import AuthLayout from '../components/Layouts/AuthLayout'
 import AppLayout from '../components/App/AppLayout';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useAppStore from '../stores/app-store';
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { LoadingProvider } from '../context/LoadingContext';
 
 function MyApp({ Component, pageProps }) {
 
@@ -12,8 +14,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
 
-    if(clickOutside)
-    {
+    if (clickOutside) {
       setClickOutside(false)
     }
 
@@ -36,9 +37,16 @@ function MyApp({ Component, pageProps }) {
       break;
   }
 
+  const queryClient = useRef(new QueryClient())
 
   return (
-    getLayout(<Component {...pageProps} />, pageProps)
+    getLayout((
+      <QueryClientProvider client={queryClient.current}>
+        <LoadingProvider>
+          <Component {...pageProps} />
+        </LoadingProvider>
+      </QueryClientProvider>
+    ), pageProps)
   )
 }
 

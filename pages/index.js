@@ -51,6 +51,7 @@ export async function getServerSideProps({ req }) {
     // connect database
     user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
 
+    console.log(user);
     if (user) {
       props.user = jsonParser(user)
     }
@@ -74,9 +75,8 @@ export async function getServerSideProps({ req }) {
     })
   }
 
-  console.log(products);
   props.products = products;
-  closeConnection()
+  // closeConnection()
   return {
     props
   }

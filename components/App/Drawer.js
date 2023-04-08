@@ -17,7 +17,9 @@ function Drawer() {
 
     const { user } = userStore()
 
-    async function handleSignOut() {
+
+    async function handleSignOut(e) {
+        e.preventDefault();
         signOut({ callbackUrl: process.env.APP_URL })
     }
 

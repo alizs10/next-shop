@@ -8,12 +8,6 @@ import { useEffect } from 'react';
 
 function Product({ product }) {
 
-    useEffect(() => {
-
-        console.log(product);
-
-    }, [product])
-
     const { shownProduct, setShownProduct } = useAppStore()
     const { toggleProductToFavorite } = useProductStore()
 

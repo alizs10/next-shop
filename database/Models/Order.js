@@ -1,14 +1,35 @@
 import mongoose, { SchemaTypes } from "mongoose";
-import Product from "./Product";
-
+import CartItem from "./CartItem";
+import Address from "./Address";
+import Delivery from "./Delivery";
+import User from "./User";
 
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
     items: [{
         type: SchemaTypes.ObjectId,
-        ref: Product
+        ref: CartItem
     }],
+    user: {
+        type: SchemaTypes.ObjectId,
+        ref: User,
+    },
+    address: {
+        type: SchemaTypes.ObjectId,
+        default: null,
+        ref: Address,
+    },
+    delivery: {
+        type: SchemaTypes.ObjectId,
+        default: null,
+        ref: Delivery,
+    },
+    tax: {
+        type: Number,
+        default: 2,
+        immutable: true,
+    },
     discountAmount: {
         type: Number,
         min: 0,
@@ -24,6 +45,11 @@ const OrderSchema = new Schema({
         min: 0,
         required: true
     },
+    payments: [{
+        type: SchemaTypes.ObjectId,
+        default: null,
+        ref: 'Payment'
+    }],
     createdAt: {
         type: Date,
         default: () => Date.now(),
@@ -40,4 +66,6 @@ const OrderSchema = new Schema({
     }
 })
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema)
+const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema)
+
+export default Order;
