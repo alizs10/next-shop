@@ -1,8 +1,89 @@
 import Image from "next/image";
 import CreditCartIcon from "../../ui/icons/CreditCartIcon";
 import XIcon from "../../ui/icons/XIcon";
+import InformationCircleIcon from "../../ui/icons/InformationCircleIcon";
+import ArrowUpRightIcon from "../../ui/icons/ArrowUpRightIcon";
+import { useRouter } from "next/router";
 
-function Orders() {
+function Orders({ orders }) {
+
+    console.log(orders);
+
+    function renderPaymentStatus(status) {
+        switch (status) {
+            case null:
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">waiting</span>
+                break;
+            case 0:
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-red-50 text-red-500">unsuccessful</span>
+                break;
+            case 1:
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-emerald-50 text-emerald-600">paid</span>
+                break;
+
+            default:
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">waiting</span>
+                break;
+        }
+    }
+
+    function renderActions(order) {
+        if (order.paymentStatus === 1) {
+            return (<button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(37,99,235)] hover:shadow-[0_7px_15px_5px_rgb(37,99,235)] bg-blue-600 text-white">
+                <InformationCircleIcon />
+                <span>Details</span>
+            </button>)
+        }
+
+        // check if order is incomplete and not canceled
+        if (order.paymentStatus !== 4 && !order.delivery && !order.address) {
+            return (
+                <div className="flex gap-x-2">
+                    <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(124,58,237)] hover:shadow-[0_7px_15px_5px_rgb(124,58,237)] bg-violet-600 text-white">
+                        <ArrowUpRightIcon />
+                        <span>Continue</span>
+                    </button>
+                    <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
+                        <XIcon />
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            )
+        }
+
+        if (order.paymentStatus !== 4 && !!order.delivery && !!order.address) {
+            return (
+                <div className="flex gap-x-2">
+                    <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(5,150,105)] hover:shadow-[0_7px_15px_5px_rgb(5,150,105)] bg-emerald-600 text-white">
+                        <CreditCartIcon />
+                        <span>Pay Now</span>
+                    </button>
+                    <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
+                        <XIcon />
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            )
+        }
+
+        if (order.paymentStatus === 4) {
+            return (
+                <span className="rounded-md w-fit px-2 py-1 bg-gray-500 text-gray-200">no action</span>
+            )
+        }
+    }
+
+    const router = useRouter()
+
+    function handleContinue(order)
+    {
+        router.push('/checkout/' + order._id)
+    }
+    function handleCancel(order)
+    {
+    }
+    
+
     return (
         <div className="mt-8 p-3">
 
@@ -27,102 +108,35 @@ function Orders() {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-700">
-                    <tr className="">
-                        <td className="p-4 w-4 text-white">
-                            1
-                        </td>
-                        <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <div className="w-full flex justify-between items-center">
-                                <div className="w-fit flex gap-[4px]">
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/1/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/2/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
+
+                    {orders.map((order, index) => (
+                        <tr key={order._id}>
+                            <td className="p-4 w-4 text-white">
+                                {index + 1}
+                            </td>
+                            <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div className="w-full flex justify-between items-center">
+                                    <div className="w-fit flex gap-2">
+                                        {order.items.map(item => (
+                                            <div key={item._id} className="relative w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
+                                                <Image src={item.product.image} alt={item.product.name} width={100} height={50} />
+                                                <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-md flex justify-center items-center text-white bg-red-500 text-xs">x{item.quantity}</span>
+                                            </div>
+                                        ))}
+
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">$ 256</td>
+                            </td>
+                            <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">{order.delivery ? `$ ${order.payAmount + order.tax + order.delivery.price}` : "-"}</td>
 
-                        <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
-                            <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">waiting</span>
-                        </td>
-                        <td className="py-4 px-6 flex gap-x-2 text-sm font-medium text-right whitespace-nowrap">
-                            <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(5,150,105)] hover:shadow-[0_7px_15px_5px_rgb(5,150,105)] bg-emerald-600 text-white">
-                                <CreditCartIcon />
-                                <span>Pay Now</span>
-                            </button>
-                            <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
-                                <XIcon />
-                                <span>Cancel</span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr className="">
-                        <td className="p-4 w-4 text-white">
-                            1
-                        </td>
-                        <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <div className="w-full flex justify-between items-center">
-                                <div className="w-fit flex gap-[4px]">
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/1/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/2/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                    <div className="w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                        <Image src={'/assets/products/3/1.png'} alt="product" width={100} height={50} />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">$ 256</td>
-
-                        <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
-                            <span className="self-start rounded-md w-fit px-2 py-1 bg-emerald-50 text-emerald-600">paid</span>
-                        </td>
-
-                        <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
-                            <span className="rounded-md w-fit px-2 py-1 bg-gray-500 text-gray-200">no action</span>
-
-                        </td>
-                    </tr>
-
+                            <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
+                                {renderPaymentStatus(order.paymentStatus)}
+                            </td>
+                            <td className="py-4 px-6 flex gap-x-2 text-sm font-medium text-right whitespace-nowrap">
+                                {renderActions(order)}
+                            </td>
+                        </tr>
+                    ))}
 
                 </tbody>
             </table>

@@ -1,19 +1,16 @@
 import mongoose, { SchemaTypes } from "mongoose";
-import Product from "./Product";
-import Size from "./Size";
-import User from "./User";
 
 const Schema = mongoose.Schema;
 
 const CartItemSchema = new Schema({
     user: {
         type: SchemaTypes.ObjectId,
-        ref: User,
+        ref: 'User',
         required: true
     },
     product: {
         type: SchemaTypes.ObjectId,
-        ref: Product,
+        ref: 'Product',
         required: true
     },
     selectedAttributes: {
@@ -29,7 +26,7 @@ const CartItemSchema = new Schema({
             min: 0
         },
         size: {
-            size: { type: SchemaTypes.ObjectId, ref: Size, required: true },
+            size: { type: SchemaTypes.ObjectId, ref: 'Size', required: true },
             price_increase: {
                 type: Number,
                 required: true,

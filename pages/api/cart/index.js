@@ -14,7 +14,7 @@ async function handler(req, res) {
             return res.status(403).send({ message: "not authorized!" })
         }
 
-        let items = await CartItem.find({ user: user._id }).populate(['product', 'selectedAttributes.size.size'])
+        let items = await CartItem.find({ user: user._id, deletedAt: null }).populate(['product', 'selectedAttributes.size.size'])
         // closeConnection()
 
         res.status(200).json({ message: "items loaded successfully!", items })

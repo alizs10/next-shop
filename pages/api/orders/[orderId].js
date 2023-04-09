@@ -19,7 +19,6 @@ async function handler(req, res) {
             {path:'delivery', model: Delivery},
             {path:'address', model: Address},
             {path:'payments', model: Payment},
-
         ]).exec()
         if (!order) {
             return res.status(404).send({ message: "order not found!" })
