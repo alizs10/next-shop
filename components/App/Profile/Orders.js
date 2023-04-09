@@ -4,15 +4,26 @@ import XIcon from "../../ui/icons/XIcon";
 import InformationCircleIcon from "../../ui/icons/InformationCircleIcon";
 import ArrowUpRightIcon from "../../ui/icons/ArrowUpRightIcon";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import OrderDetailsModal from "./OrderDetailsModal";
 
-function Orders({ orders }) {
+function Orders({ orders: initOrders }) {
 
-    console.log(orders);
+    const [orders, setOrders] = useState(initOrders)
+
+    function updateOrder(orderId, updatedValues) {
+        setOrders(prevState => {
+            let ordersIns = [...prevState]
+            let orderIndex = ordersIns.findIndex(order => order._id === orderId)
+            ordersIns[orderIndex] = { ...ordersIns[orderIndex], ...updatedValues }
+            return ordersIns;
+        })
+    }
 
     function renderPaymentStatus(status) {
         switch (status) {
             case null:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">waiting</span>
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-gray-50 text-gray-500">waiting</span>
                 break;
             case 0:
                 return <span className="self-start rounded-md w-fit px-2 py-1 bg-red-50 text-red-500">unsuccessful</span>
@@ -20,30 +31,34 @@ function Orders({ orders }) {
             case 1:
                 return <span className="self-start rounded-md w-fit px-2 py-1 bg-emerald-50 text-emerald-600">paid</span>
                 break;
+            case 2:
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">canceled</span>
+                break;
 
             default:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">waiting</span>
+                return <span className="self-start rounded-md w-fit px-2 py-1 bg-gray-50 text-gray-500">waiting</span>
                 break;
         }
     }
 
     function renderActions(order) {
+
         if (order.paymentStatus === 1) {
-            return (<button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(37,99,235)] hover:shadow-[0_7px_15px_5px_rgb(37,99,235)] bg-blue-600 text-white">
+            return (<button onClick={() => toggleModal(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(37,99,235)] hover:shadow-[0_7px_15px_5px_rgb(37,99,235)] bg-blue-600 text-white">
                 <InformationCircleIcon />
-                <span>Details</span>
+                <span>More Details</span>
             </button>)
         }
 
         // check if order is incomplete and not canceled
-        if (order.paymentStatus !== 4 && !order.delivery && !order.address) {
+        if (order.status !== 4 && !order.delivery && !order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(124,58,237)] hover:shadow-[0_7px_15px_5px_rgb(124,58,237)] bg-violet-600 text-white">
                         <ArrowUpRightIcon />
                         <span>Continue</span>
                     </button>
-                    <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
+                    <button onClick={() => handleCancel(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
                         <XIcon />
                         <span>Cancel</span>
                     </button>
@@ -51,14 +66,14 @@ function Orders({ orders }) {
             )
         }
 
-        if (order.paymentStatus !== 4 && !!order.delivery && !!order.address) {
+        if (order.status !== 4 && !!order.delivery && !!order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(5,150,105)] hover:shadow-[0_7px_15px_5px_rgb(5,150,105)] bg-emerald-600 text-white">
                         <CreditCartIcon />
                         <span>Pay Now</span>
                     </button>
-                    <button className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
+                    <button onClick={() => handleCancel(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
                         <XIcon />
                         <span>Cancel</span>
                     </button>
@@ -66,7 +81,7 @@ function Orders({ orders }) {
             )
         }
 
-        if (order.paymentStatus === 4) {
+        if (order.status === 4) {
             return (
                 <span className="rounded-md w-fit px-2 py-1 bg-gray-500 text-gray-200">no action</span>
             )
@@ -75,14 +90,32 @@ function Orders({ orders }) {
 
     const router = useRouter()
 
-    function handleContinue(order)
-    {
+    function handleContinue(order) {
         router.push('/checkout/' + order._id)
     }
-    function handleCancel(order)
-    {
+
+    async function handleCancel(order) {
+        let result = await fetch(`/api/orders/${order._id}/cancel`, {
+            method: "PUT"
+        })
+        if (result.status !== 200) return
+
+        let data = await result.json()
+        updateOrder(order._id, { status: 4, paymentStatus: 2 })
     }
-    
+
+    const [orderDetails, setOrderDetails] = useState(null)
+    const [modalVis, setModalVis] = useState(false)
+
+    function toggleModal(order = null) {
+        if (order) {
+            setOrderDetails(order)
+        } else {
+            setOrderDetails(null)
+        }
+        setModalVis(prevState => !prevState)
+    }
+
 
     return (
         <div className="mt-8 p-3">
@@ -127,7 +160,7 @@ function Orders({ orders }) {
                                     </div>
                                 </div>
                             </td>
-                            <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap dark:text-white">{order.delivery ? `$ ${order.payAmount + order.tax + order.delivery.price}` : "-"}</td>
+                            <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap">{order.delivery ? `$ ${order.payAmount + order.tax + order.delivery.price}` : "-"}</td>
 
                             <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
                                 {renderPaymentStatus(order.paymentStatus)}
@@ -140,6 +173,8 @@ function Orders({ orders }) {
 
                 </tbody>
             </table>
+
+            {modalVis && <OrderDetailsModal toggle={toggleModal} order={orderDetails} />}
 
         </div>
     );

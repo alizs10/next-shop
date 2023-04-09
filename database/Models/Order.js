@@ -1,8 +1,4 @@
 import mongoose, { SchemaTypes } from "mongoose";
-// import CartItem from "./CartItem";
-// import Address from "./Address";
-// import Delivery from "./Delivery";
-// import User from "./User";
 
 const Schema = mongoose.Schema;
 
@@ -76,6 +72,4 @@ const OrderSchema = new Schema({
     }
 })
 
-const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema)
-
-export default Order;
+export default mongoose.models.Order || mongoose.model('Order', OrderSchema)
