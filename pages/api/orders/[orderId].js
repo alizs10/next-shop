@@ -1,7 +1,10 @@
 import { connectDatabase } from "../../../util/database-util";
 import Order from '../../../database/Models/Order';
+import Payment from '../../../database/Models/Payment';
 import Address from "../../../database/Models/Address";
+import Delivery from "../../../database/Models/Delivery";
 import useAuth from "../../../hooks/useAuth";
+import CartItem from "../../../database/Models/CartItem";
 
 async function handler(req, res) {
 
@@ -11,7 +14,13 @@ async function handler(req, res) {
 
         await connectDatabase(process.env.DB_NAME)
 
-        let order = await Order.findById(orderId).populate(['items', 'delivery', 'address', 'payments']).exec()
+        let order = await Order.findById(orderId).populate([
+            {path:'items', model: CartItem},
+            {path:'delivery', model: Delivery},
+            {path:'address', model: Address},
+            {path:'payments', model: Payment},
+
+        ]).exec()
         if (!order) {
             return res.status(404).send({ message: "order not found!" })
         }

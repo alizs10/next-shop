@@ -27,9 +27,9 @@ async function handler(req, res) {
         let paymentIds = orderPayments.map(payment => payment._id);
         paymentIds = [...paymentIds, newPayment._id]
 
-        await Order.updateOne({ _id: order._id }, { $set: { payments: paymentIds } })
+        await Order.updateOne({ _id: order._id }, { $set: { payments: paymentIds, paymentStatus: newPayment.status ? 1 : 0, status: newPayment.status ? 0 : null } })
         // closeConnection()
-        
+
         return res.status(201).json({ message: "payment created successfully", payment: newPayment })
     }
 

@@ -1,29 +1,29 @@
 import mongoose, { SchemaTypes } from "mongoose";
-import CartItem from "./CartItem";
-import Address from "./Address";
-import Delivery from "./Delivery";
-import User from "./User";
+// import CartItem from "./CartItem";
+// import Address from "./Address";
+// import Delivery from "./Delivery";
+// import User from "./User";
 
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
     items: [{
         type: SchemaTypes.ObjectId,
-        ref: CartItem
+        ref: 'CartItem'
     }],
     user: {
         type: SchemaTypes.ObjectId,
-        ref: User,
+        ref: 'User',
     },
     address: {
         type: SchemaTypes.ObjectId,
         default: null,
-        ref: Address,
+        ref: 'Address',
     },
     delivery: {
         type: SchemaTypes.ObjectId,
         default: null,
-        ref: Delivery,
+        ref: 'Delivery',
     },
     tax: {
         type: Number,
@@ -50,6 +50,16 @@ const OrderSchema = new Schema({
         default: null,
         ref: 'Payment'
     }],
+    status: {
+        type: Number,
+        default: null,
+        enum: [null, 0, 1, 2, 3]
+    },
+    paymentStatus: {
+        type: Number,
+        default: null,
+        enum: [null, 0, 1]
+    },
     createdAt: {
         type: Date,
         default: () => Date.now(),
