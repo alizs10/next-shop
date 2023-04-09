@@ -4,25 +4,28 @@ import PlusIcon from "../../ui/icons/PlusIcon";
 import MinusIcon from "../../ui/icons/MinusIcon";
 import { useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
+import { MoonLoader } from "react-spinners";
+import useAppStore from "../../../stores/app-store";
 
 function CartItem({ item }) {
 
+    const { cartProcess } = useAppStore()
     const { handleDecreaseQuantity, handleIncreaseQuantity } = useContext(CartContext)
 
     return (
         <li className="relative flex items-center bg-white rounded-xl">
 
             <div className="absolute bottom-0 right-0 z-10 flex flex-col border-l-2 border-t-2 rounded-tl-xl rounded-br-xl border-gray-200">
-                <span onClick={() => handleIncreaseQuantity(item)} className="p-2 cursor-pointer text-gray-600 hover:bg-emerald-100 hover:text-emerald-500 rounded-tl-xl hover:border-red-100 transition-all duration-300">
-                    <PlusIcon />
-                </span>
-                <span onClick={() => handleDecreaseQuantity(item)} className="p-2 cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 rounded-br-xl hover:border-red-100 transition-all duration-300">
+                <button onClick={() => handleIncreaseQuantity(item)} disabled={cartProcess.isProcessing} className="w-10 h-10 flex justify-center items-center cursor-pointer text-gray-600 hover:bg-emerald-100 hover:text-emerald-500 rounded-tl-xl hover:border-red-100 transition-all duration-300">
+                    {cartProcess.status && cartProcess.process === 'increase' ? <MoonLoader color='#fff' size={10} /> : <PlusIcon />}
+                </button>
+                <button onClick={() => handleDecreaseQuantity(item)} disabled={cartProcess.isProcessing} className="w-10 h-10 flex justify-center items-center cursor-pointer text-gray-600 hover:bg-red-100 hover:text-red-500 rounded-br-xl hover:border-red-100 transition-all duration-300">
                     {item.quantity > 1 ? (
-                        <MinusIcon />
+                        cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <MinusIcon />
                     ) : (
-                        <TrashIcon />
+                        cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <TrashIcon />
                     )}
-                </span>
+                </button>
             </div>
 
             <div className="relative w-[35%] flex items-center aspect-square">

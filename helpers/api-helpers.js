@@ -30,6 +30,10 @@ export const handlePostOrder = async (data) => {
     }
 }
 
+export const handleGetCartItems = async () => {
+    return axios.get(`/api/cart`).then(res => res.data.items)
+}
+
 export const handleGetOrder = async (orderId) => {
     return axios.get(`/api/orders/${orderId}`).then(res => res.data.order)
 }

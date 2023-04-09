@@ -7,7 +7,7 @@ export const CartContext = createContext()
 
 export function CartContextProvider({ children }) {
 
-    const { removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity, cartItems } = useAppStore()
+    const { removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity, cartItems, cartProcess, setCartProcess } = useAppStore()
     const { user } = userStore()
 
     async function handlePostIncreaseCartItemQuantity(itemKey) {
@@ -58,11 +58,15 @@ export function CartContextProvider({ children }) {
 
     async function handleIncreaseQuantity(item) {
 
+        if (cartProcess.status) return
+
+        setCartProcess({ status: true, process: "increase" })
         if (user) {
 
             let result = await handlePostIncreaseCartItemQuantity(item._id)
 
             if (!result) {
+                setCartProcess({ status: false, process: null })
                 console.log('couldnt increase cart item quantity, try again');
                 return
             }
@@ -70,17 +74,22 @@ export function CartContextProvider({ children }) {
         }
 
         increaseCartItemQuantity(item._id)
+        setCartProcess({ status: false, process: null })
         console.log("cart item's quantity increased!");
     }
 
     async function handleDecreaseQuantity(item) {
 
+        if (cartProcess.status) return
+
+        setCartProcess({ status: true, process: "decrease" })
 
         if (user) {
 
             let result = await handlePostDecreaseCartItemQuantity(item._id)
 
             if (!result) {
+                setCartProcess({ status: false, process: null })
                 console.log('couldnt delete/decrease cart item, try again');
                 return
             }
@@ -95,6 +104,7 @@ export function CartContextProvider({ children }) {
             removeCartItem(item._id)
         }
 
+        setCartProcess({ status: false, process: null })
         console.log('cart item deleted!');
 
     }

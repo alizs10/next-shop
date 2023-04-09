@@ -29,6 +29,8 @@ const useAppStore = create((set) => ({
 
     cartItems: [],
     setCartItems: (payload) => set(() => ({ cartItems: payload })),
+    cartProcess: { status: false, process: null },
+    setCartProcess: (payload) => set(() => ({ cartProcess: payload })),
     addCartItem: (payload) => set((state) => ({ cartItems: [...state.cartItems, payload] })),
     increaseCartItemQuantity: (payload) => set((state) => {
         let itemsIns = [...state.cartItems]

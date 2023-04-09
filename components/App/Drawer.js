@@ -67,12 +67,14 @@ function Drawer() {
                                 </li>
                             </Link>
                         )}
-                        <li className={listStyle}>
-                            <span>
-                                <ShoppingCartIcon />
-                            </span>
-                            <span>Cart</span>
-                        </li>
+                        <Link className='w-full' href="/cart">
+                            <li className={listStyle}>
+                                <span>
+                                    <ShoppingCartIcon />
+                                </span>
+                                <span>Cart</span>
+                            </li>
+                        </Link>
                         <li className={listStyle}>
                             <span>
                                 <RectanglesGroupIcon />

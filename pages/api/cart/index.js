@@ -9,8 +9,13 @@ async function handler(req, res) {
     if (req.method === "GET") {
         await connectDatabase(process.env.DB_NAME)
         let user = await useAuth(req)
+
+        if (!user) {
+            return res.status(403).send({ message: "not authorized!" })
+        }
+
         let items = await CartItem.find({ user: user._id }).populate(['product', 'selectedAttributes.size.size'])
-        closeConnection()
+        // closeConnection()
 
         res.status(200).json({ message: "items loaded successfully!", items })
         return
@@ -32,7 +37,7 @@ async function handler(req, res) {
 
         let { price_increase, sizeId: size } = selectedAttribute.sizes.find(size => size._id === sizeId)
         let selectedSize = { price_increase, size }
-        
+
         let allPrices = +product.price + +selectedAttribute.price_increase + +selectedSize.price_increase;
         let discountAmount = (+allPrices * +product.discount_percentage / 100);
         let payPrice = +allPrices - +discountAmount;
