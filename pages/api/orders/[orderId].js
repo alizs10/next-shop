@@ -11,12 +11,20 @@ async function handler(req, res) {
 
         await connectDatabase(process.env.DB_NAME)
 
-        let order = await Order.findById(orderId).populate(['items', 'delivery', 'address']).exec()
+        let order = await Order.findById(orderId).populate(['items', 'delivery', 'address', 'payments']).exec()
         if (!order) {
-            // throw new Error("order not found!")
             return res.status(404).send({ message: "order not found!" })
-            // throw new Error("order not found!")
         }
+
+
+        let orderPayments = [...order.payments];
+        if (orderPayments.length > 0) {
+            let isPaid = orderPayments.find(payment => payment.status)
+            if (isPaid) {
+                return res.status(308).json({ message: "order is already paid!", redirect: "/checkout?transactionId=" + isPaid._id })
+            }
+        }
+
         // closeConnection()
 
         return res.status(200).json({ message: "order loaded successfully", order })

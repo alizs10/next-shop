@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { handleGetDeliveryMethods, handleGetOrder, handleGetPayment, handleGetUserAddresses, handleUpdateOrder } from "../../../helpers/api-helpers";
 import Stepper from "../../Common/Stepper";
 import CheckoutAddress from "./CheckoutAddress";
@@ -7,16 +7,23 @@ import CheckoutDelivery from "./CheckoutDelivery";
 import CheckoutDiscount from "./CheckoutDiscount";
 import CheckoutGateway from "./CheckoutGateway";
 import CheckoutSummary from "./CheckoutSummary";
-import CheckoutPaymentDetails from "./CheckoutPaymentDetails";
 import { useQuery, useQueryClient } from "react-query";
 import { defaultOptions } from "../../../lib/react-query/react-query";
+import { LoadingContext } from "../../../context/LoadingContext";
 
-function Checkout({ orderId, transactionId }) {
+function Checkout({ orderId }) {
 
     const router = useRouter()
     const queryClient = useQueryClient();
 
-    const [loading, setLoading] = useState(true)
+    const { addLoading, closeLoading, loading } = useContext(LoadingContext)
+
+    useEffect(() => {
+
+        addLoading("getting order")
+
+    }, [])
+
     const [errorObj, setErrorObj] = useState({
         isError: false,
         errorMessage: ""
@@ -28,15 +35,25 @@ function Checkout({ orderId, transactionId }) {
         ({ queryKey }) => handleGetOrder(queryKey[1]),
         {
             ...defaultOptions,
-            onError
+            onError,
+            onSuccess
         })
-    
+
 
     function onError(error) {
+        let errorStatus = error.response.status;
         let errorMessage = error.response.data.message;
-        console.log("this is on error", errorMessage);
-        setErrorObj({ isError: true, errorMessage })
-        setLoading(false)
+        if (errorStatus === 308) {
+            closeLoading({ text: errorMessage, status: "error", redirect: error.response.data.redirect })
+        }
+        if (errorStatus === 404) {
+            closeLoading({ text: errorMessage, status: "error", redirect: "/" })
+        }
+
+    }
+
+    function onSuccess() {
+        closeLoading()
     }
 
     useEffect(() => {
@@ -64,7 +81,7 @@ function Checkout({ orderId, transactionId }) {
     async function prepareStep(order) {
 
         if (!order) return
-        setLoading(true)
+
 
         let deliveryStep = {
             "name": "Delivery",
@@ -96,7 +113,7 @@ function Checkout({ orderId, transactionId }) {
 
         let stepsArr = [deliveryStep, paymentStep, finalStep]
         setSteps(stepsArr)
-        setLoading(false)
+
     }
 
     const { data: addresses } = useQuery('addresses', () => handleGetUserAddresses(), { ...defaultOptions, enabled: shouldGetDeliveryStepInitData })
@@ -148,14 +165,14 @@ function Checkout({ orderId, transactionId }) {
     }
     async function handleGoNext() {
 
-        setLoading(true)
+
 
         if (!steps[0].isPassed) {
 
             let result = await handleUpdateOrder(order._id, { addressId: selectedAddress, deliveryId: selectedDelivery })
 
             if (result.status !== 200) {
-                setLoading(false)
+
                 return
             }
             queryClient.invalidateQueries(['order', order._id]);
@@ -176,9 +193,7 @@ function Checkout({ orderId, transactionId }) {
         }
     }
 
-    if (loading || isLoading) return (<span>loading...</span>)
-    if (errorObj.isError) return (<span className="text-white">{errorObj.errorMessage}</span>)
-
+    if (loading || isLoading) return
 
     return (
         <div className="p-20 flex flex-col gap-y-4">
