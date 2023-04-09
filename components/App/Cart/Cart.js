@@ -65,7 +65,7 @@ function Cart() {
         let itemsIds = cartItems.map(item => item._id)
 
         let result = await handlePostOrder({ itemsIds })
-        console.log(result);
+        
         if (result.status !== 201) return
         setCartItems([])
 

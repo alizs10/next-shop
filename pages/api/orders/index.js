@@ -36,6 +36,7 @@ async function handler(req, res) {
 
 
         let newOrder = await Order.create(newOrderInputs)
+        await CartItem.deleteMany({ _id: { $in: itemsIds } })
         // closeConnection()
 
         return res.status(201).json({ message: "order created successfully", order: newOrder })
