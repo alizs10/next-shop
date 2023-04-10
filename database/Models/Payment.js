@@ -3,9 +3,15 @@ import mongoose, { SchemaTypes } from 'mongoose';
 const Schema = mongoose.Schema;
 
 const PaymentSchema = new Schema({
-    orderId: {
+    order: {
         type: SchemaTypes.ObjectId,
-        ref: 'Order'
+        ref: 'Order',
+        required: true
+    },
+    user: {
+        type: SchemaTypes.ObjectId,
+        ref: 'User',
+        required: true
     },
     amount: {
         type: Number,
@@ -13,8 +19,9 @@ const PaymentSchema = new Schema({
         required: true
     },
     status: {
-        type: Boolean,
-        required: true
+        type: String,
+        default: null,
+        enum: [null, '0', '1', '2']
     },
     paymentDate: {
         type: Date,

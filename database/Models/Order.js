@@ -47,14 +47,14 @@ const OrderSchema = new Schema({
         ref: 'Payment'
     }],
     status: {
-        type: Number,
+        type: String,
         default: null,
-        enum: [null, 0, 1, 2, 3]
+        enum: [null, '0', '1', '2', '3']
     },
     paymentStatus: {
-        type: Number,
+        type: String,
         default: null,
-        enum: [null, 0, 1]
+        enum: [null, '0', '1', '2']
     },
     createdAt: {
         type: Date,

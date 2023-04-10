@@ -10,13 +10,13 @@ function OrderDetailsModal({ toggle, handleOnSubmit, order }) {
             case null:
                 return "still"
                 break;
-            case 0:
+            case '0':
                 return "unsuccessful"
                 break;
-            case 1:
+            case '1':
                 return "successful"
                 break;
-            case 2:
+            case '2':
                 return "canceled"
                 break;
 
@@ -50,6 +50,8 @@ function OrderDetailsModal({ toggle, handleOnSubmit, order }) {
                 break;
         }
     }
+
+    console.log(order);
 
     return (
         <BackdropWrapper handleClick={toggle}>

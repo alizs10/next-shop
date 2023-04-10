@@ -6,6 +6,7 @@ import ArrowUpRightIcon from "../../ui/icons/ArrowUpRightIcon";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
+import { renderPaymentStatus } from "./Payments";
 
 function Orders({ orders: initOrders }) {
 
@@ -20,30 +21,11 @@ function Orders({ orders: initOrders }) {
         })
     }
 
-    function renderPaymentStatus(status) {
-        switch (status) {
-            case null:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-gray-50 text-gray-500">waiting</span>
-                break;
-            case 0:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-red-50 text-red-500">unsuccessful</span>
-                break;
-            case 1:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-emerald-50 text-emerald-600">paid</span>
-                break;
-            case 2:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">canceled</span>
-                break;
-
-            default:
-                return <span className="self-start rounded-md w-fit px-2 py-1 bg-gray-50 text-gray-500">waiting</span>
-                break;
-        }
-    }
+    
 
     function renderActions(order) {
 
-        if (order.paymentStatus === 1) {
+        if (order.paymentStatus === '1') {
             return (<button onClick={() => toggleModal(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(37,99,235)] hover:shadow-[0_7px_15px_5px_rgb(37,99,235)] bg-blue-600 text-white">
                 <InformationCircleIcon />
                 <span>More Details</span>
@@ -51,7 +33,7 @@ function Orders({ orders: initOrders }) {
         }
 
         // check if order is incomplete and not canceled
-        if (order.status !== 4 && !order.delivery && !order.address) {
+        if (order.status !== '4' && !order.delivery && !order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(124,58,237)] hover:shadow-[0_7px_15px_5px_rgb(124,58,237)] bg-violet-600 text-white">
@@ -66,7 +48,7 @@ function Orders({ orders: initOrders }) {
             )
         }
 
-        if (order.status !== 4 && !!order.delivery && !!order.address) {
+        if (order.status !== '4' && !!order.delivery && !!order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(5,150,105)] hover:shadow-[0_7px_15px_5px_rgb(5,150,105)] bg-emerald-600 text-white">
@@ -81,7 +63,7 @@ function Orders({ orders: initOrders }) {
             )
         }
 
-        if (order.status === 4) {
+        if (order.status === '4') {
             return (
                 <span className="rounded-md w-fit px-2 py-1 bg-gray-500 text-gray-200">no action</span>
             )

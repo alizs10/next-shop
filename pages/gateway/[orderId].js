@@ -1,5 +1,6 @@
-import { closeConnection, connectDatabase } from '../../util/database-util';
+import { connectDatabase } from '../../util/database-util';
 import Order from '../../database/Models/Order';
+import Delivery from '../../database/Models/Delivery';
 import { jsonParser } from '../../helpers/helpers';
 import { useRouter } from 'next/router';
 import { handlePostPayment } from '../../helpers/api-helpers';
@@ -13,7 +14,7 @@ function GatewayPage({ order }) {
 
         let inputs = {
             orderId: order._id,
-            status: true
+            status: '1'
         }
 
         let result = await handlePostPayment(inputs)
@@ -30,7 +31,7 @@ function GatewayPage({ order }) {
 
         let inputs = {
             orderId: order._id,
-            status: false
+            status: '0'
         }
 
         let result = await handlePostPayment(inputs)
@@ -69,7 +70,7 @@ export async function getServerSideProps(ctx) {
     let { orderId } = ctx.params;
 
     await connectDatabase(process.env.DB_NAME)
-    let order = await Order.findById(orderId).populate('delivery').exec()
+    let order = await Order.findById(orderId).populate({path:'delivery', model:Delivery}).exec()
 
     // closeConnection()
 
