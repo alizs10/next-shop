@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function ProfileLayout({ children }) {
+function ProfileLayout({ children, data }) {
 
     const { pathname } = useRouter()
 
@@ -16,25 +16,25 @@ function ProfileLayout({ children }) {
                 <Link href='/profile/favorites'>
                     <li className={`whitespace-nowrap min-w-fit flex items-center gap-x-2 text-center text-2xl text-white py-3 px-5 border-b-[3px] transition-all duration-300 ${pathname === '/profile/favorites' ? 'border-red-500' : 'border-gray-800'}`}>
                         <span>Favorites</span>
-                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">2</div>
+                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">{data.favoritesCount}</div>
                     </li>
                 </Link>
                 <Link href='/profile/orders'>
                     <li className={`whitespace-nowrap min-w-fit flex items-center gap-x-2 text-center text-2xl text-white py-3 px-5 border-b-[3px] transition-all duration-300 ${pathname === '/profile/orders' ? 'border-red-500' : 'border-gray-800'}`}>
                         <span>Orders</span>
-                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">2</div>
+                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">{data.ordersCount}</div>
                     </li>
                 </Link>
                 <Link href='/profile/addresses'>
                     <li className={`whitespace-nowrap min-w-fit flex items-center gap-x-2 text-center text-2xl text-white py-3 px-5 border-b-[3px] transition-all duration-300 ${pathname === '/profile/addresses' ? 'border-red-500' : 'border-gray-800'}`}>
                         <span>Addresses</span>
-                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">2</div>
+                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">{data.addressesCount}</div>
                     </li>
                 </Link>
                 <Link href='/profile/payments'>
                     <li className={`whitespace-nowrap min-w-fit flex items-center gap-x-2 text-center text-2xl text-white py-3 px-5 border-b-[3px] transition-all duration-300 ${pathname === '/profile/payments' ? 'border-red-500' : 'border-gray-800'}`}>
                         <span>Payments</span>
-                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">2</div>
+                        <div className="rounded-md w-7 aspect-square bg-gray-700 text-gray-200 text-sm flex justify-center items-center">{data.paymentsCount}</div>
                     </li>
                 </Link>
             </ul>

@@ -51,8 +51,6 @@ function OrderDetailsModal({ toggle, handleOnSubmit, order }) {
         }
     }
 
-    console.log(order);
-
     return (
         <BackdropWrapper handleClick={toggle}>
             <div onClick={e => e.stopPropagation()} className="w-4/5 sm:w-3/5 md:1/2 lg:w-1/3 rounded-xl bg-gray-700 shadow-md p-5">

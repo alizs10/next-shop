@@ -9,8 +9,9 @@ import Delivery from '../../database/Models/Delivery';
 import Address from '../../database/Models/Address';
 import Payment from '../../database/Models/Payment';
 import Product from '../../database/Models/Product';
+import useProfileInformation from '../../hooks/useProfileInfomation';
 
-function OrdersPage({ orders }) {
+function OrdersPage(props) {
     return (
         <>
             <Head>
@@ -19,8 +20,8 @@ function OrdersPage({ orders }) {
                 </title>
                 <meta name="description" content="orders page - nike's shoes shop" />
             </Head>
-            <ProfileLayout>
-                <Orders orders={orders} />
+            <ProfileLayout data={props}>
+                <Orders orders={props.orders} />
             </ProfileLayout>
         </>
     );
@@ -29,7 +30,14 @@ function OrdersPage({ orders }) {
 export async function getServerSideProps({ req }) {
 
     const cb = async (props, user) => {
-        props.layoutType = "app"
+        props.layoutType = "app";
+
+        let initialProfileInformation = await useProfileInformation(user)
+
+        Object.keys(initialProfileInformation).forEach(key => {
+            props[key] = initialProfileInformation[key]
+        })
+
         let orders = await Order.find({ user: user._id }).populate([
             { path: 'items', model: CartItem, populate: { path: 'product', model: Product } },
             { path: 'delivery', model: Delivery },

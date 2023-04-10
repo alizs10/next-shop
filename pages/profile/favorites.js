@@ -4,8 +4,9 @@ import ProfileLayout from "../../components/App/Profile/ProfileLayout";
 import useRole from "../../hooks/useRole";
 import Favorite from '../../database/Models/Favorite';
 import { jsonParser } from "../../helpers/helpers";
+import useProfileInformation from "../../hooks/useProfileInfomation";
 
-function FavoritesPage({ favorites }) {
+function FavoritesPage(props) {
     return (
         <>
             <Head>
@@ -14,8 +15,8 @@ function FavoritesPage({ favorites }) {
                 </title>
                 <meta name="description" content="favorites page - nike's shoes shop" />
             </Head>
-            <ProfileLayout>
-                <Favorites favorites={favorites} />
+            <ProfileLayout data={props}>
+                <Favorites favorites={props.favorites} />
             </ProfileLayout>
         </>
     );
@@ -24,7 +25,13 @@ function FavoritesPage({ favorites }) {
 export async function getServerSideProps({ req }) {
 
     const cb = async (props, user) => {
-        props.layoutType = "app"
+        props.layoutType = "app";
+
+        let initialProfileInformation = await useProfileInformation(user)
+
+        Object.keys(initialProfileInformation).forEach(key => {
+            props[key] = initialProfileInformation[key]
+        })
 
         let favorites = await Favorite.find({ user: user._id }).populate('product').exec()
         favorites = favorites.map(fav => ({ ...fav.product, isFavorite: true }))

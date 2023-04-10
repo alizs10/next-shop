@@ -1,13 +1,12 @@
 import mongoose, { SchemaTypes } from "mongoose";
-import User from "./User";
 
 const Schema = mongoose.Schema;
 
 const AddressSchema = new Schema({
     user: {
         type: SchemaTypes.ObjectId,
-        ref: User,
-        require: true
+        ref: 'User',
+        required: true
     },
     state: {
         type: String,

@@ -4,8 +4,9 @@ import ProfileLayout from "../../components/App/Profile/ProfileLayout";
 import useRole from "../../hooks/useRole";
 import Address from '../../database/Models/Address';
 import { jsonParser } from "../../helpers/helpers";
+import useProfileInformation from "../../hooks/useProfileInfomation";
 
-function AddressesPage({ addresses }) {
+function AddressesPage(props) {
     return (
         <>
             <Head>
@@ -14,8 +15,8 @@ function AddressesPage({ addresses }) {
                 </title>
                 <meta name="description" content="addresses page - nike's shoes shop" />
             </Head>
-            <ProfileLayout>
-                <Addresses items={addresses} />
+            <ProfileLayout data={props}>
+                <Addresses items={props.addresses} />
             </ProfileLayout>
         </>
     );
@@ -25,6 +26,12 @@ export async function getServerSideProps({ req }) {
 
     const cb = async (props, user) => {
         props.layoutType = "app";
+
+        let initialProfileInformation = await useProfileInformation(user)
+
+        Object.keys(initialProfileInformation).forEach(key => {
+            props[key] = initialProfileInformation[key]
+        })
 
         let addresses = await Address.find({ user: user._id });
         props.addresses = jsonParser(addresses);

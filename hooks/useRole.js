@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import { closeConnection, connectDatabase } from '../util/database-util';
+import { connectDatabase } from '../util/database-util';
 import User from '../database/Models/User';
 import { jsonParser } from '../helpers/helpers';
 
@@ -11,7 +11,7 @@ async function useRole(req, roles, cb = null) {
     let session = await getSession({ req })
 
     if (!session) {
-        closeConnection()
+
         return {
             redirect: {
                 destination: "/",
@@ -23,7 +23,7 @@ async function useRole(req, roles, cb = null) {
     let user = await User.findOne({ email: session.user.email }).select(['-password', '-verification_code'])
 
     if (!user) {
-        closeConnection()
+
         return {
             redirect: {
                 destination: "/",
@@ -33,7 +33,7 @@ async function useRole(req, roles, cb = null) {
     }
 
     if (!roles.includes(user.role)) {
-        closeConnection()
+
         return {
             redirect: {
                 destination: "/403",
@@ -43,11 +43,10 @@ async function useRole(req, roles, cb = null) {
     }
 
     props.user = jsonParser(user);
-    if(cb)
-    {
-        await cb(props,user)
+    if (cb) {
+        await cb(props, user)
     }
-    closeConnection()
+
     return {
         props
     }

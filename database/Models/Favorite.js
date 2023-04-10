@@ -1,30 +1,27 @@
 import mongoose, { SchemaTypes } from "mongoose";
-import Product from "./Product";
-import User from './User';
 
 const Schema = mongoose.Schema;
 
 const FavoriteSchema = new Schema({
-    
     user: {
-        type: SchemaTypes.ObjectId,
-        ref: User,
-        require: true
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     product: {
-        type: SchemaTypes.ObjectId,
-        ref: Product,
-        require: true
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
     },
     createdAt: {
         type: Date,
         default: () => Date.now(),
-        require: true
+        required: true
     },
     updatedAt: {
         type: Date,
         default: () => Date.now(),
-        require: true
+        required: true
     },
     deletedAt: {
         type: Date,
