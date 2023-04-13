@@ -35,6 +35,7 @@ export const handleGetCartItems = async () => {
 }
 
 export const handleGetOrder = async (orderId) => {
+    console.log("we are here,", orderId);
     return axios.get(`/api/orders/${orderId}`).then(res => res.data.order)
 }
 

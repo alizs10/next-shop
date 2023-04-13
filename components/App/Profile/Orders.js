@@ -73,6 +73,7 @@ function Orders({ orders: initOrders }) {
     const router = useRouter()
 
     function handleContinue(order) {
+        
         router.push('/checkout/' + order._id)
     }
 

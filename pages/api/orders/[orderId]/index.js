@@ -27,7 +27,8 @@ async function handler(req, res) {
 
         let orderPayments = [...order.payments];
         if (orderPayments.length > 0) {
-            let isPaid = orderPayments.find(payment => payment.status)
+            let isPaid = orderPayments.find(payment => payment.status === "1")
+            console.log(isPaid,orderPayments);
             if (isPaid) {
                 return res.status(308).json({ message: "order is already paid!", redirect: "/checkout?transactionId=" + isPaid._id })
             }
@@ -35,6 +36,7 @@ async function handler(req, res) {
 
         // closeConnection()
 
+        console.log(order);
         return res.status(200).json({ message: "order loaded successfully", order })
     }
 

@@ -18,21 +18,18 @@ function Checkout({ orderId }) {
 
     const { addLoading, closeLoading, loading } = useContext(LoadingContext)
 
-    useEffect(() => {
 
-        addLoading("getting order")
-
-    }, [])
-
-    const [errorObj, setErrorObj] = useState({
-        isError: false,
-        errorMessage: ""
-    })
     const [shouldGetDeliveryStepInitData, setShouldGetDeliveryStepInitData] = useState(false)
+
+    async function fetchOrder(id)
+    {
+        addLoading("getting order")
+        return await handleGetOrder(id)
+    }
 
     const { data: order, isLoading } = useQuery(
         ['order', orderId],
-        ({ queryKey }) => handleGetOrder(queryKey[1]),
+        ({ queryKey }) => fetchOrder(queryKey[1]),
         {
             ...defaultOptions,
             onError,
@@ -165,10 +162,7 @@ function Checkout({ orderId }) {
     }
     async function handleGoNext() {
 
-
-
         if (!steps[0].isPassed) {
-
             let result = await handleUpdateOrder(order._id, { addressId: selectedAddress, deliveryId: selectedDelivery })
 
             if (result.status !== 200) {
@@ -184,6 +178,7 @@ function Checkout({ orderId }) {
             setAllowedNext(false)
             return
         }
+
         if (!steps[1].isPassed) {
             setSteps(prevState => {
                 prevState[1].isPassed = true;
@@ -192,9 +187,11 @@ function Checkout({ orderId }) {
             router.push('/gateway/' + order._id)
         }
     }
+    
+    console.log(loading, isLoading);
+    if ((loading || isLoading) && !order) return
 
-    if (loading || isLoading) return
-
+    console.log("we passed ifs");
     return (
         <div className="p-20 flex flex-col gap-y-4">
             <Stepper steps={steps} />

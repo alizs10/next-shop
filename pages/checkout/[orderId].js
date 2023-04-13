@@ -3,6 +3,7 @@ import useRole from "../../hooks/useRole";
 
 function CheckoutPage({ orderId, transactionId }) {
 
+    console.log(orderId, transactionId);
     return (
         <Checkout orderId={orderId} transactionId={transactionId} />
     );
