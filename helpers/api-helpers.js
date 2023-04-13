@@ -83,3 +83,36 @@ export const handleUpdateOrder = async (orderId, data) => {
         return error.message
     }
 }
+
+
+// discounts
+
+export const handlePostDiscount = async (data) => {
+    try {
+        return await fetch(`/api/discounts`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+    } catch (error) {
+        return error.message
+    }
+}
+
+export const handleDeleteDiscount = async (discountId) => {
+    try {
+        return await fetch(`/api/discounts/${discountId}`, {
+            method: "DELETE",
+        })
+
+    } catch (error) {
+        return error.message
+    }
+}
+
+export const handleGetDiscounts = async (data) => {
+    return axios.get(`/api/discounts`).then(res => res.data.discounts)
+}

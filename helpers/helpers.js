@@ -28,3 +28,11 @@ export const formatDate = (date) => {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
 }
+export const getInputDateFormat = (d) => {
+    let date = new Date(d)
+    let year = date.getFullYear()
+    let month = (10 - date.getMonth() + 1) > 0 ? `0${date.getMonth() + 1}` : date.getMonth()
+    let day = 10 - date.getDate() > 0 ? `0${date.getDate()}` : date.getDate()
+
+    return `${year}-${month}-${day}`;
+}
