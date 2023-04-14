@@ -36,3 +36,22 @@ export const getInputDateFormat = (d) => {
 
     return `${year}-${month}-${day}`;
 }
+
+export const dateComparison = (date1, date2) => {
+
+    let firstDate = new Date(date1).getTime()
+    let secondDate = new Date(date2).getTime()
+
+    if (firstDate > secondDate) {
+        return '>'
+    }
+
+    if (firstDate === secondDate) {
+        return '='
+    }
+
+    if (firstDate < secondDate) {
+        return '<'
+    }
+
+}

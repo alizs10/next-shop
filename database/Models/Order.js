@@ -56,6 +56,11 @@ const OrderSchema = new Schema({
         default: null,
         enum: [null, '0', '1', '2']
     },
+    discountCode: {
+        type: SchemaTypes.ObjectId,
+        default:null,
+        ref: 'DiscountCode'
+    },
     createdAt: {
         type: Date,
         default: () => Date.now(),

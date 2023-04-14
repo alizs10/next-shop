@@ -5,6 +5,7 @@ import Address from "../../../../database/Models/Address";
 import Delivery from "../../../../database/Models/Delivery";
 import useAuth from "../../../../hooks/useAuth";
 import CartItem from "../../../../database/Models/CartItem";
+import DiscountCode from "../../../../database/Models/DiscountCode";
 
 async function handler(req, res) {
 
@@ -19,6 +20,7 @@ async function handler(req, res) {
             {path:'delivery', model: Delivery},
             {path:'address', model: Address},
             {path:'payments', model: Payment},
+            {path:'discountCode', model: DiscountCode},
         ]).exec()
         if (!order) {
             return res.status(404).send({ message: "order not found!" })

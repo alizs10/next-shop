@@ -114,6 +114,36 @@ export const handleDeleteDiscount = async (discountId) => {
     }
 }
 
+export const handlePostCheckDiscountCode = async (data) => {
+    try {
+        return await fetch(`/api/discounts/check`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+    } catch (error) {
+        return error.message
+    }
+}
+
+export const handlePostRemoveDiscountCode = async (data) => {
+    try {
+        return await fetch(`/api/discounts/remove`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+    } catch (error) {
+        return error.message
+    }
+}
+
 export const handleGetDiscounts = async (data) => {
     return axios.get(`/api/discounts`).then(res => res.data.discounts)
 }

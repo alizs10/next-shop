@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { handleGetDeliveryMethods, handleGetOrder, handleGetPayment, handleGetUserAddresses, handleUpdateOrder } from "../../../helpers/api-helpers";
+import { handleGetDeliveryMethods, handleGetOrder, handleGetPayment, handleGetUserAddresses, handlePostCheckDiscountCode, handlePostRemoveDiscountCode, handleUpdateOrder } from "../../../helpers/api-helpers";
 import Stepper from "../../Common/Stepper";
 import CheckoutAddress from "./CheckoutAddress";
 import CheckoutDelivery from "./CheckoutDelivery";
@@ -21,13 +21,12 @@ function Checkout({ orderId }) {
 
     const [shouldGetDeliveryStepInitData, setShouldGetDeliveryStepInitData] = useState(false)
 
-    async function fetchOrder(id)
-    {
+    async function fetchOrder(id) {
         addLoading("getting order")
         return await handleGetOrder(id)
     }
 
-    const { data: order, isLoading } = useQuery(
+    const { data: order, isLoading, refetch: refetchOrder } = useQuery(
         ['order', orderId],
         ({ queryKey }) => fetchOrder(queryKey[1]),
         {
@@ -187,11 +186,41 @@ function Checkout({ orderId }) {
             router.push('/gateway/' + order._id)
         }
     }
-    
-    console.log(loading, isLoading);
-    if ((loading || isLoading) && !order) return
 
-    console.log("we passed ifs");
+
+    // discount code
+    async function handleCheckDiscountCode(code) {
+        let data = {
+            discountCode: code,
+            orderId: order._id
+        }
+
+        let result = await handlePostCheckDiscountCode(data)
+
+        if (result.status === 200) {
+            refetchOrder()
+            return true
+        }
+    }
+
+    async function handleRemoveDiscountCode()
+    {
+
+        let data = {
+            orderId: order._id
+        }
+
+        let result = await handlePostRemoveDiscountCode(data)
+
+        if (result.status === 200) {
+            refetchOrder()
+            return true
+        }
+    }
+    
+
+    if (loading || isLoading) return
+
     return (
         <div className="p-20 flex flex-col gap-y-4">
             <Stepper steps={steps} />
@@ -203,7 +232,7 @@ function Checkout({ orderId }) {
             )}
             {(steps[0].isPassed && !steps[1].isPassed) && (
                 <>
-                    <CheckoutDiscount />
+                    <CheckoutDiscount order={order} handleCheckDiscountCode={handleCheckDiscountCode} handleRemoveDiscountCode={handleRemoveDiscountCode} />
                     <CheckoutGateway isGatewaySelected={isGatewaySelected} handleSelectGateway={handleSelectGateway} />
                     <CheckoutSummary order={order} />
                 </>
