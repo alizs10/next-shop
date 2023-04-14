@@ -8,6 +8,17 @@ import { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { renderPaymentStatus } from "./Payments";
 
+function NoOrders() {
+
+    return (
+        <div className="pt-24 w-full flex flex-col justify-center items-center gap-y-4 text-gray-400">
+            <span className="font-bold text-4xl">You Have no Orders</span>
+            {/* <span className="text-2xl">Add your first favorite shoe...</span> */}
+        </div>
+    )
+}
+
+
 function Orders({ orders: initOrders }) {
 
     const [orders, setOrders] = useState(initOrders)
@@ -99,6 +110,9 @@ function Orders({ orders: initOrders }) {
         setModalVis(prevState => !prevState)
     }
 
+    if (orders.length === 0) {
+        return <NoOrders />
+    }
 
     return (
         <>
@@ -126,7 +140,7 @@ function Orders({ orders: initOrders }) {
                     </thead>
                     <tbody className="divide-y divide-gray-700">
 
-                        {orders.map((order, index) => {
+                        {orders.length > 0 && orders.map((order, index) => {
 
                             let discountCode = order.discountCode;
                             let payAmount = order.payAmount;

@@ -8,6 +8,7 @@ import CartItem from "../../../database/Models/CartItem";
 import Delivery from "../../../database/Models/Delivery";
 import Address from "../../../database/Models/Address";
 import Payment from "../../../database/Models/Payment";
+import { ObjectId } from "mongodb";
 
 async function handler(req, res) {
 
@@ -56,6 +57,11 @@ async function handler(req, res) {
             ]).exec()
 
             return res.status(200).json({ message: "code is already activated!", order })
+        }
+
+        // check if order has an discount code
+        if (order.discountCode && !order.discountCode.equals(discount._id)) {
+            await UserDiscountCode.deleteOne({ user: user._id, discountCode: order.discountCode, order: order._id })
         }
 
         // 3- update order with discount code
