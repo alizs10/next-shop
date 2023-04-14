@@ -6,7 +6,7 @@ function CheckoutDiscount({ order, handleCheckDiscountCode,handleRemoveDiscountC
     async function handleCheck() {
         let res = await handleCheckDiscountCode(codeInp.current.value)
         
-        if (res) {
+        if (res && codeInp.current) {
             codeInp.current.value = "";
         }
     }

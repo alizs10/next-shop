@@ -4,6 +4,10 @@ import useAuth from "../../../hooks/useAuth";
 import { connectDatabase } from "../../../util/database-util";
 import { dateComparison } from "../../../helpers/helpers";
 import UserDiscountCode from "../../../database/Models/UserDiscountCode";
+import CartItem from "../../../database/Models/CartItem";
+import Delivery from "../../../database/Models/Delivery";
+import Address from "../../../database/Models/Address";
+import Payment from "../../../database/Models/Payment";
 
 async function handler(req, res) {
 
@@ -36,16 +40,37 @@ async function handler(req, res) {
         // 2- check if user already used this code
         let userDiscountCode = await UserDiscountCode.findOne({ user: user._id, discountCode: discount._id }).populate({ path: 'order', model: Order }).exec()
 
-        console.log(userDiscountCode);
         if (userDiscountCode && userDiscountCode.order.paymentStatus === '1') {
             return res.status(400).send({ message: "code is used before!" })
+        }
+
+        // check if code is already activated for this order
+        if (order.discountCode && order.discountCode.equals(discount._id)) {
+
+            order = await Order.findById(orderId).populate([
+                { path: 'items', model: CartItem },
+                { path: 'delivery', model: Delivery },
+                { path: 'address', model: Address },
+                { path: 'payments', model: Payment },
+                { path: 'discountCode', model: DiscountCode },
+            ]).exec()
+
+            return res.status(200).json({ message: "code is already activated!", order })
         }
 
         // 3- update order with discount code
         await Order.updateOne({ _id: orderId }, { $set: { discountCode: discount._id } })
         await UserDiscountCode.create({ user: user._id, discountCode: discount._id, order: order._id })
 
-        return res.status(200).send({ message: "code successfully activated!" })
+        order = await Order.findById(orderId).populate([
+            { path: 'items', model: CartItem },
+            { path: 'delivery', model: Delivery },
+            { path: 'address', model: Address },
+            { path: 'payments', model: Payment },
+            { path: 'discountCode', model: DiscountCode },
+        ]).exec()
+
+        return res.status(200).json({ message: "code successfully activated!", order })
 
     }
 

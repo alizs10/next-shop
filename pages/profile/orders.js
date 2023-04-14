@@ -10,6 +10,7 @@ import Address from '../../database/Models/Address';
 import Payment from '../../database/Models/Payment';
 import Product from '../../database/Models/Product';
 import useProfileInformation from '../../hooks/useProfileInfomation';
+import DiscountCode from '../../database/Models/DiscountCode';
 
 function OrdersPage(props) {
     return (
@@ -43,6 +44,7 @@ export async function getServerSideProps({ req }) {
             { path: 'delivery', model: Delivery },
             { path: 'address', model: Address },
             { path: 'payments', model: Payment },
+            { path: 'discountCode', model: DiscountCode },
         ]).exec()
         props.orders = jsonParser(orders)
     }

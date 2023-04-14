@@ -1,7 +1,9 @@
+import Delivery from "../../../database/Models/Delivery";
+import DiscountCode from "../../../database/Models/DiscountCode";
 import Order from "../../../database/Models/Order";
 import Payment from "../../../database/Models/Payment";
 import useAuth from "../../../hooks/useAuth";
-import { closeConnection, connectDatabase } from "../../../util/database-util";
+import { connectDatabase } from "../../../util/database-util";
 
 async function handler(req, res) {
 
@@ -13,14 +15,15 @@ async function handler(req, res) {
         let user = await useAuth(req)
 
         if (!user) {
-            // closeConnection()
             return res.status(403).json({ message: "not authorized!" })
         }
 
-        let order = await Order.findById(inputs.orderId).populate(['delivery', 'payments']).exec()
+        let order = await Order.findById(inputs.orderId).populate([
+            { path: 'delivery', model: Delivery },
+            { path: 'discountCode', model: DiscountCode },
+        ]).exec()
 
         if (!order) {
-            // closeConnection()
             return res.status(404).json({ message: "order not found!" })
         }
         let orderPayments = [...order.payments];
@@ -35,7 +38,10 @@ async function handler(req, res) {
         inputs.user = user._id;
         inputs.order = order._id;
         inputs.paymentDate = Date.now()
-        inputs.amount = order.payAmount + order.tax + order.delivery.price
+
+        let total = order.payAmount + order.delivery.price + order.tax;
+        let discountCodeAmount = order.discountCode ? (total * order.discountCode.percentage / 100) : 0
+        inputs.amount = total - discountCodeAmount
 
         let newPayment = await Payment.create(inputs)
 
@@ -43,7 +49,6 @@ async function handler(req, res) {
         paymentIds = [...paymentIds, newPayment._id]
 
         await Order.updateOne({ _id: order._id }, { $set: { payments: paymentIds, paymentStatus: newPayment.status, status: newPayment.status === 1 ? 0 : null } })
-        // closeConnection()
 
         return res.status(201).json({ message: "payment created successfully", payment: newPayment })
     }

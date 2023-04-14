@@ -21,7 +21,7 @@ function Orders({ orders: initOrders }) {
         })
     }
 
-    
+
 
     function renderActions(order) {
 
@@ -73,7 +73,7 @@ function Orders({ orders: initOrders }) {
     const router = useRouter()
 
     function handleContinue(order) {
-        
+
         router.push('/checkout/' + order._id)
     }
 
@@ -126,34 +126,45 @@ function Orders({ orders: initOrders }) {
                     </thead>
                     <tbody className="divide-y divide-gray-700">
 
-                        {orders.map((order, index) => (
-                            <tr key={order._id}>
-                                <td className="p-4 w-4 text-white">
-                                    {index + 1}
-                                </td>
-                                <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div className="w-full flex justify-between items-center">
-                                        <div className="w-fit flex gap-2">
-                                            {order.items.map(item => (
-                                                <div key={item._id} className="relative w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
-                                                    <Image src={item.product.image} alt={item.product.name} width={100} height={50} />
-                                                    <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-md flex justify-center items-center text-white bg-red-500 text-xs">x{item.quantity}</span>
-                                                </div>
-                                            ))}
+                        {orders.map((order, index) => {
 
+                            let discountCode = order.discountCode;
+                            let payAmount = order.payAmount;
+                            let discountAmount = order.discountAmount;
+                            let shippingAmount = order.delivery?.price ?? 0;
+                            let taxAmount = order.tax;
+                            let total = payAmount + shippingAmount + taxAmount;
+                            let discountCodeAmount = discountCode ? (total * discountCode.percentage / 100) : 0
+
+                            return (
+                                <tr key={order._id}>
+                                    <td className="p-4 w-4 text-white">
+                                        {index + 1}
+                                    </td>
+                                    <td className="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <div className="w-full flex justify-between items-center">
+                                            <div className="w-fit flex gap-2">
+                                                {order.items.map(item => (
+                                                    <div key={item._id} className="relative w-12 h-12 px-1 bg-white flex justify-center items-center rounded-[5px]">
+                                                        <Image src={item.product.image} alt={item.product.name} width={100} height={50} />
+                                                        <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-md flex justify-center items-center text-white bg-red-500 text-xs">x{item.quantity}</span>
+                                                    </div>
+                                                ))}
+
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap">{order.delivery ? `$ ${order.payAmount + order.tax + order.delivery.price}` : "-"}</td>
+                                    </td>
+                                    <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap">{order.delivery ? `$ ${total - discountCodeAmount}` : "-"}</td>
 
-                                <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
-                                    {renderPaymentStatus(order.paymentStatus)}
-                                </td>
-                                <td className="py-4 px-6 flex gap-x-2 text-sm font-medium text-right whitespace-nowrap">
-                                    {renderActions(order)}
-                                </td>
-                            </tr>
-                        ))}
+                                    <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
+                                        {renderPaymentStatus(order.paymentStatus)}
+                                    </td>
+                                    <td className="py-4 px-6 flex gap-x-2 text-sm font-medium text-right whitespace-nowrap">
+                                        {renderActions(order)}
+                                    </td>
+                                </tr>
+                            )
+                        })}
 
                     </tbody>
                 </table>

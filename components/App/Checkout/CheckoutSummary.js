@@ -25,7 +25,6 @@ function CheckoutSummary({ order }) {
                         <span className='text-md text-red-500'>{discountAmount} $</span>
                     </li>
                     {discountCode && (
-
                         <li className='flex justify-between items-center'>
                             <span className='text-lg text-red-500'>Discount Code</span>
                             <span className='text-md text-red-500'>{discountCodeAmount} $</span>

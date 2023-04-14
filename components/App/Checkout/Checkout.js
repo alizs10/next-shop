@@ -16,17 +16,18 @@ function Checkout({ orderId }) {
     const router = useRouter()
     const queryClient = useQueryClient();
 
-    const { addLoading, closeLoading, loading } = useContext(LoadingContext)
+    const { addLoading, closeLoading } = useContext(LoadingContext)
 
 
     const [shouldGetDeliveryStepInitData, setShouldGetDeliveryStepInitData] = useState(false)
+    const [order, setOrder] = useState({})
 
     async function fetchOrder(id) {
         addLoading("getting order")
         return await handleGetOrder(id)
     }
 
-    const { data: order, isLoading, refetch: refetchOrder } = useQuery(
+    const { isLoading, refetch: refetchOrder } = useQuery(
         ['order', orderId],
         ({ queryKey }) => fetchOrder(queryKey[1]),
         {
@@ -48,7 +49,9 @@ function Checkout({ orderId }) {
 
     }
 
-    function onSuccess() {
+    function onSuccess(data) {
+        console.log(data);
+        setOrder(data)
         closeLoading()
     }
 
@@ -195,31 +198,43 @@ function Checkout({ orderId }) {
             orderId: order._id
         }
 
+        addLoading("checking discount code")
         let result = await handlePostCheckDiscountCode(data)
+        var resultData = await result.json()
 
         if (result.status === 200) {
-            refetchOrder()
+            setOrder(resultData.order)
+            closeLoading({ text: resultData.message, status: "success" })
+            
             return true
+        } else {
+            closeLoading({ text: resultData.message, status: "error" })
+            return false
         }
     }
 
-    async function handleRemoveDiscountCode()
-    {
+    async function handleRemoveDiscountCode() {
 
         let data = {
             orderId: order._id
         }
 
+        addLoading("removing discount code")
         let result = await handlePostRemoveDiscountCode(data)
+        var resultData = await result.json()
 
         if (result.status === 200) {
-            refetchOrder()
+            setOrder(resultData.order)
+            closeLoading({ text: resultData.message, status: "success" })
             return true
+        }else {
+            closeLoading({ text: resultData.message, status: "error" })
+            return false
         }
     }
-    
 
-    if (loading || isLoading) return
+
+    if (isLoading) return
 
     return (
         <div className="p-20 flex flex-col gap-y-4">

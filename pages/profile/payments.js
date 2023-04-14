@@ -10,6 +10,7 @@ import Product from "../../database/Models/Product";
 import Delivery from "../../database/Models/Delivery";
 import Address from "../../database/Models/Address";
 import useProfileInformation from "../../hooks/useProfileInfomation";
+import DiscountCode from "../../database/Models/DiscountCode";
 
 function PaymentsPage(props) {
     return (
@@ -55,6 +56,9 @@ export async function getServerSideProps({ req }) {
                     },
                     {
                         path: 'payments', model: Payment,
+                    },
+                    {
+                        path: 'discountCode', model: DiscountCode,
                     },
                 ]
             }).exec()
