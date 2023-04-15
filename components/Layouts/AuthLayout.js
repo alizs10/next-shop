@@ -1,14 +1,16 @@
-import React from 'react'
-import Head from '../Auth/Head'
-import Footer from '../Footer'
+import Header from '../Auth/Header/Header'
 
 function AuthLayout({ children, type }) {
     return (
-        <div className="h-screen bg-white">
-            <Head type={type} />
-            {children}
-            <Footer />
-        </div>
+        <section
+            className={`h-fit bg-gray-800`}>
+            <Header />
+
+            <main className='relative w-full'>
+                {children}
+            </main>
+
+        </section>
     )
 }
 

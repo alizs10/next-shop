@@ -171,9 +171,7 @@ function Payments({ payments }) {
                                                 )}
 
                                             </AnimatePresence>
-                                            {/* <span className="scale-90">
-                                                {copyStatus.status && copyStatus.key === payment._id ? (<ClipboardDocumentCheckIcon />) : (<CopyIcon />)}
-                                            </span> */}
+                                            
                                             <span>{payment._id}</span>
                                         </button>
                                     </td>
