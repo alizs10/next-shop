@@ -15,14 +15,12 @@ function Header() {
         <header className="flex items-center px-3 xl:px-0 xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end">
             <Bars />
             <div className="col-span-2 flex items-center">
-                <Link href="/">
-                    <span className='ml-4 lg:ml-20 '>
+                <Link className='ml-4 lg:ml-20' href="/">
                         <Logo />
-                    </span>
                 </Link>
             </div>
             <Menus />
-            <div className='col-span-1 ml-auto flex justify-start xl:ml-0 items-center gap-x-1 xl:gap-x-2'>
+            <div className='col-span-1 ml-auto flex justify-start xl:ml-0 items-center gap-x-0 xl:gap-x-2'>
                 <Search />
                 {pathname !== '/cart' && (
                     <CartContextProvider>

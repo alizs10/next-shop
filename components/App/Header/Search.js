@@ -24,7 +24,7 @@ function Search() {
     }, [isExpanded])
 
     return (
-        <div className="relative mr-3">
+        <div className="relative lg:mr-3">
             <div onClick={toggleSearch} className="lg:scale-125 w-10 cursor-pointer text-red-500">
                 <AnimatePresence mode="wait" initial={false}>
                     {isExpanded && (
@@ -64,11 +64,16 @@ function Search() {
                         animate={{ x: [100, 0], opacity: [0, 1] }}
                         exit={{ y: [0, 20], opacity: 0 }}
                         transition={{ bounce: "none", duration: ".3" }}
-                        className="absolute bottom-0 right-full mr-4 flex gap-x-2 items-end">
-                        <span className="text-red-500 scale-125 cursor-pointer">
-                            <SearchIcon />
+                        className="fixed top-0 right-0 left-0 z-50 h-16 p-3 flex gap-x-2 items-center justify-center bg-gray-800">
+                        <span onClick={toggleSearch} className="w-[10%] text-red-500 flex justify-center items-center cursor-pointer">
+                            <XIcon />
                         </span>
-                        <input ref={searchInputRef} className="py-2 px-3 border-2 border-red-500 bg-gray-700 rounded-xl text-md text-red-400 outline-none" />
+                        <div className="w-[90%] relative">
+                            <input ref={searchInputRef} className="w-full py-2 pl-3 pr-14  bg-gray-700 rounded-xl text-md text-red-500 outline-none" />
+                            <div className="absolute w-14 inset-0 left-auto text-gray-400 flex justify-center items-center">
+                                <SearchIcon />
+                            </div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

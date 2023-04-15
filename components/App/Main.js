@@ -6,7 +6,7 @@ import AddToCartPopup from './Main/AddToCartPopup'
 function Main() {
 
     return (
-        <div className="mt-10 w-full h-full lg:pt-20 xl:pt-0 grid grid-cols-7 gap-y-2">
+        <div className="sm:mt-10 w-full h-full lg:pt-20 xl:pt-0 grid grid-cols-7 gap-y-2">
 
             <MainTitle />
             <MainProduct />

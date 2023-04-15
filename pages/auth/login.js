@@ -61,17 +61,17 @@ function LoginPage() {
         <meta name="description" content="Login page - Nike's Shoes Shop" />
       </Head>
 
-      <div className='w-3/4 md:w-2/3 xl:w-1/3 mx-auto rounded-2xl bg-gray-700 shadow-md py-10 px-5 mt-20'>
+      <div className='w-4/5 md:w-2/3 xl:w-1/3 mx-auto rounded-2xl bg-gray-700 shadow-md py-10 px-5 mt-5 md:mt-20'>
         <form onSubmit={handleSubmit} className='flex flex-col gap-y-8'>
-          <h1 className='text-7xl text-red-500 font-bold text-center'>Login</h1>
+          <h1 className='text-5xl md:text-7xl text-red-500 font-bold text-center'>Login</h1>
 
           <div className='flex flex-col gap-y-2'>
             <div className="col-span-1 flex flex-col gap-y-1">
-              <label className="text-lg text-gray-200">Email</label>
+              <label className="text-md sm:text-lg text-gray-300">Email</label>
               <input type="email" name='email' value={states.email} onChange={handleChangeInput} className="outline-none text-lg rounded-xl px-3 py-2 text-gray-200 bg-gray-600" />
             </div>
             <div className="col-span-1 flex flex-col gap-y-1">
-              <label className="text-lg text-gray-200">Password</label>
+              <label className="text-md sm:text-lg text-gray-300">Password</label>
               <PasswordInput name="password" value={states.password} onChange={handleChangeInput} />
               {/* <input type="password" name='password' value={states.password} onChange={handleChangeInput} className="outline-none text-lg rounded-xl px-3 py-2 text-gray-200 bg-gray-600" /> */}
             </div>
