@@ -39,7 +39,7 @@ function CartItem({ item }) {
                     <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
                     <div className="w-1/2 h-full bg-green-800"></div>
                 </div>
-                <span className="font-sans text-gray-800 text-md">Size: {item.selectedAttributes.size.size.size}</span>
+                <span className="font-sans text-gray-800 text-md">Size: {item.selectedAttributes.size.sizeId.size}</span>
                 <span className="font-sans text-gray-800 font-bold text-md">${item.payPrice * item.quantity}</span>
 
             </div>

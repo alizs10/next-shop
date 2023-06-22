@@ -20,7 +20,6 @@ function Sidebar() {
                 <button className='transition-all duration-300 hover:fill-red-500 fill-white'>
                     <FacebookIcon />
                 </button>
-
             </div>
         </aside>
 

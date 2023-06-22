@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 function Product({ product }) {
 
-    const { shownProduct, setShownProduct } = useAppStore()
+    const { shownProduct, setShownProduct, toggleMainAddToCartPopup } = useAppStore()
     const { toggleProductToFavorite } = useProductStore()
 
     function handleSelectShowProduct(product) {
@@ -20,9 +20,9 @@ function Product({ product }) {
             <div style={{ backgroundColor: product.attributes[0].palette[0] }} className="relative w-[35%] rounded-l-3xl aspect-square">
                 <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
-            <div className={`w-[65%] flex flex-col gap-y-0 p-2 px-5`}>
-                <h6 className="font-semibold font-sans text-gray-800 text-md">{product.name}</h6>
-                <div className="flex flex-nowrap">
+            <div className={`w-[65%] flex flex-col gap-y-0 pt-2 overflow-hidden rounded-r-3xl`}>
+                <h6 className="font-semibold font-sans pl-2 text-gray-800 text-md">{product.name}</h6>
+                <div className="flex flex-nowrap pl-2">
 
                     {product.stars.map((star, index) => {
                         return star.status ? (
@@ -36,14 +36,14 @@ function Product({ product }) {
                     })}
 
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center pl-2">
                     <span className="font-semibold font-sans text-gray-800 text-md">${product.price}</span>
-                    <span onClick={() => toggleProductToFavorite(product._id)} className="cursor-pointer text-gray-500 scale-75">
+                    <span onClick={() => toggleProductToFavorite(product._id)} className="cursor-pointer pr-2 text-gray-500 transition-all duration-300 hover:scale-125">
                         {product.isFavorite ? (<span className='text-red-500'><SolidHeartIcon /></span>) : (<HeartIcon />)}
                     </span>
                 </div>
-                <span className="font-semibold font-sans text-gray-400 text-xs">men's snikers</span>
-                <button className="w-full mt-auto font-sans font-semibold text-center text-red-500 text-md">Add to Cart</button>
+                <span className="font-semibold font-sans pl-2 text-gray-400 text-xs">men's snikers</span>
+                <button onClick={toggleMainAddToCartPopup} className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">Add to Cart</button>
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ function MainProducts() {
 
         <div className="col-span-7 h-fit mt-auto flex flex-col justify-end lg:mt-20 pb-10 gap-y-6">
 
-            <div className="mt-10 z-[99] self-center lg:self-end lg:pr-20 flex gap-x-4 items-center">
+            <div className="mt-10 self-center lg:self-end lg:pr-20 flex gap-x-4 items-center">
 
                 <span onClick={handleScrollLeft} className="text-red-500 p-1">
                     <ArrowLeftIcon />

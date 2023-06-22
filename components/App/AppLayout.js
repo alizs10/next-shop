@@ -28,12 +28,12 @@ function AppLayout({ children, user }) {
     if (loading) return
 
     return (
-        <div className={` ${drawerVis ? 'overflow-hidden' : ''}`}>
+        <div className="relative">
             <motion.section
-                initial={{ translateX: "0" }}
-                animate={{ translateX: translateX + "px" }}
+                initial={{ x: 0 }}
+                animate={{ x: translateX }}
                 transition={{ duration: ".3", bounce: "none" }}
-                className={`h-fit bg-gray-800`}>
+            >
                 <Header />
 
                 <section className="grid grid-cols-10">
@@ -45,10 +45,11 @@ function AppLayout({ children, user }) {
                     </main>
 
                 </section>
-                <ClickOutside />
+                {/* <ClickOutside /> */}
             </motion.section>
 
-            <Drawer />
+            {drawerVis && (<Drawer />)}
+
         </div>
     );
 }

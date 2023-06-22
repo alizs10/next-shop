@@ -62,7 +62,7 @@ function OrderDetailsModal({ toggle, order }) {
 
     return (
         <BackdropWrapper handleClick={toggle}>
-            <div onClick={e => e.stopPropagation()} className="w-4/5 sm:w-3/5 md:1/2 lg:w-1/3 rounded-xl bg-gray-700 shadow-md p-5">
+            <div onClick={e => e.stopPropagation()} className="m-auto h-fit w-4/5 sm:w-3/5 md:1/2 lg:w-1/3 rounded-xl bg-gray-700 shadow-md p-5">
                 <div className="flex justify-between items-center">
                     <span className='text-white text-2xl font-semibold'>Order Details</span>
                     <span onClick={toggle} className="p-2 hover:bg-gray-800 cursor-pointer transition-all rounded-md duration-300 text-gray-200">

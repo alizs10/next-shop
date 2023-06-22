@@ -1,11 +1,10 @@
 import React from 'react'
-
-import Master from '../../components/Layouts/Master'
 import Products from '../../components/Products'
 import { searchThroughProducts } from '../../helpers/products-helper'
 import { connectDatabase, getDocuments } from '../../util/database-util'
 import ProductsProvider from '../../components/Providers/ProductsProvider'
 import FilterProvider from '../../components/Providers/FilterProvider'
+import Product from '../../database/Models/Product'
 
 function SearchPage(props) {
 
@@ -13,27 +12,23 @@ function SearchPage(props) {
 
 
   return (
-    <Master>
       <ProductsProvider items={props.products}>
         <FilterProvider items={props.products}>
           <Products items={props.products} />
         </FilterProvider>
       </ProductsProvider>
-    </Master>
+
 
   )
 }
 
 export async function getServerSideProps(ctx) {
 
-  console.log("We are here");
+  let searchedValue = ctx.query.search;
+  await connectDatabase(process.env.DB_NAME)
+  const products = await Product.find()
 
-  let searchedValue = ctx.query.search
-  let client = await connectDatabase(process.env.DB_NAME)
-  let products = await getDocuments(client, 'products')
   let searchResults = searchThroughProducts(searchedValue, products)
-  client.close()
-  console.log(products, searchResults);
 
   return {
     props: {

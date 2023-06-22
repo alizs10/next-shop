@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { SearchIcon } from '@chakra-ui/icons'
-import Backdrop from './ui/Backdrop'
-import { AnimatePresence } from 'framer-motion'
-import { motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react';
+import Backdrop from './ui/Backdrop';
+import SearchIcon from './ui/icons/SearchIcon';
+import { AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 function Search({ onSearch }) {
 

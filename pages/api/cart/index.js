@@ -14,7 +14,7 @@ async function handler(req, res) {
             return res.status(403).send({ message: "not authorized!" })
         }
 
-        let items = await CartItem.find({ user: user._id, deletedAt: null }).populate(['product', 'selectedAttributes.size.size'])
+        let items = await CartItem.find({ user: user._id, deletedAt: null }).populate(['product', 'selectedAttributes.size.sizeId'])
         // closeConnection()
 
         res.status(200).json({ message: "items loaded successfully!", items })
@@ -32,17 +32,15 @@ async function handler(req, res) {
 
 
         let product = await Product.findById(productId).populate('attributes.sizes.sizeId').exec()
-        console.log(productId, product);
         let selectedAttribute = jsonParser(product.attributes).find(attr => attr._id === attributeId)
 
         let { price_increase, sizeId: size } = selectedAttribute.sizes.find(size => size._id === sizeId)
-        let selectedSize = { price_increase, size }
+        let selectedSize = { price_increase, sizeId: size }
 
         let allPrices = +product.price + +selectedAttribute.price_increase + +selectedSize.price_increase;
         let discountAmount = (+allPrices * +product.discount_percentage / 100);
         let payPrice = +allPrices - +discountAmount;
 
-        console.log(selectedSize);
         let newItemInputs = {
             user: user?._id ?? null,
             product,
@@ -57,7 +55,7 @@ async function handler(req, res) {
             payPrice
         }
 
-        let newItem = await CartItem.create(newItemInputs).then(t => t.populate(['product', 'selectedAttributes.size.size']))
+        let newItem = await CartItem.create(newItemInputs).then(t => t.populate(['product', 'selectedAttributes.size.sizeId']))
         closeConnection()
 
         res.status(201).json({ message: "new cart item created successfully", item: newItem })

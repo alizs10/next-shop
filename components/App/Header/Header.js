@@ -12,7 +12,7 @@ function Header() {
     const { pathname } = useRouter()
 
     return (
-        <header className="flex items-center px-3 xl:px-0 xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end">
+        <header className="sticky top-0 z-50 backdrop-blur-md flex items-center px-3 xl:px-0 xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end">
             <Bars />
             <div className="col-span-2 flex items-center">
                 <Link className='ml-4 lg:ml-20' href="/">

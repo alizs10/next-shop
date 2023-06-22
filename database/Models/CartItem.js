@@ -26,7 +26,7 @@ const CartItemSchema = new Schema({
             min: 0
         },
         size: {
-            size: { type: SchemaTypes.ObjectId, ref: 'Size', required: true },
+            sizeId: { type: SchemaTypes.ObjectId, ref: 'Size', required: true },
             price_increase: {
                 type: Number,
                 required: true,
