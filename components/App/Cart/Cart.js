@@ -65,7 +65,7 @@ function Cart() {
         let itemsIds = cartItems.map(item => item._id)
 
         let result = await handlePostOrder({ itemsIds })
-        
+
         if (result.status !== 201) return
         setCartItems([])
 
@@ -124,12 +124,15 @@ function Cart() {
 
                                             <div className='flex items-center gap-x-4'>
                                                 <span className='text-gray-300 text-md'>Size:</span>
-                                                <span className='font-bold text-lg text-gray-200'>{item.selectedAttributes.size.size.size}</span>
+                                                <span className='font-bold text-lg text-gray-200'>{item.selectedAttributes.size.sizeId.size}</span>
                                             </div>
-                                            <div className='flex items-center gap-x-4'>
-                                                <span className='text-gray-300 text-md'>Discount Amount:</span>
-                                                <span className='font-bold text-lg text-red-300'>$ {item.discountAmount * item.quantity}</span>
-                                            </div>
+                                            {item.discountAmount !== 0 && (
+
+                                                <div className='flex items-center gap-x-4'>
+                                                    <span className='text-gray-300 text-md'>Discount Amount:</span>
+                                                    <span className='font-bold text-lg text-red-300'>$ {item.discountAmount * item.quantity}</span>
+                                                </div>
+                                            )}
                                             <div className='flex items-center gap-x-4'>
                                                 <span className='text-gray-300 text-md'>Pay Price:</span>
                                                 <span className='font-bold text-lg text-gray-200'>$ {item.payPrice * item.quantity}</span>
