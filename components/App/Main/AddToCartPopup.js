@@ -2,16 +2,24 @@ import { AnimatePresence } from "framer-motion";
 import useAppStore from "../../../stores/app-store";
 import XIcon from "../../ui/icons/XIcon";
 import { motion } from 'framer-motion';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { generateRandomId } from "../../../helpers/helpers";
 import userStore from "../../../stores/user-store";
 import BackdropWrapper from '../../Common/BackdropWrapper';
+import { MoonLoader } from "react-spinners";
+import PlusIcon from "../../ui/icons/PlusIcon";
+import MinusIcon from "../../ui/icons/MinusIcon";
+import TrashIcon from "../../ui/icons/TrashIcon";
+import { CartContext } from "../../../context/CartContext";
 
 
 function AddToCartPopup() {
 
-    const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartItems, addCartItem } = useAppStore()
+    const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartItems, addCartItem, cartProcess } = useAppStore()
     const { user } = userStore()
+
+    const { handleDecreaseQuantity, handleIncreaseQuantity } = useContext(CartContext)
+
 
     const [sizes, setSizes] = useState([])
     const [selectedColor, setSelectedColor] = useState(0)
@@ -35,6 +43,7 @@ function AddToCartPopup() {
             calcPayPrice()
         }
 
+        // console.log(generateNewCartItem(), cartItems);
         setIsItemInCart(isItemExistsInCart(generateNewCartItem()))
 
     }, [selectedColor, selectedSize, mainAddToCartPopupVis])
@@ -75,20 +84,21 @@ function AddToCartPopup() {
             let result = await handlePostCartItem(newItem)
             let data = await result.json()
             addCartItem(data.item)
+            setIsItemInCart(data.item)
 
         } else {
 
             let cartItem = generateNewCartItem()
             addCartItem(cartItem)
+            setIsItemInCart(cartItem)
         }
 
-
-        toggleMainAddToCartPopup()
+        // toggleMainAddToCartPopup()
     }
 
     function generateNewCartItem() {
 
-        let colorAttr = {...shownProduct.attributes[selectedColor]}
+        let colorAttr = { ...shownProduct.attributes[selectedColor] }
         let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
         colorAttr.size = sizeAttr
 
@@ -112,8 +122,24 @@ function AddToCartPopup() {
 
     const [isItemInCart, setIsItemInCart] = useState(isItemExistsInCart(generateNewCartItem()))
 
+    useEffect(() => {
+
+        if (isItemInCart && !cartItems.some(item => item._id === isItemInCart._id)) {
+            setIsItemInCart(false)
+        }
+
+    }, [cartItems])
+
     function isItemExistsInCart(newItem) {
-        return cartItems.some(item => item.product._id === newItem.product._id && newItem.selectedAttributes._id === item.selectedAttributes._id && item.selectedAttributes.size.sizeId._id === newItem.selectedAttributes.size.sizeId._id)
+        let existedItem;
+        let isExists = cartItems.some(item => {
+            if (item.product._id === newItem.product._id && newItem.selectedAttributes._id === item.selectedAttributes._id && item.selectedAttributes.size.sizeId._id === newItem.selectedAttributes.size.sizeId._id) {
+                existedItem = item;
+                return true
+            }
+            return false
+        });
+        return isExists ? existedItem : false;
     }
 
     if (!shownProduct) return
@@ -167,10 +193,25 @@ function AddToCartPopup() {
                                     <span>${payPrice}</span>
                                 </span>
 
-                                {!isItemInCart && (
+                                {!isItemInCart ? (
                                     <button onClick={handleAddToCart} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
                                         Add To Cart
                                     </button>
+                                ) : (
+                                    <div className="flex justify-between items-center border-2 rounded-tl-xl rounded-br-xl border-gray-600">
+                                        <button onClick={() => handleIncreaseQuantity(isItemInCart)} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-emerald-100 hover:text-emerald-500 rounded-tl-xl hover:border-red-100 transition-all duration-300">
+                                            {cartProcess.status && cartProcess.process === 'increase' ? <MoonLoader color='#fff' size={10} /> : <PlusIcon />}
+                                        </button>
+                                        <div className="text-xl text-gray-200">{isItemInCart.quantity}</div>
+                                        <button onClick={() => handleDecreaseQuantity(isItemInCart)} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-red-100 hover:text-red-500 rounded-br-xl hover:border-red-100 transition-all duration-300">
+                                            {isItemInCart.quantity > 1 ? (
+                                                cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <MinusIcon />
+                                            ) : (
+                                                cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <TrashIcon />
+                                            )}
+                                        </button>
+                                    </div>
+
                                 )}
 
                             </div>

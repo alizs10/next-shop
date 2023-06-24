@@ -9,6 +9,7 @@ import { jsonParser } from '../../helpers/helpers';
 import FilterIcon from '../../components/ui/icons/FilterIcon'
 import useAppStore from '../../stores/app-store'
 import AddToCartPopup from '../../components/App/Main/AddToCartPopup';
+import { CartContextProvider } from '../../context/CartContext'
 
 function SearchPage({ products, searchedValue }) {
 
@@ -35,7 +36,11 @@ function SearchPage({ products, searchedValue }) {
         {products.map(product => <ProductComp key={product._id} product={product} />)}
       </div>
 
-      {mainAddToCartPopupVis && (<AddToCartPopup />)}
+      {mainAddToCartPopupVis && (
+        <CartContextProvider>
+          <AddToCartPopup />
+        </CartContextProvider>
+      )}
 
     </section>
   )
