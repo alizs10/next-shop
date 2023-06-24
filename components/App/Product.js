@@ -4,14 +4,27 @@ import SolidStarIcon from '../ui/icons/SolidStarIcon';
 import Image from "next/image";
 import useAppStore from '../../stores/app-store';
 import useProductStore from '../../stores/product-store';
+import { useEffect, useState } from 'react';
 
 function Product({ product }) {
 
-    const { toggleMainAddToCartPopup } = useAppStore()
+    const { toggleMainAddToCartPopup, cartItems } = useAppStore()
     const { toggleProductToFavorite } = useProductStore()
 
+    const [isInCart, setIsInCart] = useState(isProductInCart(product))
+
+    function isProductInCart(product) {
+        return cartItems.some(item => item.product._id === product._id)
+    }
+
+    useEffect(() => {
+
+        setIsInCart(isProductInCart(product))
+
+    }, [cartItems])
+
     return (
-        <div className={`h-fit cursor-pointer flex min-w-[400px] z-20 bg-white rounded-3xl transition-all duration-300`}>
+        <div onClick={() => toggleMainAddToCartPopup(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 bg-white rounded-3xl transition-all duration-300`}>
             <div style={{ backgroundColor: product.attributes[0].palette[0] }} className="relative w-[35%] rounded-l-3xl aspect-square">
                 <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
@@ -38,7 +51,9 @@ function Product({ product }) {
                     </span>
                 </div>
                 <span className="font-semibold font-sans pl-2 text-gray-400 text-xs">men's snikers</span>
-                <button onClick={() => toggleMainAddToCartPopup(product)} className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">Add to Cart</button>
+                <button className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">
+                    {isInCart ? 'Added' : 'Add to Cart'}
+                </button>
             </div>
         </div>
     );

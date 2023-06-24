@@ -10,7 +10,7 @@ import BackdropWrapper from '../../Common/BackdropWrapper';
 
 function AddToCartPopup() {
 
-    const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct } = useAppStore()
+    const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartItems, addCartItem } = useAppStore()
     const { user } = userStore()
 
     const [sizes, setSizes] = useState([])
@@ -35,6 +35,8 @@ function AddToCartPopup() {
             calcPayPrice()
         }
 
+        setIsItemInCart(isItemExistsInCart(generateNewCartItem()))
+
     }, [selectedColor, selectedSize, mainAddToCartPopupVis])
 
 
@@ -46,8 +48,6 @@ function AddToCartPopup() {
         }
 
     }, [selectedColor, shownProduct])
-
-    const { addCartItem } = useAppStore()
 
     async function handlePostCartItem(item) {
         let result = await fetch('/api/cart', {
@@ -78,31 +78,43 @@ function AddToCartPopup() {
 
         } else {
 
-            let colorAttr = shownProduct.attributes[selectedColor]
-            let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
-            colorAttr.size = sizeAttr
-
-            let allPrices = +shownProduct.price + +colorAttr.price_increase + +sizeAttr.price_increase;
-            let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
-            let payPrice = +allPrices - +discountAmount;
-
-            let cartItem = {
-                _id: generateRandomId(),
-                product: shownProduct,
-                selectedAttributes: colorAttr,
-                payPrice,
-                discountAmount,
-                quantity: 1,
-                createdAt: Date.now(),
-                updatedAt: Date.now(),
-            }
-
+            let cartItem = generateNewCartItem()
             addCartItem(cartItem)
         }
+
 
         toggleMainAddToCartPopup()
     }
 
+    function generateNewCartItem() {
+
+        let colorAttr = {...shownProduct.attributes[selectedColor]}
+        let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
+        colorAttr.size = sizeAttr
+
+        let allPrices = +shownProduct.price + +colorAttr.price_increase + +sizeAttr.price_increase;
+        let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
+        let payPrice = +allPrices - +discountAmount;
+
+        let newItem = {
+            _id: generateRandomId(),
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            quantity: 1,
+            product: shownProduct,
+            selectedAttributes: colorAttr,
+            payPrice,
+            discountAmount,
+        }
+
+        return newItem;
+    }
+
+    const [isItemInCart, setIsItemInCart] = useState(isItemExistsInCart(generateNewCartItem()))
+
+    function isItemExistsInCart(newItem) {
+        return cartItems.some(item => item.product._id === newItem.product._id && newItem.selectedAttributes._id === item.selectedAttributes._id && item.selectedAttributes.size.sizeId._id === newItem.selectedAttributes.size.sizeId._id)
+    }
 
     if (!shownProduct) return
     return (
@@ -155,9 +167,11 @@ function AddToCartPopup() {
                                     <span>${payPrice}</span>
                                 </span>
 
-                                <button onClick={handleAddToCart} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
-                                    Add To Cart
-                                </button>
+                                {!isItemInCart && (
+                                    <button onClick={handleAddToCart} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
+                                        Add To Cart
+                                    </button>
+                                )}
 
                             </div>
                         </div>
