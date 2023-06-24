@@ -10,7 +10,17 @@ const useAppStore = create((set) => ({
     setShownProductImage: (payload) => set(() => ({ shownProductImage: payload })),
 
     mainAddToCartPopupVis: false,
-    toggleMainAddToCartPopup: () => set((state) => ({ mainAddToCartPopupVis: !state.mainAddToCartPopupVis, clickOutside: !state.mainAddToCartPopupVis })),
+    toggleMainAddToCartPopup: (payload) => set((state) => {
+
+        let returnedObj = { mainAddToCartPopupVis: !state.mainAddToCartPopupVis, clickOutside: !state.mainAddToCartPopupVis }
+        if (payload) {
+            console.log(payload);
+            returnedObj.shownProduct = payload;
+            returnedObj.shownProductImage = 0;
+        }
+
+        return returnedObj;
+    }),
 
 
     drawerVis: false,

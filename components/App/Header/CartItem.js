@@ -36,8 +36,8 @@ function CartItem({ item }) {
                 <span className="font-semibold font-sans text-gray-800 text-md">{item.product.name}</span>
                 <span className="font-semibold font-sans text-gray-800 text-md">x{item.quantity}</span>
                 <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
-                    <div className="w-1/2 h-full border-r-2 border-white bg-white"></div>
-                    <div className="w-1/2 h-full bg-green-800"></div>
+                    <div style={{ backgroundColor: item.selectedAttributes.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
+                    <div style={{ backgroundColor: item.selectedAttributes.palette[1] }} className="w-1/2 h-full"></div>
                 </div>
                 <span className="font-sans text-gray-800 text-md">Size: {item.selectedAttributes.size.sizeId.size}</span>
                 <span className="font-sans text-gray-800 font-bold text-md">${item.payPrice * item.quantity}</span>

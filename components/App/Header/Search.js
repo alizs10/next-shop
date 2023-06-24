@@ -18,9 +18,12 @@ function Search() {
     }
 
     function searchHandler(e) {
-        if(e.code !== 'Enter') return
 
-        router.push('/search/shit')
+        let searchedProduct = searchInputRef.current.value;
+        if (e.code !== 'Enter' || searchedProduct.length === 0) return
+
+
+        router.push('/search/' + searchedProduct)
     }
 
     useEffect(() => {

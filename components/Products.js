@@ -43,7 +43,6 @@ function Products(props) {
           <MessageAlert title="No Results" body="could'nt find any products" />
         )}
       </div>
-      <Search onSearch={onSearch} />
       {props.items.length > 0 && (
         <Filter products={props.items} />
       )}
