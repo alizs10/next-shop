@@ -1,11 +1,11 @@
 import Header from "./Header/Header";
 import Sidebar from './Sidebar';
 import Drawer from './Drawer';
+import BgBlur from '../Common/BgBlur';
 import useAppStore from "../../stores/app-store";
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from "react";
-import ClickOutside from "../Common/ClickOutside";
 import userStore from "../../stores/user-store";
 
 function AppLayout({ children, user }) {
@@ -34,21 +34,29 @@ function AppLayout({ children, user }) {
                 animate={{ x: translateX }}
                 transition={{ duration: ".3", bounce: "none" }}
             >
+
+
+
                 <Header />
 
                 <section className="grid grid-cols-10">
 
                     <Sidebar />
 
-                    <main className='relative overflow-hidden col-span-10 xl:col-span-9'>
+                    <main className='relative col-span-10 xl:col-span-9 overflow-hidden'>
                         {children}
                     </main>
 
                 </section>
+                <BgBlur />
+
                 {/* <ClickOutside /> */}
             </motion.section>
 
-            {drawerVis && (<Drawer />)}
+
+            <AnimatePresence>
+                {drawerVis && (<Drawer />)}
+            </AnimatePresence>
 
         </div>
     );

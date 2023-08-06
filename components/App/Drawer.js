@@ -24,84 +24,83 @@ function Drawer() {
         signOut({ callbackUrl: process.env.APP_URL })
     }
 
-    const { drawerVis, toggleDrawer } = useAppStore()
+    const { toggleDrawer } = useAppStore()
 
     const listStyle = "w-full border-b-2 transition-all duration-300 hover:border-red-500 hover:text-red-500 cursor-pointer border-gray-500 text-center py-3 flex items-center gap-x-2";
 
     return (
+
         <BackdropWrapper handleClick={toggleDrawer}>
-            <AnimatePresence>
-                {drawerVis && (
-                    <motion.div
-                        initial={{ left: "-100%" }}
-                        animate={{ left: "0" }}
-                        exit={{ left: "-100%" }}
-                        transition={{ bounce: "none", duration: ".3" }}
-                        onClick={e => e.stopPropagation()}
-                        className="shadow-md shadow-black w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col gap-y-2 h-full bg-gray-700 z-[9999]">
-                        <div className='py-5 px-10 flex justify-between items-center'>
-                            <span className='fill-white w-16'>
-                                <NikeIcon />
-                            </span>
-                            <span onClick={toggleDrawer} className='hover:bg-gray-600 transition-all duration-300 p-1 rounded-md cursor-pointer text-red-500 scale-125'>
-                                <XIcon />
-                            </span>
-                        </div>
+
+            <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "0" }}
+                exit={{ x: "-100%" }}
+                transition={{ bounce: "none", duration: ".3" }}
+                onClick={e => e.stopPropagation()}
+                className="shadow-md shadow-black w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col gap-y-2 h-full bg-gray-700 z-[9999]">
+                <div className='py-5 px-10 flex justify-between items-center'>
+                    <span className='fill-white w-16'>
+                        <NikeIcon />
+                    </span>
+                    <span onClick={toggleDrawer} className='hover:bg-gray-600 transition-all duration-300 p-1 rounded-md cursor-pointer text-red-500 scale-125'>
+                        <XIcon />
+                    </span>
+                </div>
 
 
-                        <ul className='flex flex-col mt-10 w-full px-10 items-center gap-y-4 text-xl text-gray-200'>
-                            {!user && (
-                                <Link className='w-full' href="/auth/login">
-                                    <li className={listStyle}>
-                                        <span>
-                                            <LoginIcon />
-                                        </span>
-                                        <span>Login/Register</span>
-                                    </li>
-                                </Link>
-                            )}
-                            {user && (
-                                <Link className='w-full' href="/profile">
-                                    <li className={listStyle}>
-                                        <span>
-                                            <UserIcon />
-                                        </span>
-                                        <span>Profile</span>
-                                    </li>
-                                </Link>
-                            )}
-                            <Link className='w-full' href="/cart">
-                                <li className={listStyle}>
-                                    <span>
-                                        <ShoppingCartIcon />
-                                    </span>
-                                    <span>Cart</span>
-                                </li>
-                            </Link>
+                <ul className='flex flex-col mt-10 w-full px-10 items-center gap-y-4 text-xl text-gray-200'>
+                    {!user && (
+                        <Link className='w-full' href="/auth/login">
                             <li className={listStyle}>
                                 <span>
-                                    <RectanglesGroupIcon />
+                                    <LoginIcon />
                                 </span>
-                                <span>Categories</span>
+                                <span>Login/Register</span>
                             </li>
+                        </Link>
+                    )}
+                    {user && (
+                        <Link className='w-full' href="/profile">
+                            <li className={listStyle}>
+                                <span>
+                                    <UserIcon />
+                                </span>
+                                <span>Profile</span>
+                            </li>
+                        </Link>
+                    )}
+                    <Link className='w-full' href="/cart">
+                        <li className={listStyle}>
+                            <span>
+                                <ShoppingCartIcon />
+                            </span>
+                            <span>Cart</span>
+                        </li>
+                    </Link>
+                    <li className={listStyle}>
+                        <span>
+                            <RectanglesGroupIcon />
+                        </span>
+                        <span>Categories</span>
+                    </li>
 
-                            <li className={listStyle}>Delivery</li>
-                            <li className={listStyle}>Packaging</li>
-                            <li className={listStyle}>FAQ</li>
-                            <li className={listStyle}>Contact</li>
-                            <li className={listStyle}>About</li>
-                            {user && (
-                                <li onClick={handleSignOut} className={listStyle}>
-                                    <span>
-                                        <LogoutIcon />
-                                    </span>
-                                    <span>Logout</span>
-                                </li>
-                            )}
-                        </ul>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    <li className={listStyle}>Delivery</li>
+                    <li className={listStyle}>Packaging</li>
+                    <li className={listStyle}>FAQ</li>
+                    <li className={listStyle}>Contact</li>
+                    <li className={listStyle}>About</li>
+                    {user && (
+                        <li onClick={handleSignOut} className={listStyle}>
+                            <span>
+                                <LogoutIcon />
+                            </span>
+                            <span>Logout</span>
+                        </li>
+                    )}
+                </ul>
+            </motion.div>
+
         </BackdropWrapper>
     );
 }
