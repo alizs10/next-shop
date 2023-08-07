@@ -3,6 +3,7 @@ import MainTitle from './Main/MainTitle'
 import MainProduct from './Main/MainProduct'
 import AddToCartPopup from './Main/AddToCartPopup'
 import useAppStore from '../../stores/app-store'
+import { CartContextProvider } from '../../context/CartContext'
 
 function Main() {
 
@@ -14,7 +15,11 @@ function Main() {
             <MainTitle />
             <MainProduct />
             <MainProducts />
-            {mainAddToCartPopupVis && (<AddToCartPopup />)}
+            {mainAddToCartPopupVis && (
+                <CartContextProvider>
+                    <AddToCartPopup />
+                </CartContextProvider>
+            )}
 
         </div>
     );

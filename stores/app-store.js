@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import userStore from "./user-store";
 
 const useAppStore = create((set) => ({
     loading: true,
@@ -13,8 +14,7 @@ const useAppStore = create((set) => ({
     toggleMainAddToCartPopup: (payload) => set((state) => {
 
         let returnedObj = { mainAddToCartPopupVis: !state.mainAddToCartPopupVis, clickOutside: !state.mainAddToCartPopupVis }
-        if (payload) {
-            
+        if (payload._id) {
             returnedObj.shownProduct = payload;
             returnedObj.shownProductImage = 0;
         }
@@ -39,10 +39,10 @@ const useAppStore = create((set) => ({
 
     cartItems: [],
     setCartItems: (payload) => set(() => ({ cartItems: payload })),
-    
+
     cartProcess: { status: false, process: null },
     setCartProcess: (payload) => set(() => ({ cartProcess: payload })),
-    
+
     addCartItem: (payload) => set((state) => ({ cartItems: [...state.cartItems, payload] })),
     increaseCartItemQuantity: (payload) => set((state) => {
         let itemsIns = [...state.cartItems]

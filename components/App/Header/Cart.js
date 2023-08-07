@@ -1,10 +1,25 @@
+import { useEffect } from "react";
 import useAppStore from "../../../stores/app-store";
+import userStore from "../../../stores/user-store";
 import BagIcon from "../../ui/icons/BagIcon";
 import CartPopup from "./CartPopup";
 
 function Cart() {
 
-    const { toggleCartPopup, cartItems,cartPopupVis } = useAppStore()
+    const { user } = userStore()
+    const { toggleCartPopup, cartItems, setCartItems, cartPopupVis } = useAppStore()
+
+    useEffect(() => {
+
+        let cartInLocalStorage = localStorage.getItem('cart')
+        let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
+
+
+        if (!user) {
+            setCartItems(cartInLocalStorageArr)
+        }
+
+    }, [])
 
     return (
         <section className="relative">

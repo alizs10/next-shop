@@ -45,12 +45,12 @@ function MainProduct() {
 
             <div className="relative flex flex-col w-full h-full">
 
-                <div className="px-3 flex gap-x-2 justify-between items-center">
+                <div className="px-3 flex gap-x-2 justify-evenly items-center">
 
                     <span onClick={handleShowPrevProduct} className="cursor-pointer text-white scale-[220%]">
                         <ChevronLeftIcon />
                     </span>
-                    <span className="w-1/2 flex items-center justify-center aspect-square rounded-full bg-gray-600/50 shadow-md outline outline-2 outline-orange-200">
+                    <span className="w-1/2 lg:w-[40%] flex items-center justify-center aspect-square rounded-full bg-gray-600/50 shadow-md outline outline-2 outline-orange-200">
                         <AnimatePresence mode="wait" initial={false}>
                             <motion.span
                                 className="z-10"
@@ -60,7 +60,7 @@ function MainProduct() {
                                 exit={{ opacity: 0, x: [0, 50] }}
                                 transition={{ duration: "0.3" }}
                             >
-                                <Image className="scale-[150%] rotate-[-20deg] w-full lg:w-[90%] 2xl:w-[80%] " src={shownProduct?.attributes[shownProductImage].image ?? ""} alt={shownProduct.name} width={600} height={600} />
+                                <Image className="scale-[150%] rotate-[-20deg] w-full" src={shownProduct?.attributes[shownProductImage].image ?? ""} alt={shownProduct.name} width={600} height={600} />
                             </motion.span>
                         </AnimatePresence>
                     </span>
@@ -112,7 +112,7 @@ function MainProduct() {
                     <span className="text-gray-400 text-3xl lg:text-xl">|</span>
                     <span className="font-bold text-xl lg:text-lg text-orange-200/90">${shownProduct.price}</span>
                 </div>
-                <button onClick={toggleMainAddToCartPopup} className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
+                <button onClick={() => toggleMainAddToCartPopup(shownProduct)} className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
             </div>
 
 

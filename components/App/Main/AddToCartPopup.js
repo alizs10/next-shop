@@ -12,7 +12,6 @@ import MinusIcon from "../../ui/icons/MinusIcon";
 import TrashIcon from "../../ui/icons/TrashIcon";
 import { CartContext } from "../../../context/CartContext";
 
-
 function AddToCartPopup() {
 
     const { toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartItems, addCartItem, cartProcess } = useAppStore()
@@ -89,6 +88,15 @@ function AddToCartPopup() {
         } else {
 
             let cartItem = generateNewCartItem()
+
+            // save cart items in local storage
+
+            let cartInLocalStorage = localStorage.getItem('cart')
+            let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
+    
+            let updatedCartItems = [...cartInLocalStorageArr, cartItem]
+            localStorage.setItem('cart',JSON.stringify(updatedCartItems))
+            
             addCartItem(cartItem)
             setIsItemInCart(cartItem)
         }
