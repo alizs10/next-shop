@@ -9,7 +9,10 @@ function Cart() {
     const { user } = userStore()
     const { toggleCartPopup, cartItems, setCartItems, cartPopupVis } = useAppStore()
 
-    console.log(cartItems);
+    let cartItemsQuantity = 0;
+    cartItems.map(item => {
+        cartItemsQuantity += item.quantity;
+    })
 
     useEffect(() => {
 
@@ -30,7 +33,7 @@ function Cart() {
                     <BagIcon />
                 </div>
                 {!cartPopupVis && cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 aspect-square bg-white flex justify-center items-center text-red-500 font-bold text-xs rounded-full">{cartItems.length}</span>
+                    <span className="absolute -top-1 -right-1 w-4 aspect-square bg-white flex justify-center items-center text-red-500 font-bold text-xs rounded-full">{cartItemsQuantity}</span>
                 )}
             </div>
 
