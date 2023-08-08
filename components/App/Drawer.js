@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import useAppStore from '../../stores/app-store'
 import NikeIcon from '../ui/icons/NikeIcon';
 import XIcon from '../ui/icons/XIcon';
@@ -7,6 +6,11 @@ import LoginIcon from '../ui/icons/LoginIcon';
 import ShoppingCartIcon from '../ui/icons/ShoppingCartIcon';
 import RectanglesGroupIcon from '../ui/icons/RectanglesGroupIcon';
 import LogoutIcon from '../ui/icons/LogoutIcon';
+import InformationCircleIcon from '../ui/icons/InformationCircleIcon';
+import PhoneIcon from '../ui/icons/PhoneIcon';
+import QuestionMarkCircleIcon from '../ui/icons/QuestionMarkCircleIcon';
+import TruckIcon from '../ui/icons/TruckIcon';
+import CubeIcon from '../ui/icons/CubeIcon';
 
 import userStore from '../../stores/user-store';
 import { motion } from 'framer-motion';
@@ -85,11 +89,36 @@ function Drawer() {
                         <span>Categories</span>
                     </li>
 
-                    <li className={listStyle}>Delivery</li>
-                    <li className={listStyle}>Packaging</li>
-                    <li className={listStyle}>FAQ</li>
-                    <li className={listStyle}>Contact</li>
-                    <li className={listStyle}>About</li>
+                    <li className={listStyle}>
+                        <span>
+                            <CubeIcon />
+                        </span>
+                        <span>Packaging</span>
+                    </li>
+                    <li className={listStyle}>
+                        <span>
+                            <TruckIcon />
+                        </span>
+                        <span>Delivery</span>
+                    </li>
+                    <li className={listStyle}>
+                        <span>
+                            <QuestionMarkCircleIcon />
+                        </span>
+                        <span>FAQ</span>
+                    </li>
+                    <li className={listStyle}>
+                        <span>
+                            <PhoneIcon />
+                        </span>
+                        <span>Contact</span>
+                    </li>
+                    <li className={listStyle}>
+                        <span>
+                            <InformationCircleIcon />
+                        </span>
+                        <span>About</span>
+                    </li>
                     {user && (
                         <li onClick={handleSignOut} className={listStyle}>
                             <span>
