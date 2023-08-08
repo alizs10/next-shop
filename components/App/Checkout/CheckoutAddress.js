@@ -22,7 +22,7 @@ function CheckoutAddress({ addresses, newAddressVis, toggleNewAddressModal, hand
                 <div className='mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4'>
 
                     {addresses.map(item => (
-                        <div key={item._id} onClick={() => handleSelectAddress(item._id)} className='relative rounded-xl overflow-hidden col-span-1 shadow-md bg-gray-700 flex'>
+                        <div key={item._id} onClick={() => handleSelectAddress(item._id)} className='cursor-pointer relative rounded-xl overflow-hidden col-span-1 shadow-md bg-gray-700 flex'>
 
                             <div className='w-[20%] text-white bg-red-500 flex justify-center items-center aspect-square'>
                                 <span className='scale-[250%]'>

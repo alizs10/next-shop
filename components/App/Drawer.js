@@ -38,7 +38,7 @@ function Drawer() {
                 exit={{ x: "-100%" }}
                 transition={{ bounce: "none", duration: ".3" }}
                 onClick={e => e.stopPropagation()}
-                className="shadow-md shadow-black w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col gap-y-2 h-full bg-gray-700 z-[9999]">
+                className="shadow-md shadow-black w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col gap-y-2 h-full bg-gray-700">
                 <div className='py-5 px-10 flex justify-between items-center'>
                     <span className='fill-white w-16'>
                         <NikeIcon />

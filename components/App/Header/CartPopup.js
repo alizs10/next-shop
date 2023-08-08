@@ -13,7 +13,7 @@ function CartPopup() {
 
     const { cartPopupVis, toggleCartPopup, cartItems, setCartItems } = useAppStore()
     const { payAmount } = useContext(CartContext)
-    
+
     const { user } = userStore()
 
     const [loading, setLoading] = useState(false)
@@ -41,6 +41,12 @@ function CartPopup() {
 
     }, [cartPopupVis])
 
+
+    let cartItemsQuantity = 0;
+    cartItems.map(item => {
+        cartItemsQuantity += item.quantity;
+    })
+
     return (
         <AnimatePresence>
             {cartPopupVis && (
@@ -56,7 +62,7 @@ function CartPopup() {
                             <span className='text-white text-xl font-semibold'>
                                 Cart
                             </span>
-                            <span className="text-sm w-6 aspect-square bg-white flex justify-center items-center text-red-500 font-bold rounded-md">{cartItems.length}</span>
+                            <span className="text-sm w-6 aspect-square bg-white flex justify-center items-center text-red-500 font-bold rounded-md">{cartItemsQuantity}</span>
                         </div>
                         <span onClick={toggleCartPopup} className='hover:bg-red-700 transition-all duration-300 p-1 rounded-md cursor-pointer text-gray-300 scale-125'>
                             <XIcon />

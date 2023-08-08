@@ -1,5 +1,5 @@
 import Delivery from "../../database/Models/Delivery";
-import { closeConnection, connectDatabase } from "../../util/database-util";
+import { connectDatabase } from "../../util/database-util";
 
 async function handler(req, res) {
 
@@ -25,9 +25,8 @@ async function handler(req, res) {
         //     }
         // ]
 
+        // await Delivery.create(inputs)
         let deliveries = await Delivery.find()
-
-        closeConnection()
 
         return res.status(200).json({ message: "deliveries loaded!", deliveries })
 

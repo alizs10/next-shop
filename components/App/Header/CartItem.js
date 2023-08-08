@@ -34,7 +34,7 @@ function CartItem({ item }) {
 
             <div className="relative w-[75%] p-1 flex flex-col gap-y-1">
                 <span className="font-semibold font-sans text-gray-800 text-md">{item.product.name}</span>
-                <span className="font-semibold font-sans text-gray-800 text-md">x{item.quantity}</span>
+                <span className="font-semibold font-sans text-red-600 text-md">x{item.quantity}</span>
                 <div className="w-6 h-6 rounded-full border-gray-500 shadow-md border-2 flex flex-nowrap overflow-hidden">
                     <div style={{ backgroundColor: item.selectedAttributes.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
                     <div style={{ backgroundColor: item.selectedAttributes.palette[1] }} className="w-1/2 h-full"></div>

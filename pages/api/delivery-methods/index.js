@@ -1,4 +1,4 @@
-import { closeConnection, connectDatabase } from '../../../util/database-util';
+import { connectDatabase } from '../../../util/database-util';
 import Delivery from '../../../database/Models/Delivery';
 
 async function handler(req, res) {
