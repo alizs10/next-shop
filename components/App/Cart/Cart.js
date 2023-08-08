@@ -75,6 +75,12 @@ function Cart() {
         router.replace(url)
     }
 
+
+    let cartItemsQuantity = 0;
+    cartItems.map(item => {
+        cartItemsQuantity += item.quantity;
+    })
+
     if (isLoading || loading) return
 
     return (
@@ -85,7 +91,7 @@ function Cart() {
                     <div className='flex gap-x-4 items-center'>
                         <h2 className='font-bold text-3xl text-gray-400'>Your Bag</h2>
                         <div className='w-8 h-8 font-bold rounded-md flex justify-center items-center bg-gray-700 text-gray-300'>
-                            {cartItems.length}
+                            {cartItemsQuantity}
                         </div>
                     </div>
 
