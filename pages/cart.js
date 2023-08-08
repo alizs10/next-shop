@@ -7,23 +7,23 @@ import useAuth from '../hooks/useAuth'
 import { connectDatabase } from '../util/database-util'
 import useAppStore from '../stores/app-store'
 
-function CartPage({ cartItems, user }) {
+function CartPage({ user }) {
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (!user) {
+    //     if (!user) {
 
-            let cartInLocalStorage = localStorage.getItem('cart')
-            let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
+    //         let cartInLocalStorage = localStorage.getItem('cart')
+    //         let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
 
-            useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartInLocalStorageArr] }))
+    //         useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartInLocalStorageArr] }))
 
-        } else {
-            useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
-        }
+    //     } else {
+    //         useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
+    //     }
 
 
-    }, [])
+    // }, [])
 
 
     return (

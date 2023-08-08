@@ -12,6 +12,7 @@ import { defaultOptions } from '../../../lib/react-query/react-query';
 import { LoadingContext } from '../../../context/LoadingContext';
 import { MoonLoader } from 'react-spinners';
 import userStore from '../../../stores/user-store';
+import { getCartItems } from '../../../helpers/cart-helpers';
 
 function NoCartItems() {
 
@@ -34,7 +35,7 @@ function Cart() {
     //     addLoading(true)
     // }, [])
 
-    const { cartItems, setCartItems, cartProcess } = useAppStore()
+    const { cartProcess } = useAppStore()
 
     // const { isLoading } = useQuery(
     //     'cartItems',
@@ -83,6 +84,7 @@ function Cart() {
     }
 
 
+    let cartItems = getCartItems()
     let cartItemsQuantity = 0;
     cartItems.map(item => {
         cartItemsQuantity += item.quantity;

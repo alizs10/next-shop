@@ -10,7 +10,7 @@ import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
 import { setCartItems } from '../helpers/cart-helpers';
 
-const HomePage = ({ products, cartItems }) => {
+const HomePage = ({ products }) => {
 
   const { setProducts } = useProductStore()
 
