@@ -25,6 +25,18 @@ function RegisterPage() {
 
   const router = useRouter()
 
+  async function handlePostCartItem(item) {
+    let result = await fetch('/api/cart', {
+      method: 'POST',
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    return result;
+  }
+
   async function handleSubmit(e) {
     if (loading) return
 
@@ -42,6 +54,22 @@ function RegisterPage() {
     let data = await result.json()
 
     if (result.status === 201) {
+
+      // now we can store cart items
+      let cartItemsInLocalStorage = localStorage.getItem('cart')
+      let cartItemsInLocalStorageArr = cartItemsInLocalStorage ? JSON.parse(cartItemsInLocalStorage) : [];
+
+      console.log(cartItemsInLocalStorageArr);
+      if (cartItemsInLocalStorageArr.length > 0) {
+
+        await cartItemsInLocalStorageArr.map(async (item) => {
+          await handlePostCartItem(item)
+        })
+
+        localStorage.setItem('cart', [])
+        console.log("did it perfectly");
+      }
+
       closeLoading({ text: data.message, status: "success" })
       setTimeout(() => {
         router.push('/auth/login')

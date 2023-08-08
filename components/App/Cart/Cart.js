@@ -11,6 +11,7 @@ import { useQuery } from 'react-query';
 import { defaultOptions } from '../../../lib/react-query/react-query';
 import { LoadingContext } from '../../../context/LoadingContext';
 import { MoonLoader } from 'react-spinners';
+import userStore from '../../../stores/user-store';
 
 function NoCartItems() {
 
@@ -28,30 +29,31 @@ function NoCartItems() {
 function Cart() {
 
     const { addLoading, closeLoading, loading } = useContext(LoadingContext)
-    useEffect(() => {
-        addLoading(true)
-    }, [])
+
+    // useEffect(() => {
+    //     addLoading(true)
+    // }, [])
 
     const { cartItems, setCartItems, cartProcess } = useAppStore()
 
-    const { isLoading } = useQuery(
-        'cartItems',
-        handleGetCartItems,
-        {
-            ...defaultOptions,
-            onError,
-            onSuccess,
-        })
+    // const { isLoading } = useQuery(
+    //     'cartItems',
+    //     handleGetCartItems,
+    //     {
+    //         ...defaultOptions,
+    //         onError,
+    //         onSuccess,
+    //     })
 
-    function onError() {
-        setCartItems([])
-    }
+    // function onError() {
+    //     setCartItems([])
+    // }
 
-    function onSuccess(data) {
+    // function onSuccess(data) {
 
-        setCartItems(data)
-        closeLoading()
-    }
+    //     setCartItems(data)
+    //     closeLoading()
+    // }
 
     const { handleDecreaseQuantity, handleIncreaseQuantity, payAmount } = useContext(CartContext)
 
@@ -60,6 +62,11 @@ function Cart() {
     const router = useRouter()
 
     async function handleCheckout() {
+
+        if (!userStore.getState().user) {
+            router.replace('/auth/register')
+            return
+        }
         // create order then redirect to checkout page
 
         let itemsIds = cartItems.map(item => item._id)
@@ -81,7 +88,7 @@ function Cart() {
         cartItemsQuantity += item.quantity;
     })
 
-    if (isLoading || loading) return
+    if (loading) return
 
     return (
         <section className='relative w-full p-20 flex flex-col gap-y-8'>

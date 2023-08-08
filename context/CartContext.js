@@ -1,14 +1,103 @@
 import { createContext, useEffect, useState } from "react";
 import useAppStore from "../stores/app-store";
 import userStore from "../stores/user-store";
+import { addItemToCart, decreaseItemQuantity, getCartItems, increaseItemQuantity, removeItemFromCart } from "../helpers/cart-helpers";
+import { generateRandomId } from "../helpers/helpers";
 
 
 export const CartContext = createContext()
 
 export function CartContextProvider({ children }) {
 
-    const { removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity, cartItems, cartProcess, setCartProcess } = useAppStore()
+    const { cartProcess, setCartProcess, updateCart, cartUpdate, shownProduct } = useAppStore()
     const { user } = userStore()
+
+    async function handlePostCartItem(item) {
+        let result = await fetch('/api/cart', {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        return result;
+    }
+
+    async function handleAddToCart(selectedColor, selectedSize) {
+
+        // api call
+        let newItem = {
+            productId: shownProduct._id,
+            attributeId: shownProduct.attributes[selectedColor]._id,
+            sizeId: shownProduct.attributes[selectedColor].sizes[selectedSize]._id
+        }
+        setCartProcess({ status: true, process: null })
+
+        if (user) {
+            let result = await handlePostCartItem(newItem)
+            let data = await result.json()
+            addItemToCart(data.item)
+            setIsItemInCart(data.item)
+
+        } else {
+
+            let cartItem = generateNewCartItem(selectedColor, selectedSize)
+
+            // save cart items in local storage
+            addItemToCart(cartItem)
+
+            updateCart()
+        }
+
+        setCartProcess({ status: false, process: null })
+        // toggleMainAddToCartPopup()
+    }
+
+    function generateNewCartItem(selectedColor, selectedSize) {
+
+        let colorAttr = { ...shownProduct.attributes[selectedColor] }
+        let sizeAttr = shownProduct.attributes[selectedColor].sizes[selectedSize]
+        colorAttr.size = sizeAttr
+
+        console.log(selectedColor, selectedSize);
+
+        let allPrices = +shownProduct.price + +colorAttr.price_increase + +sizeAttr.price_increase;
+        let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
+        let payPrice = +allPrices - +discountAmount;
+
+        let newItem = {
+            _id: generateRandomId(),
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            quantity: 1,
+            product: shownProduct,
+            selectedAttributes: colorAttr,
+            payPrice,
+            discountAmount,
+        }
+
+        return newItem;
+    }
+
+
+
+
+    function isItemExistsInCart(newItem) {
+        let existedItem;
+        let cartItems = getCartItems();
+        let isExists = cartItems.some(item => {
+            if (item.product._id === newItem.product._id && newItem.selectedAttributes._id === item.selectedAttributes._id && item.selectedAttributes.size.sizeId._id === newItem.selectedAttributes.size.sizeId._id) {
+                existedItem = item;
+                return true
+            }
+            return false
+        });
+
+        console.log(isExists, existedItem);
+        return isExists ? existedItem : false;
+    }
+
 
     async function handlePostIncreaseCartItemQuantity(itemKey) {
 
@@ -67,14 +156,15 @@ export function CartContextProvider({ children }) {
 
             if (!result) {
                 setCartProcess({ status: false, process: null })
-                console.log('couldnt increase cart item quantity, try again');
+                console.log("couldn't increase cart item quantity, try again");
                 return
             }
 
         }
 
-        increaseCartItemQuantity(item._id)
+        increaseItemQuantity(item._id)
         setCartProcess({ status: false, process: null })
+        updateCart()
         console.log("cart item's quantity increased!");
     }
 
@@ -98,13 +188,14 @@ export function CartContextProvider({ children }) {
 
         if (item.quantity > 1) {
             // decrease
-            decreaseCartItemQuantity(item._id)
+            decreaseItemQuantity(item._id)
         } else {
             // delete
-            removeCartItem(item._id)
+            removeItemFromCart(item._id)
         }
 
         setCartProcess({ status: false, process: null })
+        updateCart()
         console.log('cart item deleted!');
 
     }
@@ -113,6 +204,7 @@ export function CartContextProvider({ children }) {
 
     useEffect(() => {
 
+        let cartItems = getCartItems()
         if (cartItems.length === 0) {
             setPayAmount(0)
         } else {
@@ -125,12 +217,12 @@ export function CartContextProvider({ children }) {
             setPayAmount(prices)
         }
 
-    }, [cartItems])
+    }, [cartUpdate])
 
 
 
 
-    let values = { handleIncreaseQuantity, handleDecreaseQuantity, payAmount }
+    let values = { handleAddToCart, handleIncreaseQuantity, handleDecreaseQuantity, payAmount, isItemExistsInCart, generateNewCartItem }
 
     return (
         <CartContext.Provider value={values}>

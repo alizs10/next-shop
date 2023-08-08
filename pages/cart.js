@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
-
+import CartItem from '../database/Models/CartItem'
 import Cart from '../components/App/Cart/Cart'
 import { CartContextProvider } from '../context/CartContext'
 import useAuth from '../hooks/useAuth'
 import { connectDatabase } from '../util/database-util'
+import useAppStore from '../stores/app-store'
 
-function CartPage() {
+function CartPage({ cartItems, user }) {
+
+    useEffect(() => {
+
+        if (!user) {
+
+            let cartInLocalStorage = localStorage.getItem('cart')
+            let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
+
+            useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartInLocalStorageArr] }))
+
+        } else {
+            useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
+        }
+
+
+    }, [])
 
 
     return (
@@ -32,9 +49,17 @@ export async function getServerSideProps({ req }) {
 
     await connectDatabase(process.env.DB_NAME)
     let user = await useAuth(req)
+
+    let cartItems = [];
+
     if (user) {
         props.user = user;
+
+        cartItems = await CartItem.find({ user: user._id })
+        cartItems = jsonParser(cartItems)
     }
+
+    props.cartItems = cartItems;
 
     return { props }
 }

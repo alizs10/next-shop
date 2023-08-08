@@ -8,10 +8,11 @@ import userStore from "../../../stores/user-store";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { CartContext } from "../../../context/CartContext";
+import { getCartItems, setCartItems } from "../../../helpers/cart-helpers";
 
 function CartPopup() {
 
-    const { cartPopupVis, toggleCartPopup, cartItems, setCartItems } = useAppStore()
+    const { cartPopupVis, toggleCartPopup } = useAppStore()
     const { payAmount } = useContext(CartContext)
 
     const { user } = userStore()
@@ -43,6 +44,7 @@ function CartPopup() {
 
 
     let cartItemsQuantity = 0;
+    let cartItems = getCartItems()
     cartItems.map(item => {
         cartItemsQuantity += item.quantity;
     })

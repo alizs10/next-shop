@@ -8,7 +8,7 @@ import Product from '../database/Models/Product';
 import Favorite from '../database/Models/Favorite';
 import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
-import useAppStore from '../stores/app-store';
+import { setCartItems } from '../helpers/cart-helpers';
 
 const HomePage = ({ products, cartItems }) => {
 
@@ -20,9 +20,10 @@ const HomePage = ({ products, cartItems }) => {
       setProducts(products)
     }
 
-    if (cartItems) {
-      useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
-    }
+    // if(cartItems.length > 0)
+    // {
+    //   setCartItems(cartItems)
+    // }
 
   }, [])
 

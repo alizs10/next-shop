@@ -1,30 +1,11 @@
-import { useEffect } from "react";
 import useAppStore from "../../../stores/app-store";
-import userStore from "../../../stores/user-store";
 import BagIcon from "../../ui/icons/BagIcon";
 import CartPopup from "./CartPopup";
+import { getCartItemsCount } from "../../../helpers/cart-helpers";
 
 function Cart() {
 
-    const { user } = userStore()
-    const { toggleCartPopup, cartItems, setCartItems, cartPopupVis } = useAppStore()
-
-    let cartItemsQuantity = 0;
-    cartItems.map(item => {
-        cartItemsQuantity += item.quantity;
-    })
-
-    useEffect(() => {
-
-        let cartInLocalStorage = localStorage.getItem('cart')
-        let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
-
-
-        if (!user) {
-            setCartItems(cartInLocalStorageArr)
-        }
-
-    }, [])
+    const { toggleCartPopup, cartPopupVis } = useAppStore()
 
     return (
         <section className="relative">
@@ -32,8 +13,8 @@ function Cart() {
                 <div className="scale-75 lg:scale-[80%]">
                     <BagIcon />
                 </div>
-                {!cartPopupVis && cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 aspect-square bg-white flex justify-center items-center text-red-500 font-bold text-xs rounded-full">{cartItemsQuantity}</span>
+                {!cartPopupVis && getCartItemsCount() > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 aspect-square bg-white flex justify-center items-center text-red-500 font-bold text-xs rounded-full">{getCartItemsCount()}</span>
                 )}
             </div>
 
