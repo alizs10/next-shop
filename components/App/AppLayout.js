@@ -35,8 +35,6 @@ function AppLayout({ children, user }) {
                 transition={{ duration: ".3", bounce: "none" }}
             >
 
-
-
                 <Header />
 
                 <section className="grid grid-cols-10">

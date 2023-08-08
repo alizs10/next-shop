@@ -11,7 +11,6 @@ import useAppStore from '../../../stores/app-store'
 function Header() {
 
     const { pathname } = useRouter()
-
     const { drawerVis } = useAppStore()
 
     return (

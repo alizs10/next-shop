@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 import useProductStore from '../stores/product-store';
 import Product from '../database/Models/Product';
 import Favorite from '../database/Models/Favorite';
+import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
+import useAppStore from '../stores/app-store';
 
-const HomePage = ({ products }) => {
+const HomePage = ({ products, cartItems }) => {
 
   const { setProducts } = useProductStore()
 
@@ -18,7 +20,13 @@ const HomePage = ({ products }) => {
       setProducts(products)
     }
 
-  }, [products])
+    if (cartItems) {
+      useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
+    }
+
+  }, [])
+
+
 
   return (
     <>
@@ -51,8 +59,11 @@ export async function getServerSideProps({ req }) {
   if (user) {
     props.user = user
 
+    let cartItems = await CartItem.find({ user: user._id })
     let favorites = await Favorite.find({ user: user._id })
     favorites = jsonParser(favorites)
+    cartItems = jsonParser(cartItems)
+    props.cartItems = cartItems;
 
     let userFavoritesIds = favorites.map(fav => fav.product)
     products = products.map(product => {

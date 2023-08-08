@@ -9,6 +9,8 @@ function Cart() {
     const { user } = userStore()
     const { toggleCartPopup, cartItems, setCartItems, cartPopupVis } = useAppStore()
 
+    console.log(cartItems);
+
     useEffect(() => {
 
         let cartInLocalStorage = localStorage.getItem('cart')
