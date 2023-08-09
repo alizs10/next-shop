@@ -9,22 +9,20 @@ import PlusIcon from "../../ui/icons/PlusIcon";
 import MinusIcon from "../../ui/icons/MinusIcon";
 import TrashIcon from "../../ui/icons/TrashIcon";
 import { CartContext } from "../../../context/CartContext";
-import { getCartItems } from "../../../helpers/cart-helpers";
 
 function AddToCartPopup() {
 
-    const { cartUpdate, toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartProcess } = useAppStore()
-
-
     const { handleDecreaseQuantity, handleIncreaseQuantity, generateNewCartItem, isItemExistsInCart, handleAddToCart } = useContext(CartContext)
+
+    const { cartUpdate, toggleMainAddToCartPopup, mainAddToCartPopupVis, shownProduct, cartProcess } = useAppStore()
 
     const [sizes, setSizes] = useState([])
 
-
     const [selectedSize, setSelectedSize] = useState(0)
     const [selectedColor, setSelectedColor] = useState(0)
-
     const [payPrice, setPayPrice] = useState(0)
+    const [existedItem, setExistedItem] = useState(null)
+    const [itemExistence, setItemExistence] = useState(false)
 
     function calcPayPrice() {
         let colorAttr = shownProduct.attributes[selectedColor]
@@ -36,25 +34,22 @@ function AddToCartPopup() {
         setPayPrice(payPrice)
     }
 
+
+    function checkItemExistence(item) {
+        let isExists = isItemExistsInCart(item)
+        setItemExistence(isExists ? true : false)
+        setExistedItem(isExists ? isExists : null)
+    }
+
     useEffect(() => {
 
+        checkItemExistence(generateNewCartItem(selectedColor, selectedSize))
         if (mainAddToCartPopupVis) {
             calcPayPrice()
         }
 
-        // console.log(generateNewCartItem(), cartItems);
-        // setIsItemInCart(isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)))
 
-    }, [selectedColor, selectedSize, mainAddToCartPopupVis])
-
-    useEffect(() => {
-
-        let cartItems = getCartItems();
-        if (isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)) && !cartItems.some(item => item._id === isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize))._id)) {
-            setIsItemInCart(false)
-        }
-
-    }, [cartUpdate])
+    }, [cartUpdate, selectedColor, selectedSize])
 
     useEffect(() => {
 
@@ -65,9 +60,9 @@ function AddToCartPopup() {
 
     }, [selectedColor, shownProduct])
 
-    console.log("changes");
 
     if (!shownProduct) return
+
     return (
         <BackdropWrapper handleClick={toggleMainAddToCartPopup}>
             <AnimatePresence>
@@ -113,23 +108,31 @@ function AddToCartPopup() {
 
 
                             <div className="mt-4 flex flex-col gap-y-2">
-                                <span className="flex justify-between text-white font-bold text-lg">
-                                    <span>Pay Price:</span>
-                                    <span>${payPrice}</span>
-                                </span>
+                                <div className="flex flex-col gap-y-1">
+                                    <span className="flex justify-between text-white font-bold text-lg">
+                                        <span>Product Price:</span>
+                                        <span>${payPrice}</span>
+                                    </span>
+                                    {existedItem && existedItem.quantity > 1 && (
+                                        <span className="flex justify-between text-red-500 font-bold text-lg">
+                                            <span>Total Pay Price:</span>
+                                            <span>${payPrice * existedItem.quantity}</span>
+                                        </span>
+                                    )}
+                                </div>
 
-                                {!isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)) ? (
+                                {!itemExistence ? (
                                     <button onClick={() => handleAddToCart(selectedColor, selectedSize)} className="py-2 text-lg font-bold text-white rounded-xl bg-red-500">
                                         Add To Cart
                                     </button>
                                 ) : (
                                     <div className="flex justify-between items-center border-2 rounded-tl-xl rounded-br-xl border-gray-600">
-                                        <button onClick={() => handleIncreaseQuantity(isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)))} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-emerald-100 hover:text-emerald-500 rounded-tl-xl hover:border-red-100 transition-all duration-300">
+                                        <button onClick={() => handleIncreaseQuantity(existedItem)} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-emerald-100 hover:text-emerald-500 rounded-tl-xl hover:border-red-100 transition-all duration-300">
                                             {cartProcess.status && cartProcess.process === 'increase' ? <MoonLoader color='#fff' size={10} /> : <PlusIcon />}
                                         </button>
-                                        <div className="text-xl text-gray-200">{isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)).quantity}</div>
-                                        <button onClick={() => handleDecreaseQuantity(isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)))} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-red-100 hover:text-red-500 rounded-br-xl hover:border-red-100 transition-all duration-300">
-                                            {isItemExistsInCart(generateNewCartItem(selectedColor, selectedSize)).quantity > 1 ? (
+                                        <div className="text-xl text-gray-200">{existedItem.quantity}</div>
+                                        <button onClick={() => handleDecreaseQuantity(existedItem)} disabled={cartProcess.isProcessing} className="w-1/4 h-16 flex justify-center items-center cursor-pointer text-gray-200 hover:bg-red-100 hover:text-red-500 rounded-br-xl hover:border-red-100 transition-all duration-300">
+                                            {existedItem.quantity > 1 ? (
                                                 cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <MinusIcon />
                                             ) : (
                                                 cartProcess.status && cartProcess.process === 'decrease' ? <MoonLoader color='#fff' size={10} /> : <TrashIcon />
