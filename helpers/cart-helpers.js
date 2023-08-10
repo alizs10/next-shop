@@ -65,3 +65,8 @@ export const removeItemFromCart = (itemId) => {
     setCartItems(filteredItems)
     return filteredItems;
 }
+
+export const clearCart = () => {
+    setCartItems([])
+    return true;
+}

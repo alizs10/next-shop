@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { connectDatabase } from '../../util/database-util'
 import useAuth from '../../hooks/useAuth'
 import { LoadingContext } from '../../context/LoadingContext'
+import { clearCart, getCartItems } from '../../helpers/cart-helpers';
 
 function LoginPage() {
 
@@ -41,6 +42,28 @@ function LoginPage() {
       closeLoading({ text: result.error, status: "error" })
 
     } else {
+      // we should save cart items if has any
+      let cartItems = getCartItems()
+      if (cartItems.length > 0) {
+
+        let res = await fetch('/api/cart/sync', {
+          method: 'POST',
+          body: JSON.stringify({ items: cartItems }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (res.status !== 200) {
+          closeLoading({ text: "error while syncing user data", status: "error" })
+        }
+
+        if (res.status === 200) {
+          clearCart()
+        }
+
+      }
+
       closeLoading({ text: "logged in", status: "success" })
       setTimeout(() => {
         router.push('/')

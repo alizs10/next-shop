@@ -128,6 +128,10 @@ function Drawer() {
                         </li>
                     )}
                 </ul>
+
+                <div className='mt-auto py-5 px-10 bg-black/20 text-white text-sm'>
+                    Designed & Developed by @alizs10
+                </div>
             </motion.div>
 
         </BackdropWrapper>
