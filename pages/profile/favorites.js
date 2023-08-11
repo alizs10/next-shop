@@ -34,9 +34,11 @@ export async function getServerSideProps({ req }) {
         })
 
         let favorites = await Favorite.find({ user: user._id }).populate('product').exec()
-        favorites = favorites.map(fav => ({ ...fav.product, isFavorite: true }))
 
-        props.favorites = await jsonParser(favorites)
+        favorites = jsonParser(favorites).map(fav => ({ ...fav.product, isFavorite: true }))
+
+        console.log(favorites);
+        props.favorites = favorites
     }
 
     return await useRole(req, ['admin', 'user'], cb)
