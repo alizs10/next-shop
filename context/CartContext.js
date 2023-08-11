@@ -29,7 +29,6 @@ export function CartContextProvider({ children }) {
             let result = await handlePostCartItem(newItem)
             let data = await result.json()
             addItemToCart(data.item)
-            setIsItemInCart(data.item)
 
         } else {
 
@@ -38,9 +37,9 @@ export function CartContextProvider({ children }) {
             // save cart items in local storage
             addItemToCart(cartItem)
 
-            updateCart()
         }
 
+        updateCart()
         setCartProcess({ status: false, process: null })
         // toggleMainAddToCartPopup()
     }
@@ -110,6 +109,9 @@ export function CartContextProvider({ children }) {
         let discountAmount = (+allPrices * +shownProduct.discount_percentage / 100);
         let payPrice = +allPrices - +discountAmount;
 
+        colorAttr.attributeId = colorAttr._id;
+        delete colorAttr._id
+
         let newItem = {
             _id: generateRandomId(),
             createdAt: Date.now(),
@@ -127,11 +129,12 @@ export function CartContextProvider({ children }) {
     function isItemExistsInCart(item) {
 
         let cartItems = getCartItems();
+        console.log(cartItems);
         let existedItem;
 
         let isExists = cartItems.some(cartItem => {
 
-            if (cartItem.product._id === item.product._id && cartItem.selectedAttributes._id === item.selectedAttributes._id && cartItem.selectedAttributes.size.sizeId._id === item.selectedAttributes.size.sizeId._id) {
+            if (cartItem.product._id === item.product._id && cartItem.selectedAttributes.attributeId === item.selectedAttributes.attributeId && cartItem.selectedAttributes.size.sizeId._id === item.selectedAttributes.size.sizeId._id) {
                 existedItem = cartItem;
                 return true;
             }

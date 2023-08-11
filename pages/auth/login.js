@@ -8,6 +8,7 @@ import { connectDatabase } from '../../util/database-util'
 import useAuth from '../../hooks/useAuth'
 import { LoadingContext } from '../../context/LoadingContext'
 import { clearCart, getCartItems } from '../../helpers/cart-helpers';
+import { handleSyncCart } from '../../helpers/api-helpers';
 
 function LoginPage() {
 
@@ -46,13 +47,7 @@ function LoginPage() {
       let cartItems = getCartItems()
       if (cartItems.length > 0) {
 
-        let res = await fetch('/api/cart/sync', {
-          method: 'POST',
-          body: JSON.stringify({ items: cartItems }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+        let res = await handleSyncCart(cartItems)
 
         if (res.status !== 200) {
           closeLoading({ text: "error while syncing user data", status: "error" })

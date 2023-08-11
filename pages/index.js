@@ -10,7 +10,7 @@ import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
 import { setCartItems } from '../helpers/cart-helpers';
 
-const HomePage = ({ products }) => {
+const HomePage = ({ products, cartItems, user }) => {
 
   const { setProducts } = useProductStore()
 
@@ -20,10 +20,9 @@ const HomePage = ({ products }) => {
       setProducts(products)
     }
 
-    // if(cartItems.length > 0)
-    // {
-    //   setCartItems(cartItems)
-    // }
+    if (user && cartItems.length > 0) {
+      setCartItems(cartItems)
+    }
 
   }, [])
 

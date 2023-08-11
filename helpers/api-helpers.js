@@ -147,3 +147,15 @@ export const handlePostRemoveDiscountCode = async (data) => {
 export const handleGetDiscounts = async (data) => {
     return axios.get(`/api/discounts`).then(res => res.data.discounts)
 }
+
+export const handleSyncCart = async (data) => {
+
+    return await fetch('/api/cart/sync', {
+        method: 'POST',
+        body: JSON.stringify({ items: data }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+}

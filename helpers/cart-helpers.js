@@ -1,3 +1,5 @@
+import { jsonParser } from "./helpers"
+
 export const setCartItems = (items) => {
 
     localStorage.setItem('cart', JSON.stringify(items))
@@ -6,8 +8,8 @@ export const setCartItems = (items) => {
 
 export const getCartItems = () => {
 
-    let cartItemsInLocalStorage = localStorage.getItem('cart')
-    let cartItemsInLocalStorageArr = cartItemsInLocalStorage !== 'undefined' ? JSON.parse(cartItemsInLocalStorage) : []
+    let cartItemsInLocalStorage = jsonParser(localStorage.getItem('cart'))
+    let cartItemsInLocalStorageArr = cartItemsInLocalStorage ? JSON.parse(cartItemsInLocalStorage) : []
 
     return cartItemsInLocalStorageArr;
 }

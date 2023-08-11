@@ -14,6 +14,7 @@ const CartItemSchema = new Schema({
         required: true
     },
     selectedAttributes: {
+        attributeId: { type: SchemaTypes.ObjectId, required: true },
         color_name: {
             type: String,
             required: true

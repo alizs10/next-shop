@@ -42,9 +42,10 @@ async function handler(req, res) {
         let payPrice = +allPrices - +discountAmount;
 
         let newItemInputs = {
-            user: user?._id ?? null,
-            product,
+            user: user._id,
+            product: product._id,
             selectedAttributes: {
+                attributeId: selectedAttribute._id,
                 color_name: selectedAttribute.color_name,
                 price_increase: selectedAttribute.price_increase,
                 palette: selectedAttribute.palette,
@@ -56,7 +57,6 @@ async function handler(req, res) {
         }
 
         let newItem = await CartItem.create(newItemInputs).then(t => t.populate(['product', 'selectedAttributes.size.sizeId']))
-        closeConnection()
 
         res.status(201).json({ message: "new cart item created successfully", item: newItem })
     }
