@@ -43,6 +43,7 @@ function CreateProduct() {
     const frozenNumberRef = useRef()
     const imageSrcRef = useRef()
     const descriptionRef = useRef()
+    const ratingRef = useRef()
 
     const [status, setStatus] = useState(false)
 
@@ -83,6 +84,7 @@ function CreateProduct() {
         let inputData = {};
         inputData.name = nameRef.current.value
         inputData.price = priceRef.current.value
+        inputData.rating = ratingRef.current.value
         inputData.image = imageSrcRef.current.value
         inputData.discount_percentage = discountPercentageRef.current.value
         inputData.marketable_number = marketableNumberRef.current.value
@@ -158,6 +160,7 @@ function CreateProduct() {
         setAttributes([])
         nameRef.current.value = ""
         priceRef.current.value = ""
+        ratingRef.current.value = ""
         imageSrcRef.current.value = ""
         discountPercentageRef.current.value = ""
         marketableNumberRef.current.value = ""
@@ -215,6 +218,10 @@ function CreateProduct() {
                             <div className='col-span-2 flex flex-col gap-y-2'>
                                 <label>Price:</label>
                                 <Input ref={priceRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
+                            </div>
+                            <div className='col-span-2 flex flex-col gap-y-2'>
+                                <label>Rating:</label>
+                                <Input ref={ratingRef} focusBorderColor='orange.400' borderColor='gray.500' _hover={{ borderColor: 'gray.700' }} borderWidth='2px' />
                             </div>
                             <div className='col-span-2 flex flex-col gap-y-2'>
                                 <label>Image Src:</label>

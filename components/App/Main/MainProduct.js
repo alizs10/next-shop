@@ -97,7 +97,14 @@ function MainProduct() {
                 <div className="flex flex-nowrap gap-x-[1px] items-center">
                     <div className="flex flex-nowrap">
 
-                        {shownProduct.stars.map((star, index) => {
+                        {Array(Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="text-yellow-500 lg:scale-75">
+                            <SolidStarIcon />
+                        </span>)}
+                        {Array(5 - Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="lg:scale-75">
+                            <SolidStarIcon />
+                        </span>)}
+
+                        {/* {shownProduct.stars.map((star, index) => {
                             return star.status ? (
                                 <span key={index} className="text-yellow-500 lg:scale-75">
                                     <SolidStarIcon />
@@ -106,7 +113,7 @@ function MainProduct() {
                                 <span key={index} className="text-white lg:scale-75">
                                     <SolidStarIcon />
                                 </span>)
-                        })}
+                        })} */}
 
                     </div>
                     <span className="text-gray-400 text-3xl lg:text-xl">|</span>

@@ -3,7 +3,7 @@ import { closeConnection, connectDatabase } from '../../../util/database-util'
 
 async function handler(req, res) {
 
-    await connectDatabase('nikes_shoes_shop')
+    await connectDatabase(process.env.DB_NAME)
 
     if (req.method === "GET") {
 
@@ -19,7 +19,6 @@ async function handler(req, res) {
         res.status(201).json({ product: newProduct, message: "product created successfully" })
     }
 
-    closeConnection()
 }
 
 export default handler;

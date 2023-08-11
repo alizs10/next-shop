@@ -53,6 +53,12 @@ const ProductSchema = new Schema({
         min: 0,
         required: true
     },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        required: true
+    },
     attributes: [{
         color_name: {
             type: String,
