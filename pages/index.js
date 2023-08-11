@@ -9,19 +9,17 @@ import Favorite from '../database/Models/Favorite';
 import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
 import { setCartItems } from '../helpers/cart-helpers';
+import useAppStore from '../stores/app-store';
 
-const HomePage = ({ products, cartItems, user }) => {
+const HomePage = ({ products }) => {
 
   const { setProducts } = useProductStore()
+  const { updateCart } = useAppStore()
 
   useEffect(() => {
 
     if (products) {
       setProducts(products)
-    }
-
-    if (user && cartItems.length > 0) {
-      setCartItems(cartItems)
     }
 
   }, [])
@@ -59,7 +57,7 @@ export async function getServerSideProps({ req }) {
   if (user) {
     props.user = user
 
-    let cartItems = await CartItem.find({ user: user._id })
+    let cartItems = await CartItem.find({ user: user._id, deletedAt: null }).populate(['product', 'selectedAttributes.size.sizeId'])
     let favorites = await Favorite.find({ user: user._id })
     favorites = jsonParser(favorites)
     cartItems = jsonParser(cartItems)

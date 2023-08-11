@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
       break;
     case "app":
       getLayout = ((page) => (
-        <AppLayout children={page} user={pageProps.user} />
+        <AppLayout children={page} user={pageProps.user} cart={pageProps.cartItems ?? null} />
       ))
       break;
     default:

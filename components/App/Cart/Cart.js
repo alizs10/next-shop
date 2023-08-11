@@ -12,7 +12,7 @@ import { defaultOptions } from '../../../lib/react-query/react-query';
 import { LoadingContext } from '../../../context/LoadingContext';
 import { MoonLoader } from 'react-spinners';
 import userStore from '../../../stores/user-store';
-import { getCartItems } from '../../../helpers/cart-helpers';
+import { clearCart, getCartItems } from '../../../helpers/cart-helpers';
 
 function NoCartItems() {
 
@@ -75,7 +75,7 @@ function Cart() {
         let result = await handlePostOrder({ itemsIds })
 
         if (result.status !== 201) return
-        setCartItems([])
+        clearCart()
 
         let data = await result.json();
         let url = `/checkout/${data.order._id}`

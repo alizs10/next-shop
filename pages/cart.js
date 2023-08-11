@@ -1,30 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import CartItem from '../database/Models/CartItem'
 import Cart from '../components/App/Cart/Cart'
 import { CartContextProvider } from '../context/CartContext'
 import useAuth from '../hooks/useAuth'
 import { connectDatabase } from '../util/database-util'
-import useAppStore from '../stores/app-store'
+import { jsonParser } from '../helpers/helpers'
 
-function CartPage({ user }) {
-
-    // useEffect(() => {
-
-    //     if (!user) {
-
-    //         let cartInLocalStorage = localStorage.getItem('cart')
-    //         let cartInLocalStorageArr = cartInLocalStorage ? JSON.parse(cartInLocalStorage) : []
-
-    //         useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartInLocalStorageArr] }))
-
-    //     } else {
-    //         useAppStore.setState((prev) => ({ ...prev, cartItems: [...cartItems] }))
-    //     }
-
-
-    // }, [])
-
+function CartPage() {
 
     return (
         <>

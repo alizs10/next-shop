@@ -7,15 +7,23 @@ import useAppStore from "../../stores/app-store";
 import { AnimatePresence } from 'framer-motion';
 import { useEffect } from "react";
 import userStore from "../../stores/user-store";
+import { setCartItems } from "../../helpers/cart-helpers";
 
-function AppLayout({ children, user }) {
+function AppLayout({ children, user, cartItems }) {
 
     const { setUser } = userStore()
     const { loading, setLoading, drawerVis } = useAppStore()
 
     useEffect(() => {
         setUser(user)
+
+        if (user && cartItems && cartItems.length > 0) {
+            setCartItems(cartItems)
+            // updateCart()
+        }
+
         setLoading(false)
+
     }, [])
 
 

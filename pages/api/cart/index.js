@@ -15,7 +15,6 @@ async function handler(req, res) {
         }
 
         let items = await CartItem.find({ user: user._id, deletedAt: null }).populate(['product', 'selectedAttributes.size.sizeId'])
-        // closeConnection()
 
         res.status(200).json({ message: "items loaded successfully!", items })
         return
