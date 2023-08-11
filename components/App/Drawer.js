@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import BackdropWrapper from '../Common/BackdropWrapper';
+import { clearCart } from '../../helpers/cart-helpers';
 
 function Drawer() {
 
@@ -25,6 +26,7 @@ function Drawer() {
 
     async function handleSignOut(e) {
         e.preventDefault();
+        clearCart()
         signOut({ callbackUrl: process.env.APP_URL })
     }
 
