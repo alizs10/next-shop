@@ -22,7 +22,7 @@ function Search() {
         let searchedProduct = searchInputRef.current.value;
         if (e.code !== 'Enter' || searchedProduct.length === 0) return
 
-
+        setIsExpanded(false)
         router.push('/search/' + searchedProduct)
     }
 
