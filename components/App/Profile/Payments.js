@@ -21,17 +21,21 @@ function NoPayments() {
 }
 
 export function renderPaymentStatus(status) {
+    if (typeof status === 'string') {
+        status = parseInt(status)
+    }
+
     switch (status) {
         case null:
             return <span className="self-start rounded-md w-fit px-2 py-1 bg-gray-50 text-gray-500">waiting</span>
             break;
-        case '0':
+        case 0:
             return <span className="self-start rounded-md w-fit px-2 py-1 bg-red-50 text-red-500">unsuccessful</span>
             break;
-        case '1':
+        case 1:
             return <span className="self-start rounded-md w-fit px-2 py-1 bg-emerald-50 text-emerald-600">paid</span>
             break;
-        case '2':
+        case 2:
             return <span className="self-start rounded-md w-fit px-2 py-1 bg-yellow-50 text-yellow-500">canceled</span>
             break;
 
@@ -61,8 +65,7 @@ function Payments({ payments }) {
     const timeout = useRef(null)
 
     async function copyTransaction(text, paymentId) {
-        if(timeout.current)
-        {
+        if (timeout.current) {
             clearTimeout(timeout.current)
             setCopyStatus({ status: false, key: null })
         }
@@ -147,14 +150,14 @@ function Payments({ payments }) {
                                     <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
                                         <button onClick={() => copyTransaction(payment._id, payment._id)} className="flex gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(239,68,68)] hover:shadow-[0_7px_15px_5px_rgb(239,68,68)] bg-red-500 text-white">
 
-                                            <AnimatePresence mode="wait"  initial={false}>
+                                            <AnimatePresence mode="wait" initial={false}>
 
                                                 {copyStatus.status && copyStatus.key === payment._id ? (
                                                     <motion.span key={0}
                                                         initial={{ opacity: 0, y: 0 }}
                                                         animate={{ opacity: 1, y: [-10, 0] }}
                                                         exit={{ opacity: 0, y: [0, 10] }}
-                                                        transition={{duration: "0.3"}}
+                                                        transition={{ duration: "0.3" }}
                                                         className="scale-90">
                                                         <ClipboardDocumentCheckIcon />
                                                     </motion.span>
@@ -162,16 +165,16 @@ function Payments({ payments }) {
                                                 ) : (
                                                     <motion.span key={1}
                                                         initial={{ opacity: 0, y: 0 }}
-                                                        animate={{ opacity: 1, y:[-10, 0] }}
+                                                        animate={{ opacity: 1, y: [-10, 0] }}
                                                         exit={{ opacity: 0, y: [0, 10] }}
-                                                        transition={{duration: "0.3"}}
+                                                        transition={{ duration: "0.3" }}
                                                         className="scale-90">
                                                         <CopyIcon />
                                                     </motion.span>
                                                 )}
 
                                             </AnimatePresence>
-                                            
+
                                             <span>{payment._id}</span>
                                         </button>
                                     </td>

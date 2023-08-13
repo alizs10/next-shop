@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { renderPaymentStatus } from "./Payments";
+// import { renderPaymentStatus } from "./Payments";
 
 function NoOrders() {
 
@@ -25,9 +26,11 @@ function Orders({ orders: initOrders }) {
 
     function updateOrder(orderId, updatedValues) {
         setOrders(prevState => {
+            console.log("orders", prevState);
             let ordersIns = [...prevState]
             let orderIndex = ordersIns.findIndex(order => order._id === orderId)
             ordersIns[orderIndex] = { ...ordersIns[orderIndex], ...updatedValues }
+            console.log("updated orders", ordersIns);
             return ordersIns;
         })
     }
@@ -36,7 +39,10 @@ function Orders({ orders: initOrders }) {
 
     function renderActions(order) {
 
-        if (order.paymentStatus === '1') {
+        let orderPaymentStatus = typeof order.paymentStatus === 'string' ? parseInt(order.paymentStatus) : order.paymentStatus;
+        let orderStatus = typeof order.status === 'string' ? parseInt(order.status) : order.status;
+
+        if (orderPaymentStatus === 1) {
             return (<button onClick={() => toggleModal(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(37,99,235)] hover:shadow-[0_7px_15px_5px_rgb(37,99,235)] bg-blue-600 text-white">
                 <InformationCircleIcon />
                 <span>More Details</span>
@@ -44,7 +50,7 @@ function Orders({ orders: initOrders }) {
         }
 
         // check if order is incomplete and not canceled
-        if (order.status !== '4' && !order.delivery && !order.address) {
+        if (orderStatus !== 4 && !order.delivery && !order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(124,58,237)] hover:shadow-[0_7px_15px_5px_rgb(124,58,237)] bg-violet-600 text-white">
@@ -59,7 +65,7 @@ function Orders({ orders: initOrders }) {
             )
         }
 
-        if (order.status !== '4' && !!order.delivery && !!order.address) {
+        if (orderStatus !== 4 && !!order.delivery && !!order.address) {
             return (
                 <div className="flex gap-x-2">
                     <button onClick={() => handleContinue(order)} className="flex items-center gap-x-2 px-3 py-2 w-fit rounded-xl text-lg transition-all duration-300 shadow-[0_5px_15px_0px_rgb(5,150,105)] hover:shadow-[0_7px_15px_5px_rgb(5,150,105)] bg-emerald-600 text-white">
@@ -74,7 +80,7 @@ function Orders({ orders: initOrders }) {
             )
         }
 
-        if (order.status === '4') {
+        if (orderStatus === 4) {
             return (
                 <span className="rounded-md w-fit px-2 py-1 bg-gray-500 text-gray-200">no action</span>
             )
@@ -110,6 +116,7 @@ function Orders({ orders: initOrders }) {
         setModalVis(prevState => !prevState)
     }
 
+
     if (orders.length === 0) {
         return <NoOrders />
     }
@@ -144,7 +151,7 @@ function Orders({ orders: initOrders }) {
 
                             let discountCode = order.discountCode;
                             let payAmount = order.payAmount;
-                            let discountAmount = order.discountAmount;
+
                             let shippingAmount = order.delivery?.price ?? 0;
                             let taxAmount = order.tax;
                             let total = payAmount + shippingAmount + taxAmount;
@@ -168,7 +175,7 @@ function Orders({ orders: initOrders }) {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap">{order.delivery ? `$ ${total - discountCodeAmount}` : "-"}</td>
+                                    <td className="py-4 px-6 text-sm font-medium text-gray-500 whitespace-nowrap">{`$ ${total - discountCodeAmount}`}</td>
 
                                     <td className="py-4 px-6 text-sm font-medium whitespace-nowrap">
                                         {renderPaymentStatus(order.paymentStatus)}
