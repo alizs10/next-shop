@@ -3,12 +3,10 @@ import useAppStore from '../../../stores/app-store';
 import TrashIcon from "../../ui/icons/TrashIcon";
 import PlusIcon from "../../ui/icons/PlusIcon";
 import MinusIcon from "../../ui/icons/MinusIcon";
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { CartContext } from '../../../context/CartContext';
-import { handleGetCartItems, handlePostOrder } from '../../../helpers/api-helpers';
+import { handlePostOrder } from '../../../helpers/api-helpers';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { defaultOptions } from '../../../lib/react-query/react-query';
 import { LoadingContext } from '../../../context/LoadingContext';
 import { MoonLoader } from 'react-spinners';
 import userStore from '../../../stores/user-store';
@@ -29,32 +27,9 @@ function NoCartItems() {
 
 function Cart() {
 
-    const { addLoading, closeLoading, loading } = useContext(LoadingContext)
-
-    // useEffect(() => {
-    //     addLoading(true)
-    // }, [])
+    const { loading } = useContext(LoadingContext)
 
     const { cartProcess } = useAppStore()
-
-    // const { isLoading } = useQuery(
-    //     'cartItems',
-    //     handleGetCartItems,
-    //     {
-    //         ...defaultOptions,
-    //         onError,
-    //         onSuccess,
-    //     })
-
-    // function onError() {
-    //     setCartItems([])
-    // }
-
-    // function onSuccess(data) {
-
-    //     setCartItems(data)
-    //     closeLoading()
-    // }
 
     const { handleDecreaseQuantity, handleIncreaseQuantity, payAmount } = useContext(CartContext)
 
@@ -68,8 +43,8 @@ function Cart() {
             router.replace('/auth/register')
             return
         }
-        // create order then redirect to checkout page
 
+        // create order then redirect to checkout page
         let itemsIds = cartItems.map(item => item._id)
 
         let result = await handlePostOrder({ itemsIds })

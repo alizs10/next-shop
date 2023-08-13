@@ -1,27 +1,26 @@
+import { useContext, useEffect, useState } from 'react';
 import HeartIcon from '../ui/icons/HeartIcon';
 import SolidHeartIcon from '../ui/icons/SolidHeartIcon';
 import SolidStarIcon from '../ui/icons/SolidStarIcon';
 import Image from "next/image";
 import useAppStore from '../../stores/app-store';
 import useProductStore from '../../stores/product-store';
-import { useEffect, useState } from 'react';
+import { CartContext } from '../../context/CartContext';
 
 function Product({ product }) {
 
-    const { toggleMainAddToCartPopup, cartItems } = useAppStore()
+    const { toggleMainAddToCartPopup, cartUpdate } = useAppStore()
     const { toggleProductToFavorite } = useProductStore()
+    const { isProductExistsInCart } = useContext(CartContext)
 
-    const [isInCart, setIsInCart] = useState(isProductInCart(product))
 
-    function isProductInCart(product) {
-        return cartItems.some(item => item.product._id === product._id)
-    }
+    const [productExistence, setProductExistence] = useState(isProductExistsInCart(product))
 
     useEffect(() => {
 
-        setIsInCart(isProductInCart(product))
+        setProductExistence(isProductExistsInCart(product))
 
-    }, [cartItems])
+    }, [cartUpdate])
 
     return (
         <div onClick={() => toggleMainAddToCartPopup(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 bg-white rounded-3xl transition-all duration-300`}>
@@ -52,7 +51,7 @@ function Product({ product }) {
                 </div>
                 <span className="font-semibold font-sans pl-2 text-gray-400 text-xs">men's snikers</span>
                 <button className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">
-                    {isInCart ? 'Added' : 'Add to Cart'}
+                    {productExistence ? 'Added' : 'Add to Cart'}
                 </button>
             </div>
         </div>

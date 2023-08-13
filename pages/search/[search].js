@@ -23,47 +23,47 @@ function SearchPage({ products, searchedValue }) {
   }
 
   return (
+    <CartContextProvider>
 
-    <section className='px-20 py-10 mt-10 flex flex-col gap-y-8'>
+      <section className='px-20 py-10 mt-10 flex flex-col gap-y-8'>
 
-      <div className='flex justify-between items-start'>
-        <div className='flex flex-col text-white gap-y-1'>
-          <h3 className='text-2xl'>Here's results for "{searchedValue}"</h3>
-          <span className='text-lg text-red-500'>{products.length} item{products.length > 1 ? 's' : ''} found</span>
-        </div>
-        <div className='relative'>
+        <div className='flex justify-between items-start'>
+          <div className='flex flex-col text-white gap-y-1'>
+            <h3 className='text-2xl'>Here's results for "{searchedValue}"</h3>
+            <span className='text-lg text-red-500'>{products.length} item{products.length > 1 ? 's' : ''} found</span>
+          </div>
+          <div className='relative'>
 
-          {filterPopupVis ? (
-            <div className='absolute top-0 right-0 p-5 w-[25rem] z-30 shadow-lg aspect-square rounded-3xl bg-red-600'>
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-lg text-white">Filters</span>
-                <span onClick={toggleFilterPopup} className='hover:bg-red-500 transition-all duration-300 p-1 rounded-md cursor-pointer text-white scale-125'>
-                  <XIcon />
-                </span>
+            {filterPopupVis ? (
+              <div className='absolute top-0 right-0 p-5 w-[25rem] z-30 shadow-lg aspect-square rounded-3xl bg-red-600'>
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-lg text-white">Filters</span>
+                  <span onClick={toggleFilterPopup} className='hover:bg-red-500 transition-all duration-300 p-1 rounded-md cursor-pointer text-white scale-125'>
+                    <XIcon />
+                  </span>
+                </div>
               </div>
-            </div>
-          ) : (
-            <button onClick={toggleFilterPopup} className='p-3 rounded-xl bg-red-600 hover:rotate-[360deg] transition-all duration-300 text-white shadow-lg'>
-              <div className='scale-125'>
-                <FilterIcon />
-              </div>
-            </button>
+            ) : (
+              <button onClick={toggleFilterPopup} className='p-3 rounded-xl bg-red-600 hover:rotate-[360deg] transition-all duration-300 text-white shadow-lg'>
+                <div className='scale-125'>
+                  <FilterIcon />
+                </div>
+              </button>
 
-          )}
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-10 w-full flex gap-x-12 items-center">
-        {products.map(product => <ProductComp key={product._id} product={product} />)}
-      </div>
+        <div className="mt-10 w-full flex gap-x-12 items-center">
+          {products.map(product => <ProductComp key={product._id} product={product} />)}
+        </div>
 
-      {mainAddToCartPopupVis && (
-        <CartContextProvider>
+        {mainAddToCartPopupVis && (
           <AddToCartPopup />
-        </CartContextProvider>
-      )}
+        )}
 
-    </section>
+      </section>
+    </CartContextProvider>
   )
 }
 

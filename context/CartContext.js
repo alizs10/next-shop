@@ -144,6 +144,24 @@ export function CartContextProvider({ children }) {
         return isExists ? existedItem : false;
     }
 
+    function isProductExistsInCart(product) {
+
+        let cartItems = getCartItems();
+
+        let existedItem;
+
+        let isExists = cartItems.some(cartItem => {
+
+            if (cartItem.product._id === product._id) {
+                existedItem = cartItem;
+                return true;
+            }
+            return false
+        });
+
+        return isExists ? existedItem : false;
+    }
+
 
     // api helpers
 
@@ -224,7 +242,7 @@ export function CartContextProvider({ children }) {
     }, [cartUpdate])
 
 
-    let values = { handleAddToCart, handleIncreaseQuantity, handleDecreaseQuantity, payAmount, isItemExistsInCart, generateNewCartItem }
+    let values = { handleAddToCart, handleIncreaseQuantity, handleDecreaseQuantity, payAmount, isItemExistsInCart, generateNewCartItem, isProductExistsInCart }
 
     return (
         <CartContext.Provider value={values}>
