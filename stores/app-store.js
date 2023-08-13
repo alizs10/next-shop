@@ -41,7 +41,12 @@ const useAppStore = create((set) => ({
     setCartProcess: (payload) => set(() => ({ cartProcess: payload })),
 
     cartUpdate: false,
-    updateCart: () => set((state) => ({ cartUpdate: !state.cartUpdate }))
+    updateCart: () => set((state) => ({ cartUpdate: !state.cartUpdate })),
+
+    requireLogin: false,
+    requireLoginMessage: '',
+    setRequireLogin: () => set((state) => ({ requireLogin: !state.requireLogin })),
+    setRequireLoginMessage: (payload) => set((state) => ({ requireLoginMessage: payload })),
 }))
 
 export default useAppStore;

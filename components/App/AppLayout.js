@@ -8,18 +8,18 @@ import { AnimatePresence } from 'framer-motion';
 import { useEffect } from "react";
 import userStore from "../../stores/user-store";
 import { setCartItems } from "../../helpers/cart-helpers";
+import RequireLoginPopup from '../Common/RequireLoginPopup'
 
 function AppLayout({ children, user, cartItems }) {
 
     const { setUser } = userStore()
-    const { loading, setLoading, drawerVis } = useAppStore()
+    const { loading, setLoading, drawerVis, requireLogin } = useAppStore()
 
     useEffect(() => {
         setUser(user)
 
         if (user && cartItems && cartItems.length > 0) {
             setCartItems(cartItems)
-            // updateCart()
         }
 
         setLoading(false)
@@ -43,6 +43,10 @@ function AppLayout({ children, user, cartItems }) {
                 <BgBlur />
             </section>
 
+
+            <AnimatePresence>
+                {requireLogin && (<RequireLoginPopup />)}
+            </AnimatePresence>
 
             <AnimatePresence>
                 {drawerVis && (<Drawer />)}

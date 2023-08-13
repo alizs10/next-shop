@@ -29,7 +29,7 @@ function Cart() {
 
     const { loading } = useContext(LoadingContext)
 
-    const { cartProcess } = useAppStore()
+    const { cartProcess, setRequireLogin, setRequireLoginMessage } = useAppStore()
 
     const { handleDecreaseQuantity, handleIncreaseQuantity, payAmount } = useContext(CartContext)
 
@@ -40,8 +40,8 @@ function Cart() {
     async function handleCheckout() {
 
         if (!userStore.getState().user) {
-            router.replace('/auth/register')
-            return
+            setRequireLoginMessage('Login to complete your order')
+            setRequireLogin(true)
         }
 
         // create order then redirect to checkout page

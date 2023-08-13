@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { handlePostFavoriteProduct } from '../helpers/api-helpers';
+import useAppStore from './app-store'
 
 const useProductStore = create((set) => ({
 
@@ -7,6 +8,10 @@ const useProductStore = create((set) => ({
     setProducts: (payload) => set(() => ({ products: payload })),
 
     toggleProductToFavorite: async (payload) => {
+
+        if (!useAppStore.getState().user) {
+            useAppStore.setState(() => ({ requireLogin: true, requireLoginMessage: 'This action requires authentication' }))
+        }
 
         let productId = payload;
         let result = await handlePostFavoriteProduct(productId)

@@ -5,11 +5,11 @@ import useAppStore from "../../stores/app-store";
 function BgBlur() {
 
 
-    const { drawerVis } = useAppStore()
+    const { drawerVis, requireLogin } = useAppStore()
 
     return (
         <AnimatePresence>
-            {drawerVis && (
+            {(drawerVis || requireLogin) && (
 
                 <motion.div
                     initial={{ backdropFilter: 'blur(0px)' }}
