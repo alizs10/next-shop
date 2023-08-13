@@ -13,7 +13,6 @@ function Product({ product }) {
     const { toggleProductToFavorite } = useProductStore()
     const { isProductExistsInCart } = useContext(CartContext)
 
-
     const [productExistence, setProductExistence] = useState(isProductExistsInCart(product))
 
     useEffect(() => {
@@ -21,6 +20,9 @@ function Product({ product }) {
         setProductExistence(isProductExistsInCart(product))
 
     }, [cartUpdate])
+
+
+    console.log(product.isFavorite);
 
     return (
         <div onClick={() => toggleMainAddToCartPopup(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 bg-white rounded-3xl transition-all duration-300`}>
@@ -45,7 +47,10 @@ function Product({ product }) {
                 </div>
                 <div className="flex justify-between items-center pl-2">
                     <span className="font-semibold font-sans text-gray-800 text-md">${product.price}</span>
-                    <span onClick={() => toggleProductToFavorite(product._id)} className="cursor-pointer pr-2 text-gray-500 transition-all duration-300 hover:scale-125">
+                    <span onClick={e => {
+                        e.stopPropagation()
+                        toggleProductToFavorite(product._id)
+                    }} className="cursor-pointer pr-2 text-gray-500 transition-all duration-300 hover:scale-125">
                         {product.isFavorite ? (<span className='text-red-500'><SolidHeartIcon /></span>) : (<HeartIcon />)}
                     </span>
                 </div>

@@ -8,13 +8,10 @@ import Product from '../database/Models/Product';
 import Favorite from '../database/Models/Favorite';
 import CartItem from '../database/Models/CartItem';
 import useAuth from '../hooks/useAuth';
-import { setCartItems } from '../helpers/cart-helpers';
-import useAppStore from '../stores/app-store';
 
 const HomePage = ({ products }) => {
 
   const { setProducts } = useProductStore()
-  const { updateCart } = useAppStore()
 
   useEffect(() => {
 

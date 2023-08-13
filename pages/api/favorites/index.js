@@ -9,6 +9,7 @@ async function handler(req, res) {
         await connectDatabase(process.env.DB_NAME)
         let user = await useAuth(req)
 
+        console.log(user);
         if (!user) {
             closeConnection()
             res.status(403).json({ message: "not authorized!" })

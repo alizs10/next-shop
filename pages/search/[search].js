@@ -1,22 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { default as ProductComp } from '../../components/App/Product'
 import { searchThroughProducts } from '../../helpers/products-helper'
 import { connectDatabase } from '../../util/database-util'
-import ProductsProvider from '../../components/Providers/ProductsProvider'
-import FilterProvider from '../../components/Providers/FilterProvider'
 import Product from '../../database/Models/Product'
+import Favorite from '../../database/Models/Favorite'
 import { jsonParser } from '../../helpers/helpers';
 import FilterIcon from '../../components/ui/icons/FilterIcon'
 import useAppStore from '../../stores/app-store'
 import AddToCartPopup from '../../components/App/Main/AddToCartPopup';
 import { CartContextProvider } from '../../context/CartContext'
 import XIcon from '../../components/ui/icons/XIcon'
+import useProductStore from '../../stores/product-store'
+import useAuth from '../../hooks/useAuth';
 
-function SearchPage({ products, searchedValue }) {
-
-  const { mainAddToCartPopupVis } = useAppStore()
+function SearchPage({ products: initialProducts, searchedValue }) {
 
   const [filterPopupVis, setFilterPopupVis] = useState(false)
+
+  const { mainAddToCartPopupVis } = useAppStore()
+  const { products, setProducts } = useProductStore()
+
+
+  useEffect(() => {
+
+    setProducts(initialProducts)
+
+  }, [initialProducts])
 
   function toggleFilterPopup() {
     setFilterPopupVis(prevState => !prevState)
@@ -67,12 +76,31 @@ function SearchPage({ products, searchedValue }) {
   )
 }
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps({ req, query }) {
 
-  let searchedValue = ctx.query.search;
+  let searchedValue = query.search;
   await connectDatabase(process.env.DB_NAME)
+
+  let user = await useAuth(req)
+
   let products = await Product.find().populate('attributes.sizes.sizeId').exec()
   products = jsonParser(products);
+
+  if (user) {
+
+    let favorites = await Favorite.find({ user: user._id })
+    favorites = jsonParser(favorites)
+
+    let userFavoritesIds = favorites.map(fav => fav.product)
+
+    products = products.map(product => {
+      let isFavorite = false
+      if (userFavoritesIds.includes(product._id)) {
+        isFavorite = true;
+      }
+      return { ...product, isFavorite }
+    })
+  }
 
   let searchResults = searchThroughProducts(searchedValue, products)
 
@@ -80,9 +108,10 @@ export async function getServerSideProps(ctx) {
     props: {
       products: searchResults,
       searchedValue,
-      layoutType: "app"
+      layoutType: "app",
+      user
     }
   }
 }
 
-export default SearchPage
+export default SearchPage;

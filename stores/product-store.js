@@ -11,9 +11,7 @@ const useProductStore = create((set) => ({
         let productId = payload;
         let result = await handlePostFavoriteProduct(productId)
 
-        if (result.status !== 200) {
-            return state
-        }
+        if (result.status !== 200) return
 
         var data = await result.json()
 
