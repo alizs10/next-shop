@@ -3,6 +3,7 @@ import ArrowLeftIcon from '../../ui/icons/ArrowLeftIcon'
 import Product from "./Product";
 import { useRef } from 'react';
 import useProductStore from '../../../stores/product-store';
+import { CartContextProvider } from '../../../context/CartContext';
 
 
 function MainProducts() {
@@ -40,9 +41,11 @@ function MainProducts() {
 
             </div>
 
-            <div ref={productsContainerRef} className="w-full py-2 pl-20 pr-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
-                {products.map(product => <Product key={product._id} product={product} />)}
-            </div>
+            <CartContextProvider>
+                <div ref={productsContainerRef} className="w-full py-2 pl-20 pr-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
+                    {products.map(product => <Product key={product._id} product={product} />)}
+                </div>
+            </CartContextProvider>
         </div>
     );
 }

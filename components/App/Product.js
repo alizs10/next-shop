@@ -21,9 +21,6 @@ function Product({ product }) {
 
     }, [cartUpdate])
 
-
-    console.log(product.isFavorite);
-
     return (
         <div onClick={() => toggleMainAddToCartPopup(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 bg-white rounded-3xl transition-all duration-300`}>
             <div style={{ backgroundColor: product.attributes[0].palette[0] }} className="relative w-[35%] rounded-l-3xl aspect-square">

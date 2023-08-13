@@ -4,15 +4,28 @@ import SolidStarIcon from '../../ui/icons/SolidStarIcon';
 import Image from "next/image";
 import useAppStore from '../../../stores/app-store';
 import useProductStore from '../../../stores/product-store';
+import { useContext, useEffect, useState } from 'react';
+import { CartContext } from '../../../context/CartContext';
 
 function Product({ product }) {
 
-    const { shownProduct, setShownProduct, toggleMainAddToCartPopup } = useAppStore()
+    const { shownProduct, setShownProduct, toggleMainAddToCartPopup, cartUpdate } = useAppStore()
     const { toggleProductToFavorite } = useProductStore()
+
+    const { isProductExistsInCart } = useContext(CartContext)
+
+    const [productExistence, setProductExistence] = useState(isProductExistsInCart(product))
 
     function handleSelectShowProduct(product) {
         setShownProduct(product)
     }
+
+    useEffect(() => {
+
+        setProductExistence(isProductExistsInCart(product))
+
+    }, [cartUpdate])
+
 
     return (
         <div onClick={() => handleSelectShowProduct(product)} className={`h-fit cursor-pointer flex min-w-[400px] z-20 ${(shownProduct && shownProduct._id === product._id) ? 'outline-red-500' : 'outline-white'} bg-white outline outline-[3px] rounded-3xl transition-all duration-300`}>
@@ -42,7 +55,9 @@ function Product({ product }) {
                     </span>
                 </div>
                 <span className="font-semibold font-sans pl-2 text-gray-400 text-xs">men's snikers</span>
-                <button onClick={toggleMainAddToCartPopup} className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">Add to Cart</button>
+                <button onClick={() => toggleMainAddToCartPopup(product)} className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">
+                    {productExistence ? 'Added' : 'Add to Cart'}
+                </button>
             </div>
         </div>
     );

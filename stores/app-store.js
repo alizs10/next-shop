@@ -36,32 +36,9 @@ const useAppStore = create((set) => ({
     }),
     onClickOutside: () => set(() => ({ clickOutside: false, drawerVis: false, cartPopupVis: false, mainAddToCartPopupVis: false })),
 
-    // cartItems: [],
-    // setCartItems: (payload) => set(() => ({ cartItems: payload })),
 
     cartProcess: { status: false, process: null },
     setCartProcess: (payload) => set(() => ({ cartProcess: payload })),
-
-    // addCartItem: (payload) => set((state) => ({ cartItems: [...state.cartItems, payload] })),
-    // increaseCartItemQuantity: (payload) => set((state) => {
-    //     let itemsIns = [...state.cartItems]
-    //     let itemIndex = itemsIns.findIndex(item => item._id === payload)
-    //     let item = itemsIns[itemIndex]
-    //     item.quantity++;
-    //     return { cartItems: itemsIns }
-    // }),
-    // decreaseCartItemQuantity: (payload) => set((state) => {
-    //     let itemsIns = [...state.cartItems]
-    //     let itemIndex = itemsIns.findIndex(item => item._id === payload)
-    //     let item = itemsIns[itemIndex]
-    //     item.quantity--;
-    //     return { cartItems: itemsIns }
-    // }),
-    // removeCartItem: (payload) => set((state) => {
-    //     let cartItemsIns = [...state.cartItems]
-    //     let filteredItems = cartItemsIns.filter(item => item._id !== payload)
-    //     return { cartItems: filteredItems }
-    // }),
 
     cartUpdate: false,
     updateCart: () => set((state) => ({ cartUpdate: !state.cartUpdate }))
