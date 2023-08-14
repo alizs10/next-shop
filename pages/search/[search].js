@@ -12,6 +12,8 @@ import { CartContextProvider } from '../../context/CartContext'
 import XIcon from '../../components/ui/icons/XIcon'
 import useProductStore from '../../stores/product-store'
 import useAuth from '../../hooks/useAuth';
+import FiltersPopup from '../../components/App/FiltersPopup'
+import { AnimatePresence } from 'framer-motion'
 
 function SearchPage({ products: initialProducts, searchedValue }) {
 
@@ -43,23 +45,17 @@ function SearchPage({ products: initialProducts, searchedValue }) {
           </div>
           <div className='relative'>
 
-            {filterPopupVis ? (
-              <div className='absolute top-0 right-0 p-5 w-[25rem] z-30 shadow-lg aspect-square rounded-3xl bg-red-600'>
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-lg text-white">Filters</span>
-                  <span onClick={toggleFilterPopup} className='hover:bg-red-500 transition-all duration-300 p-1 rounded-md cursor-pointer text-white scale-125'>
-                    <XIcon />
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <button onClick={toggleFilterPopup} className='p-3 rounded-xl bg-red-600 hover:rotate-[360deg] transition-all duration-300 text-white shadow-lg'>
-                <div className='scale-125'>
-                  <FilterIcon />
-                </div>
-              </button>
-
-            )}
+            <AnimatePresence>
+              {filterPopupVis ? (
+                <FiltersPopup key={0} toggleFilterPopup={toggleFilterPopup} />
+              ) : (
+                <button key={1} onClick={toggleFilterPopup} className='p-3 rounded-xl bg-red-600 hover:rotate-[360deg] transition-all duration-300 text-white shadow-lg'>
+                  <div className='scale-125'>
+                    <FilterIcon />
+                  </div>
+                </button>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
