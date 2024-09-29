@@ -10,7 +10,7 @@ function Main() {
     const { mainAddToCartPopupVis } = useAppStore()
 
     return (
-        <div className="grid w-full h-full grid-cols-7 gap-8 px-5 pt-3 md:pt-10 md:gap-4 md:px-20">
+        <div className="grid w-full h-full grid-cols-7 gap-8 pt-3 md:pt-10 md:gap-4">
 
             <MainTitle />
             <MainProduct />

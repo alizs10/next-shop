@@ -31,18 +31,18 @@ function AppLayout({ children, user, cartItems }) {
 
     return (
         <div className="relative">
-            <section>
+
+            <Sidebar />
+
+            <section className="fixed overflow-y-scroll inset-0 xl:left-[8%] 2xl:left-[5%]">
                 <Header />
 
-                <section className="grid grid-cols-10">
-                    <Sidebar />
-                    <main className='relative col-span-10 xl:col-span-9 overflow-hidden'>
-                        {children}
-                    </main>
-                </section>
-                <BgBlur />
+                <main className='relative p-3 xl:p-5'>
+                    {children}
+                </main>
             </section>
 
+            <BgBlur />
 
             <AnimatePresence>
                 {requireLogin && (<RequireLoginPopup />)}

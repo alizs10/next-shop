@@ -23,7 +23,6 @@ function Drawer() {
 
     const { user } = userStore()
 
-
     async function handleSignOut(e) {
         e.preventDefault();
         clearCart()
@@ -44,18 +43,20 @@ function Drawer() {
                 exit={{ x: "-100%" }}
                 transition={{ bounce: "none", duration: ".3" }}
                 onClick={e => e.stopPropagation()}
-                className="shadow-md shadow-black w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 flex flex-col gap-y-2 h-full bg-gray-700">
-                <div className='py-5 px-10 flex justify-between items-center'>
-                    <span className='fill-white w-16'>
+                className="flex flex-col w-2/3 h-full shadow-md bg-slate-700 shadow-black md:w-1/2 lg:w-1/3 xl:w-1/4 gap-y-2">
+                <div className='flex items-center justify-between px-10 py-5'>
+                    <span className='w-16 fill-white'>
                         <NikeIcon />
                     </span>
-                    <span onClick={toggleDrawer} className='hover:bg-gray-600 transition-all duration-300 p-1 rounded-md cursor-pointer text-red-500 scale-125'>
-                        <XIcon />
+                    <span onClick={toggleDrawer} className='p-1 text-red-500 transition-all duration-300 scale-125 rounded-md cursor-pointer hover:bg-gray-600'>
+                        <div className="w-5 h-5">
+                            <XIcon />
+                        </div>
                     </span>
                 </div>
 
 
-                <ul className='flex flex-col mt-10 w-full px-10 items-center gap-y-4 text-xl text-gray-200'>
+                <ul className='flex flex-col items-center w-full px-10 mt-10 text-xl text-gray-200 gap-y-4'>
                     {!user && (
                         <Link className='w-full' href="/auth/login">
                             <li className={listStyle}>
@@ -131,7 +132,7 @@ function Drawer() {
                     )}
                 </ul>
 
-                <div className='mt-auto py-5 px-10 bg-black/20 text-white text-sm'>
+                <div className='px-10 py-5 mt-auto text-sm text-white bg-black/20'>
                     Designed & Developed by @alizs10
                 </div>
             </motion.div>

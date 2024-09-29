@@ -60,15 +60,17 @@ function FiltersPopup({ toggleFilterPopup }) {
             exit={{ scale: [1, 0.9], opacity: [1, 0] }}
             transition={{ bounce: "spring", duration: "0.3" }}
             className='absolute top-0 right-0 p-5 w-[25rem] z-30 shadow-lg aspect-square rounded-3xl bg-slate-700'>
-            <div className="flex justify-between items-center">
-                <span className="font-semibold text-lg text-white">Filters</span>
-                <span onClick={toggleFilterPopup} className='hover:bg-slate-800 transition-all duration-300 p-1 rounded-md cursor-pointer text-white scale-125'>
-                    <XIcon />
+            <div className="flex items-center justify-between">
+                <span className="text-lg font-semibold text-white">Filters</span>
+                <span onClick={toggleFilterPopup} className='p-1 text-white transition-all duration-300 scale-125 rounded-md cursor-pointer hover:bg-slate-800'>
+                    <div className="w-5 h-5">
+                        <XIcon />
+                    </div>
                 </span>
             </div>
 
             <div className="flex flex-col mt-6 gap-y-4">
-                <span className="text-white font-bold text-md">Price Range</span>
+                <span className="font-bold text-white text-md">Price Range</span>
 
 
                 <CustomSlider
@@ -84,7 +86,7 @@ function FiltersPopup({ toggleFilterPopup }) {
             </div>
 
             <div className="flex flex-col mt-6 gap-y-4">
-                <span className="text-white font-bold text-md">Size Range</span>
+                <span className="font-bold text-white text-md">Size Range</span>
                 <CustomSlider
                     getAriaLabel={() => 'Size range'}
                     min={0}
@@ -98,7 +100,7 @@ function FiltersPopup({ toggleFilterPopup }) {
             </div>
 
             <div className="flex flex-col mt-6 gap-y-4">
-                <span className="text-white font-bold text-md">Rating</span>
+                <span className="font-bold text-white text-md">Rating</span>
                 <CustomSlider
                     getAriaLabel={() => 'Rating range'}
                     min={0}
@@ -111,7 +113,7 @@ function FiltersPopup({ toggleFilterPopup }) {
                 />
             </div>
 
-            <button className='mt-8 w-full py-2 rounded-xl text-xl font-bold bg-red-500 text-white'>
+            <button className='w-full py-2 mt-8 text-xl font-bold text-white bg-red-500 rounded-xl'>
                 Filter
             </button>
         </motion.div>

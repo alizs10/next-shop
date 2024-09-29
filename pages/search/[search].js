@@ -36,9 +36,9 @@ function SearchPage({ products: initialProducts, searchedValue }) {
   return (
     <CartContextProvider>
 
-      <section className='px-20 py-10 mt-10 flex flex-col gap-y-8'>
+      <section className='flex flex-col px-5 pt-3 md:pt-10 md:gap-4 md:px-20 gap-y-8'>
 
-        <div className='flex justify-between items-start'>
+        <div className='flex items-start justify-between'>
           <div className='flex flex-col text-white gap-y-1'>
             <h3 className='text-2xl'>Here's results for "{searchedValue}"</h3>
             <span className='text-lg text-red-500'>{products.length} item{products.length > 1 ? 's' : ''} found</span>
@@ -59,7 +59,7 @@ function SearchPage({ products: initialProducts, searchedValue }) {
           </div>
         </div>
 
-        <div className="mt-10 w-full flex gap-x-12 items-center">
+        <div className="flex items-center w-full mt-10 gap-x-12">
           {products.map(product => <ProductComp key={product._id} product={product} />)}
         </div>
 

@@ -14,17 +14,20 @@ function Header() {
     const { drawerVis } = useAppStore()
 
     return (
-        <header className={`sticky top-0 z-50 ${drawerVis ? '' : 'backdrop-blur-md'} flex items-center  xl:grid grid-cols-10 h-16 xl:h-20 xl:items-end p-5`}>
+        <header className={`sticky top-0 z-50 ${drawerVis ? '' : 'backdrop-blur-md'} flex items-center xl:grid grid-cols-10 h-26 xl:items-end p-3 xl:p-5 w-full`}>
 
-            <Bars />
-            <div className="flex items-center col-span-2">
-                <Link className='ml-4 lg:ml-20' href="/">
+
+            <div className="flex items-center col-span-1 gap-x-2">
+                <div className="xl:hidden">
+                    <Bars />
+                </div>
+                <Link className='' href="/">
                     <Logo />
                 </Link>
             </div>
             <Menus />
 
-            <div className='relative flex items-center justify-end flex-1 col-span-3 xl:ml-0 gap-x-2'>
+            <div className='relative flex items-center justify-end flex-1 col-span-2 xl:ml-0 gap-x-2'>
                 <Search />
                 {pathname !== '/cart' && (
                     <CartContextProvider>
