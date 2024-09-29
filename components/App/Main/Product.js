@@ -33,29 +33,25 @@ function Product({ product }) {
                 <Image className="absolute bottom-6 scale-125 -left-10 rotate-[-30deg]" src={product.image} alt={product.name} width={200} height={200} />
             </div>
             <div className={`w-[65%] flex flex-col gap-y-0 pt-2 overflow-hidden rounded-r-3xl`}>
-                <h6 className="font-semibold font-sans pl-2 text-gray-800 text-md">{product.name}</h6>
-                <div className="flex flex-nowrap pl-2">
+                <h6 className="pl-2 font-sans font-semibold text-gray-800 text-md">{product.name}</h6>
+                <div className="flex flex-nowrap">
 
-                    {product.stars.map((star, index) => {
-                        return star.status ? (
-                            <span key={index} className="text-yellow-500 lg:scale-90">
-                                <SolidStarIcon />
-                            </span>
-                        ) : (
-                            <span key={index} className="text-gray-200 lg:scale-90">
-                                <SolidStarIcon />
-                            </span>)
-                    })}
+                    {Array(Math.floor(product.rating)).fill(true).map((_, i) => <span key={i} className="text-yellow-500 lg:scale-75">
+                        <SolidStarIcon />
+                    </span>)}
+                    {Array(5 - Math.floor(product.rating)).fill(true).map((_, i) => <span key={i} className="lg:scale-75">
+                        <SolidStarIcon />
+                    </span>)}
 
                 </div>
-                <div className="flex justify-between items-center pl-2">
-                    <span className="font-semibold font-sans text-gray-800 text-md">${product.price}</span>
-                    <span onClick={() => toggleProductToFavorite(product._id)} className="cursor-pointer pr-2 text-gray-500 transition-all duration-300 hover:scale-125">
+                <div className="flex items-center justify-between pl-2">
+                    <span className="font-sans font-semibold text-gray-800 text-md">${product.price}</span>
+                    <span onClick={() => toggleProductToFavorite(product._id)} className="pr-2 text-gray-500 transition-all duration-300 cursor-pointer hover:scale-125">
                         {product.isFavorite ? (<span className='text-red-500'><SolidHeartIcon /></span>) : (<HeartIcon />)}
                     </span>
                 </div>
-                <span className="font-semibold font-sans pl-2 text-gray-400 text-xs">men's snikers</span>
-                <button onClick={() => toggleMainAddToCartPopup(product)} className="w-full py-2 mt-2 font-sans hover:bg-red-50 font-semibold text-center transition-all duration-300 text-red-500 text-md">
+                <span className="pl-2 font-sans text-xs font-semibold text-gray-400">men's snikers</span>
+                <button onClick={() => toggleMainAddToCartPopup(product)} className="w-full py-2 mt-2 font-sans font-semibold text-center text-red-500 transition-all duration-300 hover:bg-red-50 text-md">
                     {productExistence ? 'Added' : 'Add to Cart'}
                 </button>
             </div>

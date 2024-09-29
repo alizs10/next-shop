@@ -40,17 +40,19 @@ function MainProduct() {
 
     return (
 
-        <div className="col-span-7 mt-8 xl:mt-24 lg:col-span-4 relative flex flex-col gap-y-4 items-center">
-
+        <div className="relative flex flex-col items-center col-span-7 lg:col-span-4 gap-y-4">
 
             <div className="relative flex flex-col w-full h-full">
 
-                <div className="px-3 flex gap-x-2 justify-evenly items-center">
+                <div className="flex items-center justify-between">
 
-                    <span onClick={handleShowPrevProduct} className="cursor-pointer text-white scale-[220%]">
-                        <ChevronLeftIcon />
-                    </span>
-                    <span className="w-1/2 lg:w-[40%] flex items-center justify-center aspect-square rounded-full bg-gray-600/50 shadow-md outline outline-2 outline-orange-200">
+                    <button onClick={handleShowPrevProduct} className="text-white md:pl-10">
+                        <div className="w-14 h-14">
+                            <ChevronLeftIcon />
+                        </div>
+                    </button>
+
+                    <span className="w-1/3 md:w-1/2 lg:w-[40%] flex items-center justify-center aspect-square rounded-full outline outline-2 outline-orange-200">
                         <AnimatePresence mode="wait" initial={false}>
                             <motion.span
                                 className="z-10"
@@ -60,19 +62,21 @@ function MainProduct() {
                                 exit={{ opacity: 0, x: [0, 50] }}
                                 transition={{ duration: "0.3" }}
                             >
-                                <Image className="scale-[150%] rotate-[-20deg] w-full" src={shownProduct?.attributes[shownProductImage].image ?? ""} alt={shownProduct.name} width={600} height={600} />
+                                <Image className="scale-[150%] rotate-[-20deg] w-full" src={shownProduct?.attributes[shownProductImage].image ?? ""} alt={shownProduct.name} width={600} height={400} />
                             </motion.span>
                         </AnimatePresence>
                     </span>
 
-                    <div onClick={handleShowNextProduct} className="cursor-pointer text-red-500 scale-[220%]">
-                        <ChevronRightIcon />
-                    </div>
+                    <button onClick={handleShowNextProduct} className="text-red-500 md:pr-10">
+                        <div className="w-14 h-14">
+                            <ChevronRightIcon />
+                        </div>
+                    </button>
                 </div>
             </div>
 
 
-            <div className="mt-4 flex gap-4 justify-center">
+            <div className="flex justify-center gap-4 mt-4">
                 {shownProduct.attributes.map((attr, index) => (
                     <div onClick={() => setShownProductImage(index)} key={index} className={`${index === 1 ? 'w-12 h-12 rotate-12' : 'w-8 h-8'} cursor-pointer mx-auto rounded-full ${index === shownProductImage ? 'border-red-500' : 'border-white'} border-2 transition-all duration-300 flex flex-nowrap overflow-hidden`}>
                         <div style={{ backgroundColor: attr.palette[0] }} className="w-1/2 h-full border-r-2 border-white"></div>
@@ -84,7 +88,7 @@ function MainProduct() {
 
 
 
-            <div className="flex flex-col gap-y-1 items-center">
+            <div className="flex flex-col items-center gap-y-2">
                 <AnimatePresence mode="wait" initial={false}>
                     <motion.h2
                         key={shownProduct._id}
@@ -92,34 +96,27 @@ function MainProduct() {
                         animate={{ opacity: 1, x: [-50, 0] }}
                         exit={{ opacity: 0, x: [0, 50] }}
                         transition={{ duration: "0.3" }}
-                        className="font-bold text-white italic text-2xl lg:text-lg">{shownProduct.name}</motion.h2>
+                        className="text-2xl italic font-bold text-white">{shownProduct.name}</motion.h2>
                 </AnimatePresence>
-                <div className="flex flex-nowrap gap-x-[1px] items-center">
+                <div className="flex items-center flex-nowrap gap-x-2">
+
                     <div className="flex flex-nowrap">
-
-                        {Array(Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="text-yellow-500 lg:scale-75">
-                            <SolidStarIcon />
+                        {Array(Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="text-yellow-500">
+                            <div className="w-6 h-6">
+                                <SolidStarIcon />
+                            </div>
                         </span>)}
-                        {Array(5 - Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="lg:scale-75">
-                            <SolidStarIcon />
+                        {Array(5 - Math.floor(shownProduct.rating)).fill(true).map((_, i) => <span key={i} className="">
+                            <div className="w-6 h-6">
+                                <SolidStarIcon />
+                            </div>
                         </span>)}
-
-                        {/* {shownProduct.stars.map((star, index) => {
-                            return star.status ? (
-                                <span key={index} className="text-yellow-500 lg:scale-75">
-                                    <SolidStarIcon />
-                                </span>
-                            ) : (
-                                <span key={index} className="text-white lg:scale-75">
-                                    <SolidStarIcon />
-                                </span>)
-                        })} */}
-
                     </div>
-                    <span className="text-gray-400 text-3xl lg:text-xl">|</span>
-                    <span className="font-bold text-xl lg:text-lg text-orange-200/90">${shownProduct.price}</span>
+
+                    <span className="text-3xl text-gray-400 lg:text-xl">|</span>
+                    <span className="text-xl font-bold lg:text-xl text-orange-200/90">${shownProduct.price}</span>
                 </div>
-                <button onClick={() => toggleMainAddToCartPopup(shownProduct)} className="px-7 lg:px-3 py-1 border-4 rounded-xl border-red-500 font-bold text-lg lg:text-xs text-red-500">BUY NOW</button>
+                <button onClick={() => toggleMainAddToCartPopup(shownProduct)} className="px-5 py-2 text-lg font-bold text-red-500 border-2 border-red-500 rounded-xl lg:text-xs">BUY NOW</button>
             </div>
 
 

@@ -28,21 +28,21 @@ function MainProducts() {
 
     return (
 
-        <div className="col-span-7 h-fit mt-auto flex flex-col justify-end lg:mt-20 pb-10 gap-y-6">
+        <div className="flex flex-col justify-end col-span-7 gap-y-6">
 
-            <div className="mt-10 self-center lg:self-end lg:pr-20 flex gap-x-4 items-center">
+            <div className="flex items-center self-center md:mt-10 lg:self-end lg:pr-20 gap-x-4">
 
-                <span onClick={handleScrollLeft} className="text-red-500 p-1">
+                <span onClick={handleScrollLeft} className="p-1 text-red-500">
                     <ArrowLeftIcon />
                 </span>
-                <span onClick={handleScrollRight} className="text-white rounded-full p-1 bg-red-500">
+                <span onClick={handleScrollRight} className="p-1 text-white bg-red-500 rounded-full">
                     <ArrowRightIcon />
                 </span>
 
             </div>
 
             <CartContextProvider>
-                <div ref={productsContainerRef} className="w-full py-2 pl-20 pr-10 lg:pr-2 overflow-x-scroll no-scrollbar overflow-y-hidden flex gap-x-12 items-center flex-nowrap">
+                <div ref={productsContainerRef} className="flex items-center w-full py-2 pb-10 pl-10 pr-10 overflow-x-scroll overflow-y-hidden lg:pl-20 lg:pr-2 no-scrollbar gap-x-12 flex-nowrap">
                     {products.map(product => <Product key={product._id} product={product} />)}
                 </div>
             </CartContextProvider>

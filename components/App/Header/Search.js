@@ -35,8 +35,8 @@ function Search() {
     }, [isExpanded])
 
     return (
-        <div className="relative lg:mr-3">
-            <div onClick={toggleSearch} className="lg:scale-125 w-10 cursor-pointer text-red-500">
+        <div className="flex flex-row-reverse items-center h-full pl-2">
+            <div onClick={toggleSearch} className="w-10 text-red-500 cursor-pointer">
                 <AnimatePresence mode="wait" initial={false}>
                     {isExpanded && (
                         <motion.div
@@ -46,7 +46,9 @@ function Search() {
                             exit={{ y: [0, 20], opacity: 0 }}
                             transition={{ bounce: "spring", duration: ".3" }}
                         >
-                            <XIcon />
+                            <div className="w-6 h-6">
+                                <XIcon />
+                            </div>
                         </motion.div>
                     )}
 
@@ -58,7 +60,9 @@ function Search() {
                             exit={{ y: [0, 20], opacity: 0 }}
                             transition={{ bounce: "spring", duration: ".3" }}
                         >
-                            <SearchIcon />
+                            <div className="w-6 h-6">
+                                <SearchIcon />
+                            </div>
 
                         </motion.div>
                     )}
@@ -70,18 +74,20 @@ function Search() {
             <AnimatePresence>
                 {isExpanded && (
                     <motion.div
-                        initial={{ y: 0, opacity: 1 }}
-                        animate={{ y: [-100, 0] }}
-                        exit={{ y: [0, -100], opacity: 0 }}
+                        initial={{ y: '-100%', opacity: 0 }}
+                        animate={{ y: '0%', opacity: 1 }}
+                        exit={{ y: '-100%', opacity: 0 }}
                         transition={{ bounce: "none", duration: ".3" }}
-                        className="fixed top-0 right-0 left-0 z-50 md:absolute md:bottom-0 md:w-[250px] md:mr-4 md:right-full md:left-auto h-16 md:h-auto  md:p-0 p-3 flex gap-x-2 items-center justify-center">
-                        <span onClick={toggleSearch} className="md:hidden w-[10%] text-red-500 flex justify-center items-center cursor-pointer">
+                        className="top-0 z-50 w-full mr-2 right-full">
+                        {/* <span onClick={toggleSearch} className="md:hidden w-[10%] text-red-500 flex justify-center items-center cursor-pointer">
                             <XIcon />
-                        </span>
-                        <div className="w-[90%] relative">
-                            <input ref={searchInputRef} onKeyDownCapture={searchHandler} className="w-full py-2 pl-3 pr-14  bg-gray-700 rounded-xl text-md text-red-500 outline-none" />
-                            <div className="absolute w-14 inset-0 left-auto text-gray-400 flex justify-center items-center">
-                                <SearchIcon />
+                        </span> */}
+                        <div className="relative w-full">
+                            <input ref={searchInputRef} onKeyDownCapture={searchHandler} className="w-full py-2 pl-3 text-red-500 bg-gray-700 outline-none pr-14 rounded-xl text-md" />
+                            <div className="absolute inset-0 left-auto flex items-center justify-center text-gray-400 w-14">
+                                <div className="w-6 h-6">
+                                    <SearchIcon />
+                                </div>
                             </div>
                         </div>
                     </motion.div>

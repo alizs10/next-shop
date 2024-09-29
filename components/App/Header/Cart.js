@@ -9,12 +9,12 @@ function Cart() {
 
     return (
         <section className="relative">
-            <div onClick={toggleCartPopup} className="cursor-pointer rounded-full text-white bg-red-600 p-1 lg:p-2">
+            <div onClick={toggleCartPopup} className="p-1 text-white bg-red-600 rounded-full cursor-pointer lg:p-2">
                 <div className="scale-75 lg:scale-[80%]">
                     <BagIcon />
                 </div>
                 {!cartPopupVis && getCartItemsCount() > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 aspect-square bg-white flex justify-center items-center text-red-500 font-bold text-xs rounded-full">{getCartItemsCount()}</span>
+                    <span className="absolute flex items-center justify-center w-4 text-xs font-bold text-red-500 bg-white rounded-full -top-1 -right-1 aspect-square">{getCartItemsCount()}</span>
                 )}
             </div>
 
